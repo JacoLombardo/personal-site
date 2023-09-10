@@ -1,0 +1,17 @@
+import "bootstrap/dist/css/bootstrap.css";
+import Head from "next/head";
+import "../styles/global.css";
+
+export default function MyApp({ Component, pageProps }: any) {
+  return (
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* <link rel="icon" href="/Images/Icons/favicon.png" sizes="any" /> */}
+        <title>Personal Site</title>
+        {/* <meta property="og:image" content="/Images/Navbar/logo2.png" /> */}
+      </Head>
+      <Component {...pageProps} />
+    </>
+  );
+}
