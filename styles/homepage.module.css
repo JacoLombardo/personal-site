@@ -1,0 +1,82 @@
+/* NAVBAR */
+
+.navbar {
+  background-color: black;
+  color: white !important;
+}
+
+/* INTRO */
+
+.intro_div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 20px;
+  padding-top: 60px;
+  /* width: 100%; */
+  /* background-color: white;
+  color: black; */
+}
+
+.intro_div > div {
+  max-width: 500px;
+  padding-top: 40px;
+}
+
+/* ABOUT */
+
+.about_div {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.about_div > div {
+  max-width: 600px;
+  margin-right: 100px;
+}
+
+/* PROJECTS */
+
+.projects_div {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.projects_div > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.project_div {
+  margin: 50px;
+}
+
+.project_div > h3 {
+  font-size: smaller;
+  text-align: center;
+  max-width: 300px;
+}
+
+/* CONTACT */
+
+.contact_div {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+  font-size: large;
+  font-weight: bold;
+  padding-bottom: 50px;
+}
+
+.contact_div > div {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+}

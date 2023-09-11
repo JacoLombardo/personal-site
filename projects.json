@@ -1,0 +1,134 @@
+[
+  {
+    "internal_id": "1",
+    "name": "Get A Recipe",
+    "alt": "get-a-recipe",
+    "stack": "HTML, CSS, JavaScript",
+    "stack_list": ["HTML", "CSS", "JavaScript"],
+    "description": "Recipes website that displays results using DOM manipulation.",
+    "composition": [
+      "Homepage, landing page with text example, navigation and the option to get a random recipe;",
+      "Recipes, content page that displays the recipes according to the filters selected;",
+      "Favourites, personal page that shows the user's favourites."
+    ],
+    "features": [
+      "A user is able to navigate throughout the site, select several filters to receive a specific combination of recipes.",
+      "A user is able to add recipes to favourites using the browser localStorage."
+    ],
+    "mockup_browser": "",
+    "mockup_mobile": ""
+  },
+  {
+    "internal_id": "2",
+    "name": "Age of Empires 2",
+    "alt": "age-of-empires-2",
+    "stack": "JavaScript, React, Firebase",
+    "stack_list": ["JavaScript", "React", "Bootstrap", "Firebase", "Firestore"],
+    "description": "Progressive Web App using the React framework. It provides information on the Age of Empires 2 game universe, and the possibility to register and log in to select favourites.",
+    "composition": [
+      "Homepage, landing page with navigation to the other views;",
+      "Register and Login, forms;",
+      "Civilizations, content page about the civilizations of AoE2;",
+      "Civilization, detailed page of the civilization selected;",
+      "Units, content page about the units of AoE2;",
+      "Unit, detailed page of the unit selected;",
+      "Technologies, content page about the technologies of AoE2;",
+      "Technology, detailed page of the technology selected;",
+      "Structures, content page about the structures of AoE2;",
+      "Structure, detailed page of the structure selected;",
+      "(If the user is logged in) Favourites, personal page that shows the user's favourites."
+    ],
+    "features": [
+      "A not registered user is able to navigate throughout the site.",
+      "A registered and logged in user is able to add and remove content from favourites and display it in the specific section."
+    ],
+    "mockup_browser": "",
+    "mockup_mobile": ""
+  },
+  {
+    "internal_id": "3",
+    "name": "Age of Empires 2 API",
+    "alt": "age-of-empires-2-api",
+    "stack": "JavaScript, React, Node.js, MongoDB, ",
+    "stack_list": [
+      "JavaScript",
+      "CSS",
+      "React",
+      "Node.js",
+      "MongoDB",
+      "Cloudinary"
+    ],
+    "description": "API with all the information of the RTS game Age of Empires 2.",
+    "composition": [
+      "Homepage, introduction to the API;",
+      "Civilazions, includes civilizations endpoints;",
+      "Units, includes units endpoints;",
+      "Technologies, includes technologies endpoints;",
+      "Buildings, includes buildings endpoints."
+    ],
+    "features": [
+      "There is no registration feature. The site provides examples and instructions to use the endpoints of the API."
+    ],
+    "mockup_browser": "",
+    "mockup_mobile": ""
+  },
+  {
+    "internal_id": "4",
+    "name": "Berlin Fantastic Creatures",
+    "alt": "berlin-fantastic-creatures",
+    "stack": "JavaScript, React, Node.js, MongoDB",
+    "stack_list": [
+      "JavaScript",
+      "CSS",
+      "React",
+      "Node.js",
+      "MongoDB",
+      "JWT",
+      "Cloudinary"
+    ],
+    "description": "Social Network App developed using the MERN (MongoDB, Express, React, Node) Stack. The Back-End interacts with a React Front-End thought APIs providing the app with key features such as posts, comments, likes and favourites, while ensuring the security of the exchanges using web tokens and access management rules (CRUD).",
+    "composition": [
+      "Homepage, landing page with a small presentation of the site and the navigation;",
+      "Register and Login, forms;",
+      "City, content page focused on 'City' theme;",
+      "UBahn, content page focused on 'Ubahn' theme;",
+      "Users profiles, with personal information, bio, favourited and published posts;"
+    ],
+    "features": [
+      "A not registered user is able to navigate throughout the site and visit the users profiles.",
+      "A registered and logged in user is able to like and add to favourite posts of other users, create their own posts and comments, edit already published posts, comments and personal information."
+    ],
+    "mockup_browser": "",
+    "mockup_mobile": ""
+  },
+  {
+    "internal_id": "5",
+    "name": "Squisito",
+    "alt": "squisito",
+    "stack": "Typescript, Next.js, MongoDB",
+    "stack_list": [
+      "Typescript",
+      "CSS",
+      "Next.js",
+      "MongoDB",
+      "Cloudinary",
+      "Bootstrap"
+    ],
+    "description": "Fake shop of high class kitchen appliances.",
+    "composition": [
+      "Homepage, landing page with few products and the introduction;",
+      "Products, list of all the items available;",
+      "Product Details, personal page of every single product with all its information;",
+      "Cart, page displaying the items in the shopping cart;",
+      "Checkout, view displayed after the order is completed."
+    ],
+    "features": [
+      "A user is able to navigate throughout the site, using links and NavBar.",
+      "A user is able to view all the previews of the products, and access the details page of every single item.",
+      "A user is able to add to the cart any product, and decide the number of items.",
+      "A user is able to review the cart in the cart page, and proceed to checkout."
+    ],
+    "mockup_browser": "",
+    "mockup_mobile": ""
+  }
+]
