@@ -18,10 +18,10 @@ export default function NavBar() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#about" style={{ color: "white" }}>
+              <Nav.Link href="/#about" style={{ color: "white" }}>
                 About
               </Nav.Link>
-              <Nav.Link href="#projects" style={{ color: "white" }}>
+              <Nav.Link href="/#projects" style={{ color: "white" }}>
                 Projects
               </Nav.Link>
               <NavDropdown
@@ -35,7 +35,7 @@ export default function NavBar() {
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#project/4">Project 4</NavDropdown.Item>
               </NavDropdown>
-              <Nav.Link href="#contact" style={{ color: "white" }}>
+              <Nav.Link href="/#contact" style={{ color: "white" }}>
                 Contact
               </Nav.Link>
             </Nav>

@@ -9,4 +9,5 @@ export interface Project {
   features: string[];
   mockup_browser: string;
   mockup_mobile: string;
+  link: string;
 }

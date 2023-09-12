@@ -2,6 +2,7 @@ import styles from "@/styles/homepage.module.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Project } from "@/types/project";
+import Link from "next/link";
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>();
@@ -32,20 +33,26 @@ export default function Projects() {
         <div>
           {projects?.map((project: Project, index: number) => {
             return (
-              <div key={index} className={styles.project_div}>
-                <Image
-                  src="https://res.cloudinary.com/dtl48kr1u/image/upload/v1694358931/personal-site/DSC02863_owsl4d.jpg"
-                  alt={project.alt}
-                  title={project.name}
-                  width="0"
-                  height="0"
-                  sizes="100vw"
-                  style={{ width: "auto", height: "200px" }}
-                />
-                <h3 className={styles.projects_title}>
-                  {project.name} / {project.stack}
-                </h3>
-              </div>
+              <Link
+                key={index}
+                href={`/project/${project.internal_id}`}
+                style={{ textDecoration: "none" }}
+              >
+                <div className={styles.project_div}>
+                  <Image
+                    src="https://res.cloudinary.com/dtl48kr1u/image/upload/v1694358931/personal-site/DSC02863_owsl4d.jpg"
+                    alt={project.alt}
+                    title={project.name}
+                    width="0"
+                    height="0"
+                    sizes="100vw"
+                    style={{ width: "auto", height: "200px" }}
+                  />
+                  <h3>
+                    {project.name} / {project.stack}
+                  </h3>
+                </div>
+              </Link>
             );
           })}
         </div>
