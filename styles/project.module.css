@@ -6,13 +6,38 @@
 }
 
 .project_info_body {
+  margin-top: 20px;
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
+}
+
+.project_info_body > div > h2 {
+  margin-top: 20px;
+  font-size: larger;
+  font-weight: 700;
+}
+
+.project_info_body div:first-child {
+  margin-top: 20px;
+}
+
+.product_info_link {
+  margin-top: 50px;
+}
+
+.product_info_link p:first-child {
+  margin-bottom: 2px;
+}
+
+.product_info_link > p > a {
+  text-decoration: none;
+  color: red;
 }
 
 .image_div {
   position: relative;
   height: fit-content;
+  margin-left: 50px;
 }
 
 .icons_div {
@@ -31,4 +56,10 @@
   border-radius: 20%;
   padding: 2px;
   cursor: pointer;
+}
+
+.other_projects_div {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
 }

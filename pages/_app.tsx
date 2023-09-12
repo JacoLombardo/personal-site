@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.css";
 import Head from "next/head";
 import "../styles/global.css";
+import { ProjectProvider } from "@/contexts/ProjectContext";
 
 export default function MyApp({ Component, pageProps }: any) {
   return (
@@ -14,7 +15,9 @@ export default function MyApp({ Component, pageProps }: any) {
         />
         <title>Jacopo Lombardo</title>
       </Head>
-      <Component {...pageProps} />
+      <ProjectProvider>
+        <Component {...pageProps} />
+      </ProjectProvider>
     </>
   );
 }

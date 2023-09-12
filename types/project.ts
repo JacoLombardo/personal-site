@@ -7,7 +7,8 @@ export interface Project {
   description: string;
   composition: string[];
   features: string[];
-  mockup_browser: string;
+  mockup_desktop: string;
   mockup_mobile: string;
   link: string;
+  repository: string;
 }

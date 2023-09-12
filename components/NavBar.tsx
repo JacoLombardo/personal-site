@@ -1,41 +1,69 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import styles from "@/styles/homepage.module.css";
+import { useContext, useEffect } from "react";
+import { ProjectContext } from "@/contexts/ProjectContext";
+import { Project } from "@/types/project";
 
-export default function NavBar() {
+interface Props {
+  page: string;
+}
+
+export default function NavBar({ page }: Props) {
+  const { projects, getProjects } = useContext(ProjectContext);
+
+  useEffect(() => {
+    getProjects();
+  }, []);
+
   return (
     <>
       <Navbar
         expand="lg"
-        className={styles.navbar}
+        // className={styles.navbar}
         // className={`bg-body-tertiary ${styles.navbar}`}
         data-bs-theme="dark"
         // style={{ backgroundColor: "black", color: "white" }}
       >
-        <Container>
+        <Container className={styles.navbar}>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/#about" style={{ color: "white" }}>
-                About
-              </Nav.Link>
-              <Nav.Link href="/#projects" style={{ color: "white" }}>
-                Projects
-              </Nav.Link>
-              <NavDropdown
-                title="Projects"
-                id="basic-nav-dropdown"
-                style={{ color: "white" }}
-              >
-                <NavDropdown.Item href="#project/1">Project 1</NavDropdown.Item>
-                <NavDropdown.Item href="#project/2">Project 2</NavDropdown.Item>
-                <NavDropdown.Item href="#project/3">Project 3</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#project/4">Project 4</NavDropdown.Item>
-              </NavDropdown>
-              <Nav.Link href="/#contact" style={{ color: "white" }}>
+              {page === "home" ? (
+                <Nav.Link href="#about" style={{ color: "white" }}>
+                  About
+                </Nav.Link>
+              ) : (
+                <Nav.Link href="/" style={{ color: "white" }}>
+                  Home
+                </Nav.Link>
+              )}
+              {page === "home" ? (
+                <Nav.Link href="#projects" style={{ color: "white" }}>
+                  Projects
+                </Nav.Link>
+              ) : (
+                <NavDropdown
+                  title={<span style={{ color: "white" }}>Projects</span>}
+                  id="basic-nav-dropdown"
+                >
+                  {projects &&
+                    projects.map((project: Project, index: number) => {
+                      return (
+                        <NavDropdown.Item
+                          href={`/project/${project.internal_id}`}
+                          key={index}
+                        >
+                          {project.name}
+                        </NavDropdown.Item>
+                      );
+                    })}
+                </NavDropdown>
+              )}
+              <Nav.Link href="#contact" style={{ color: "white" }}>
                 Contact
               </Nav.Link>
             </Nav>

@@ -1,26 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "@/styles/homepage.module.css";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Project } from "@/types/project";
-import Link from "next/link";
+import ProjectCard from "./ProjectCard";
+import { ProjectContext } from "@/contexts/ProjectContext";
 
 export default function Projects() {
-  const [projects, setProjects] = useState<Project[]>();
-
-  const getProjects = () => {
-    var requestOptions = {
-      headers: new Headers(),
-    };
-
-    fetch("/api/get-projects", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        setProjects(result);
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
-  };
+  const { getProjects, projects } = useContext(ProjectContext);
 
   useEffect(() => {
     getProjects();
@@ -32,28 +18,7 @@ export default function Projects() {
         Projects
         <div>
           {projects?.map((project: Project, index: number) => {
-            return (
-              <Link
-                key={index}
-                href={`/project/${project.internal_id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <div className={styles.project_div}>
-                  <Image
-                    src="https://res.cloudinary.com/dtl48kr1u/image/upload/v1694358931/personal-site/DSC02863_owsl4d.jpg"
-                    alt={project.alt}
-                    title={project.name}
-                    width="0"
-                    height="0"
-                    sizes="100vw"
-                    style={{ width: "auto", height: "200px" }}
-                  />
-                  <h3>
-                    {project.name} / {project.stack}
-                  </h3>
-                </div>
-              </Link>
-            );
+            return <ProjectCard project={project} key={index} page={"home"} />;
           })}
         </div>
       </div>

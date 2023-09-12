@@ -1,17 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import NavBar from "@/components/NavBar";
 import { Project } from "@/types/project";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "@/styles/project.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import Contact from "@/components/Contact";
+import ProjectCard from "@/components/ProjectCard";
+import { ProjectContext } from "@/contexts/ProjectContext";
 
 export default function ProjectDetails() {
-  const router = useRouter();
+  const { getProjects, projects } = useContext(ProjectContext);
   const [project, setProject] = useState<Project>();
   const [mockup, setMockup] = useState<string>();
   const [theme, setTheme] = useState<string>("black");
+  const router = useRouter();
   const id = router.query.id;
 
   const getProjectById = (id: number) => {
@@ -36,9 +40,14 @@ export default function ProjectDetails() {
       getProjectById(+id);
     }
   }, [id]);
+
+  useEffect(() => {
+    getProjects();
+  }, []);
+
   return (
     <>
-      <NavBar />
+      <NavBar page={"id"} />
       {project && (
         <div className={styles.project_info_div}>
           <Link
@@ -72,14 +81,31 @@ export default function ProjectDetails() {
             <div>
               <p>{project.description}</p>
               <h2>Composition</h2>
-              <p>The site is composed of:</p>
-              {project.composition.map((item, index) => {
-                return <li key={index}>{item}</li>;
-              })}
+              <ul>
+                {project.composition.map((item, index) => {
+                  return <li key={index}>{item}</li>;
+                })}
+              </ul>
               <h2>Features</h2>
-              {project.features.map((item, index) => {
-                return <li key={index}>{item}</li>;
-              })}
+              <ul>
+                {project.features.map((item, index) => {
+                  return <li key={index}>{item}</li>;
+                })}
+              </ul>
+              <div className={styles.product_info_link}>
+                <p>
+                  Check the repository on{" "}
+                  <Link href={project.repository} target="_blank">
+                    → Github
+                  </Link>
+                </p>
+                <p>
+                  Check the deployed version on{" "}
+                  <Link href={project.link} target="_blank">
+                    → Vercel
+                  </Link>
+                </p>
+              </div>
             </div>
             <div className={styles.image_div}>
               <Link href={project.link} target="_blank">
@@ -106,7 +132,7 @@ export default function ProjectDetails() {
                   sizes="100vw"
                   className={styles.mockup_icon}
                   onClick={() => {
-                    setMockup(project.mockup_browser);
+                    setMockup(project.mockup_desktop);
                   }}
                 />
                 <Image
@@ -126,8 +152,21 @@ export default function ProjectDetails() {
           </div>
         </div>
       )}
+      <hr />
+      {projects && (
+        <div className={styles.other_projects_div}>
+          {projects
+            .filter((item) => {
+              return item.internal_id !== project?.internal_id;
+            })
+            .map((project: Project, index: number) => {
+              return <ProjectCard project={project} key={index} page={"id"} />;
+            })}
+        </div>
+      )}
       <br />
       <br />
+      <hr />
       <Contact />
     </>
   );
