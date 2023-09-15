@@ -9,45 +9,25 @@ import Link from "next/link";
 import Contact from "@/components/Contact";
 import ProjectCard from "@/components/ProjectCard";
 import { ProjectContext } from "@/contexts/ProjectContext";
+import clientPromise from "@/lib/mongodb";
 
-export default function ProjectDetails() {
-  const { getProjects, projects } = useContext(ProjectContext);
-  const [project, setProject] = useState<Project>();
+interface Props {
+  projectString: string;
+  projectsString: string;
+}
+
+export default function ProjectDetails({
+  projectString,
+  projectsString,
+}: Props) {
+  const project = JSON.parse(projectString);
+  const projects = JSON.parse(projectsString);
   const [mockup, setMockup] = useState<string>();
   const [theme, setTheme] = useState<string>("black");
-  const router = useRouter();
-  const id = router.query.id;
-
-  const getProjectById = (id: number) => {
-    var requestOptions = {
-      headers: new Headers(),
-    };
-
-    fetch(`/api/project-by-id?id=${id}`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        setProject(result);
-        setMockup(result.mockup_browser);
-        console.log("result", result);
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
-  };
-
-  useEffect(() => {
-    if (id) {
-      getProjectById(+id);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    getProjects();
-  }, []);
 
   return (
     <>
-      <NavBar page={"id"} />
+      <NavBar page={"id"} projects={projects} />
       {project && (
         <div className={styles.project_info_div}>
           <Link
@@ -58,7 +38,7 @@ export default function ProjectDetails() {
             <h3>{project.name}</h3>
           </Link>
           <div>
-            {project.stack_list.map((stack, index) => {
+            {project.stack_list.map((stack: string, index: number) => {
               return (
                 <Image
                   key={index}
@@ -82,13 +62,13 @@ export default function ProjectDetails() {
               <p>{project.description}</p>
               <h2>Composition</h2>
               <ul>
-                {project.composition.map((item, index) => {
+                {project.composition.map((item: string, index: number) => {
                   return <li key={index}>{item}</li>;
                 })}
               </ul>
               <h2>Features</h2>
               <ul>
-                {project.features.map((item, index) => {
+                {project.features.map((item: string, index: number) => {
                   return <li key={index}>{item}</li>;
                 })}
               </ul>
@@ -156,7 +136,7 @@ export default function ProjectDetails() {
       {projects && (
         <div className={styles.other_projects_div}>
           {projects
-            .filter((item) => {
+            .filter((item: Project) => {
               return item.internal_id !== project?.internal_id;
             })
             .map((project: Project, index: number) => {
@@ -170,4 +150,34 @@ export default function ProjectDetails() {
       <Contact />
     </>
   );
+}
+
+export async function getStaticPaths() {
+  const client = await clientPromise;
+  const db = client.db("personal-site");
+
+  const res = await db.collection("projects").find({}).toArray();
+  const paths = res.map((project) => ({
+    params: { id: JSON.stringify(project.internal_id) },
+  }));
+
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps({ params }: any) {
+  const client = await clientPromise;
+  const db = client.db("personal-site");
+  const id: number = +params.id;
+  const projects = await db.collection("projects").find({}).toArray();
+  const project = await db.collection("projects").findOne({ internal_id: id });
+
+  const projectString = JSON.stringify(project);
+  const projectsString = JSON.stringify(projects);
+
+  return {
+    props: {
+      projectString,
+      projectsString,
+    },
+  };
 }

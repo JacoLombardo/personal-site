@@ -4,26 +4,38 @@ import Contact from "@/components/Contact";
 import Intro from "@/components/Intro";
 import NavBar from "@/components/NavBar";
 import Projects from "@/components/Projects";
-import { ProjectContext } from "@/contexts/ProjectContext";
-import { useContext, useEffect } from "react";
+import clientPromise from "@/lib/mongodb";
 
-export default function Home() {
-  const { getProjects } = useContext(ProjectContext);
+interface Props {
+  projectString: string;
+}
 
-  useEffect(() => {
-    getProjects();
-  }, []);
-
+export default function Home({ projectString }: Props) {
+  const projects = JSON.parse(projectString);
   return (
     <>
-      <NavBar page={"home"} />
+      <NavBar page={"home"} projects={projects} />
       <Intro />
       <hr />
       <About />
       <hr />
-      <Projects />
+      <Projects projects={projects} />
       <hr />
       <Contact />
     </>
   );
+}
+
+export async function getStaticProps() {
+  const client = await clientPromise;
+  const db = client.db("personal-site");
+
+  const res = await db.collection("projects").find({}).toArray();
+  const projectString = JSON.stringify(res);
+
+  return {
+    props: {
+      projectString,
+    },
+  };
 }

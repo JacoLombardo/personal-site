@@ -4,21 +4,14 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import styles from "@/styles/homepage.module.css";
-import { useContext, useEffect } from "react";
-import { ProjectContext } from "@/contexts/ProjectContext";
 import { Project } from "@/types/project";
 
 interface Props {
   page: string;
+  projects: Project[];
 }
 
-export default function NavBar({ page }: Props) {
-  const { projects, getProjects } = useContext(ProjectContext);
-
-  useEffect(() => {
-    getProjects();
-  }, []);
-
+export default function NavBar({ page, projects }: Props) {
   return (
     <>
       <Navbar

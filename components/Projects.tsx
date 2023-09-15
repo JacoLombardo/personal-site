@@ -1,17 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import styles from "@/styles/homepage.module.css";
-import { useContext, useEffect } from "react";
 import { Project } from "@/types/project";
 import ProjectCard from "./ProjectCard";
-import { ProjectContext } from "@/contexts/ProjectContext";
 
-export default function Projects() {
-  const { getProjects, projects } = useContext(ProjectContext);
+interface Props {
+  projects: Project[];
+}
 
-  useEffect(() => {
-    getProjects();
-  }, []);
-
+export default function Projects({ projects }: Props) {
   return (
     <>
       <div id="projects" className={styles.projects_div}>
