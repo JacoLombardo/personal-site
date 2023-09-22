@@ -25,14 +25,14 @@ export default function ProjectCard({ project, page }: Props) {
             sizes="100vw"
             style={
               page === "home"
-                ? { width: "auto", height: "200px" }
+                ? { width: "auto", height: "300px" }
                 : { width: "auto", height: "120px" }
             }
           />
           <h3
             style={
               page === "home"
-                ? { maxWidth: "300px", fontSize: "smaller" }
+                ? { fontSize: "medium" }
                 : { maxWidth: "180px", fontSize: "12px" }
             }
           >

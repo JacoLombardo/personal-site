@@ -50,17 +50,17 @@
 .projects_div > div {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: space-around;
 }
 
 .project_div {
-  margin: 50px;
+  margin: 30px;
   width: fit-content;
 }
 
 .project_div > a > h3 {
-  font-size: smaller;
   text-align: center;
+  margin-top: 10px;
   color: white;
 }
 
