@@ -1,14 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import NavBar from "@/components/NavBar";
 import { Project } from "@/types/project";
-import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "@/styles/project.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import Contact from "@/components/Contact";
 import ProjectCard from "@/components/ProjectCard";
-import { ProjectContext } from "@/contexts/ProjectContext";
 import clientPromise from "@/lib/mongodb";
 
 interface Props {
@@ -22,8 +20,13 @@ export default function ProjectDetails({
 }: Props) {
   const project = JSON.parse(projectString);
   const projects = JSON.parse(projectsString);
-  const [mockup, setMockup] = useState<string>();
+  const [mockup, setMockup] = useState<string>(project.mockup_desktop);
   const [theme, setTheme] = useState<string>("black");
+
+  // useEffect(() => {
+  //   setMockup(project.mockup_mobile);
+  // }),
+  //   [project];
 
   return (
     <>
@@ -90,16 +93,13 @@ export default function ProjectDetails({
             <div className={styles.image_div}>
               <Link href={project.link} target="_blank">
                 <Image
-                  // src={mockup}
-                  src={
-                    "https://res.cloudinary.com/dtl48kr1u/image/upload/v1694358931/personal-site/DSC02863_owsl4d.jpg"
-                  }
+                  src={mockup}
                   alt={project.alt}
                   title={project.alt}
                   width="0"
                   height="0"
                   sizes="100vw"
-                  style={{ width: "auto", height: "400px" }}
+                  style={{ width: "auto", height: "330px" }}
                 />
               </Link>
               <div className={styles.icons_div}>

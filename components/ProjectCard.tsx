@@ -17,7 +17,7 @@ export default function ProjectCard({ project, page }: Props) {
           style={{ textDecoration: "none" }}
         >
           <Image
-            src="https://res.cloudinary.com/dtl48kr1u/image/upload/v1694358931/personal-site/DSC02863_owsl4d.jpg"
+            src={project.mockup_desktop}
             alt={project.alt}
             title={project.name}
             width="0"

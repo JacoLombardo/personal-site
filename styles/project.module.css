@@ -36,14 +36,15 @@
 
 .image_div {
   position: relative;
-  height: fit-content;
   margin-left: 50px;
+  width: 550px;
+  min-width: 550px;
+  height: 330px;
+  display: flex;
+  justify-content: center;
 }
 
 .icons_div {
-  /* margin-left: auto; */
-  /* margin-right: auto; */
-  /* width: fit-content; */
   position: absolute;
   bottom: 0px;
   right: 0px;
