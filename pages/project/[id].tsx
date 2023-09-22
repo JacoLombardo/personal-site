@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import NavBar from "@/components/NavBar";
 import { Project } from "@/types/project";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "@/styles/project.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,13 +20,8 @@ export default function ProjectDetails({
 }: Props) {
   const project = JSON.parse(projectString);
   const projects = JSON.parse(projectsString);
-  const [mockup, setMockup] = useState<string>(project.mockup_desktop);
+  const [mockup, setMockup] = useState<string>("desktop");
   const [theme, setTheme] = useState<string>("black");
-
-  // useEffect(() => {
-  //   setMockup(project.mockup_mobile);
-  // }),
-  //   [project];
 
   return (
     <>
@@ -92,15 +87,27 @@ export default function ProjectDetails({
             </div>
             <div className={styles.image_div}>
               <Link href={project.link} target="_blank">
-                <Image
-                  src={mockup}
-                  alt={project.alt}
-                  title={project.alt}
-                  width="0"
-                  height="0"
-                  sizes="100vw"
-                  style={{ width: "auto", height: "330px" }}
-                />
+                {mockup === "desktop" ? (
+                  <Image
+                    src={project.mockup_desktop}
+                    alt={project.alt}
+                    title={project.alt}
+                    width="0"
+                    height="0"
+                    sizes="100vw"
+                    style={{ width: "auto", height: "330px" }}
+                  />
+                ) : (
+                  <Image
+                    src={project.mockup_mobile}
+                    alt={project.alt}
+                    title={project.alt}
+                    width="0"
+                    height="0"
+                    sizes="100vw"
+                    style={{ width: "auto", height: "330px" }}
+                  />
+                )}
               </Link>
               <div className={styles.icons_div}>
                 <Image
@@ -112,7 +119,7 @@ export default function ProjectDetails({
                   sizes="100vw"
                   className={styles.mockup_icon}
                   onClick={() => {
-                    setMockup(project.mockup_desktop);
+                    setMockup("desktop");
                   }}
                 />
                 <Image
@@ -124,7 +131,7 @@ export default function ProjectDetails({
                   sizes="100vw"
                   className={styles.mockup_icon}
                   onClick={() => {
-                    setMockup(project.mockup_mobile);
+                    setMockup("mobile");
                   }}
                 />
               </div>
