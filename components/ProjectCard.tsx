@@ -23,10 +23,8 @@ export default function ProjectCard({ project, page }: Props) {
             width="0"
             height="0"
             sizes="100vw"
-            style={
-              page === "home"
-                ? { width: "auto", height: "300px" }
-                : { width: "auto", height: "120px" }
+            className={
+              page === "home" ? styles.project_img_home : styles.project_img
             }
           />
           <h3

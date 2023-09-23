@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import NavBar from "@/components/NavBar";
 import { Project } from "@/types/project";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styles from "@/styles/project.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,6 +22,39 @@ export default function ProjectDetails({
   const projects = JSON.parse(projectsString);
   const [mockup, setMockup] = useState<string>("desktop");
   const [theme, setTheme] = useState<string>("black");
+  const [scrollX, setscrollX] = useState<number>(0);
+  const [scrolEnd, setscrolEnd] = useState<boolean>(false);
+  const scrl = useRef(null);
+
+  const slide = (shift: number) => {
+    (scrl.current! as HTMLBodyElement).scrollLeft += shift;
+    if (
+      Math.floor(
+        (scrl.current! as HTMLBodyElement).scrollWidth -
+          (scrl.current! as HTMLBodyElement).scrollLeft
+      ) <= (scrl.current! as HTMLBodyElement).offsetWidth
+    ) {
+      setscrolEnd(true);
+    } else {
+      setscrolEnd(false);
+    }
+
+    setscrollX(scrollX + shift);
+  };
+
+  const scrollCheck = () => {
+    setscrollX((scrl.current! as HTMLBodyElement).scrollLeft);
+    if (
+      Math.floor(
+        (scrl.current! as HTMLBodyElement).scrollWidth -
+          (scrl.current! as HTMLBodyElement).scrollLeft
+      ) <= (scrl.current! as HTMLBodyElement).offsetWidth
+    ) {
+      setscrolEnd(true);
+    } else {
+      setscrolEnd(false);
+    }
+  };
 
   return (
     <>
@@ -95,7 +128,7 @@ export default function ProjectDetails({
                     width="0"
                     height="0"
                     sizes="100vw"
-                    style={{ width: "auto", height: "330px" }}
+                    className={styles.project_info_img}
                   />
                 ) : (
                   <Image
@@ -105,7 +138,7 @@ export default function ProjectDetails({
                     width="0"
                     height="0"
                     sizes="100vw"
-                    style={{ width: "auto", height: "330px" }}
+                    className={styles.project_info_img}
                   />
                 )}
               </Link>
@@ -140,17 +173,53 @@ export default function ProjectDetails({
         </div>
       )}
       <hr />
-      {projects && (
-        <div className={styles.other_projects_div}>
-          {projects
-            .filter((item: Project) => {
-              return item.internal_id !== project?.internal_id;
-            })
-            .map((project: Project, index: number) => {
-              return <ProjectCard project={project} key={index} page={"id"} />;
-            })}
-        </div>
-      )}
+      <div className={styles.other_projects_div}>
+        {scrollX !== 0 && (
+          <div className={styles.scroll_button}>
+            <Image
+              src={"/Icons/left-arrow1.png"}
+              alt="left"
+              title="Go left"
+              width="0"
+              height="0"
+              sizes="100vw"
+              className={styles.scroll_icon}
+              onClick={() => slide(-150)}
+            />
+          </div>
+        )}
+        {projects && (
+          <div
+            className={styles.other_projects_div_2}
+            ref={scrl}
+            onScroll={scrollCheck}
+          >
+            {projects
+              .filter((item: Project) => {
+                return item.internal_id !== project?.internal_id;
+              })
+              .map((project: Project, index: number) => {
+                return (
+                  <ProjectCard project={project} key={index} page={"id"} />
+                );
+              })}
+          </div>
+        )}
+        {!scrolEnd && (
+          <div className={styles.scroll_button}>
+            <Image
+              src={"/Icons/right-arrow1.png"}
+              alt="right"
+              title="Go right"
+              width="0"
+              height="0"
+              sizes="100vw"
+              className={styles.scroll_icon}
+              onClick={() => slide(+150)}
+            />
+          </div>
+        )}
+      </div>
       <br />
       <br />
       <hr />
