@@ -12,7 +12,7 @@
     width: auto;
     height: 330px;
   }
-  .other_projects_div_2::-webkit-scrollbar {
+  .scroll_button {
     display: none;
   }
 }
@@ -38,14 +38,6 @@
   .other_projects_div {
     width: max-content;
     overflow: scroll;
-  }
-  .other_projects_div_2::-webkit-scrollbar {
-    width: 5px;
-    height: 8px;
-    background-color: #aaa;
-  }
-  .other_projects_div_2::-webkit-scrollbar-thumb {
-    background-color: black;
   }
   .scroll_button {
     display: none;
@@ -126,6 +118,10 @@
   overflow-x: scroll;
   overflow-y: hidden;
   scroll-behavior: smooth;
+}
+
+.other_projects_div_2::-webkit-scrollbar {
+  display: none;
 }
 
 .scroll_button {
