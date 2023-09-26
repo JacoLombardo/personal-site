@@ -28,11 +28,11 @@ export default function Contact({ theme }: Props) {
             target="_blank"
           >
             <Image
-              src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
+              src={`/Icons/Contact/linkedin.png`}
               alt="linkedin"
               title="LinkedIn"
-              width={30}
-              height={30}
+              width={35}
+              height={35}
             />
           </Link>
           <Link href="mailto:jacopo.lombardo@outlook.com" target="_blank">
