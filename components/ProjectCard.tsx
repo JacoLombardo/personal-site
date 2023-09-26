@@ -1,14 +1,15 @@
 import styles from "@/styles/homepage.module.css";
-import { Project } from "@/types";
+import { Mode, Project } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
 interface Props {
   project: Project;
   page: string;
+  theme: Mode;
 }
 
-export default function ProjectCard({ project, page }: Props) {
+export default function ProjectCard({ project, page, theme }: Props) {
   return (
     <>
       <div className={styles.project_div}>
@@ -30,8 +31,12 @@ export default function ProjectCard({ project, page }: Props) {
           <h3
             style={
               page === "home"
-                ? { fontSize: "medium" }
-                : { maxWidth: "180px", fontSize: "12px" }
+                ? theme === "dark"
+                  ? { color: "white", fontSize: "medium" }
+                  : { color: "black", fontSize: "medium" }
+                : theme === "dark"
+                ? { color: "white", maxWidth: "180px", fontSize: "12px" }
+                : { color: "black", maxWidth: "180px", fontSize: "12px" }
             }
           >
             {project.name} / {project.stack}

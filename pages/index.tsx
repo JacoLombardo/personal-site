@@ -27,7 +27,7 @@ export default function Home({ projectString, theme, toggleTheme }: Props) {
       <hr />
       <About />
       <hr />
-      <Projects projects={projects} />
+      <Projects projects={projects} theme={theme} />
       <hr />
       <Contact theme={theme} />
     </>
