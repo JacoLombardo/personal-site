@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import styles from "@/styles/homepage.module.css";
-import { Project } from "@/types/project";
+import { Project } from "@/types";
 import ProjectCard from "./ProjectCard";
 
 interface Props {

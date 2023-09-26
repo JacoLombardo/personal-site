@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import NavBar from "@/components/NavBar";
-import { Project } from "@/types/project";
+import { Mode, Project } from "@/types";
 import { useRef, useState } from "react";
 import styles from "@/styles/project.module.css";
 import Image from "next/image";
@@ -12,16 +12,19 @@ import clientPromise from "@/lib/mongodb";
 interface Props {
   projectString: string;
   projectsString: string;
+  theme: Mode;
+  toggleTheme: Function;
 }
 
 export default function ProjectDetails({
   projectString,
   projectsString,
+  theme,
+  toggleTheme,
 }: Props) {
   const project = JSON.parse(projectString);
   const projects = JSON.parse(projectsString);
   const [mockup, setMockup] = useState<string>("desktop");
-  const [theme, setTheme] = useState<string>("black");
   const [scrollX, setscrollX] = useState<number>(0);
   const [scrolEnd, setscrolEnd] = useState<boolean>(false);
   const scrl = useRef(null);
@@ -58,16 +61,15 @@ export default function ProjectDetails({
 
   return (
     <>
-      <NavBar page={"id"} projects={projects} />
+      <NavBar
+        page={"id"}
+        projects={projects}
+        theme={theme}
+        toggleTheme={toggleTheme}
+      />
       {project && (
         <div className={styles.project_info_div}>
-          <Link
-            href={project.link}
-            target="_blank"
-            style={{ textDecoration: "none", color: "white" }}
-          >
-            <h3>{project.name}</h3>
-          </Link>
+          <h3>{project.name}</h3>
           <div>
             {project.stack_list.map((stack: string, index: number) => {
               return (
@@ -146,7 +148,7 @@ export default function ProjectDetails({
                 <Image
                   src={"/Icons/desktop.png"}
                   alt={"desktop"}
-                  title={"Desktop"}
+                  title={"Desktop Mockup"}
                   width="0"
                   height="0"
                   sizes="100vw"
@@ -158,7 +160,7 @@ export default function ProjectDetails({
                 <Image
                   src={"/Icons/mobile.png"}
                   alt={"mobile"}
-                  title={"Mobile"}
+                  title={"Mobile Mockup"}
                   width="0"
                   height="0"
                   sizes="100vw"
@@ -223,7 +225,7 @@ export default function ProjectDetails({
       <br />
       <br />
       <hr />
-      <Contact />
+      <Contact theme={theme} />
     </>
   );
 }

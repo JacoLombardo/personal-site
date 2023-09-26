@@ -1,4 +1,4 @@
-import { Project } from "@/types/project";
+import { Project } from "@/types";
 import clientPromise from "../../lib/mongodb";
 
 export default async function getProjects(_req: any, res: any) {

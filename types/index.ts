@@ -12,3 +12,5 @@ export interface Project {
   link: string;
   repository: string;
 }
+
+export type Mode = "dark" | "light";

@@ -2,8 +2,13 @@
 import Image from "next/image";
 import styles from "@/styles/homepage.module.css";
 import Link from "next/link";
+import { Mode } from "@/types";
 
-export default function Contact() {
+interface Props {
+  theme: Mode;
+}
+
+export default function Contact({ theme }: Props) {
   return (
     <>
       <div id="contact" className={styles.contact_div}>
@@ -11,7 +16,7 @@ export default function Contact() {
         <div>
           <Link href="https://github.com/JacoLombardo" target="_blank">
             <Image
-              src="https://res.cloudinary.com/dtl48kr1u/image/upload/v1694362048/personal-site/github-mark-white_mqbeht.png"
+              src={`/Icons/Contact/github-${theme}.png`}
               alt="github"
               title="Github"
               width={30}
@@ -39,7 +44,7 @@ export default function Contact() {
               height={30}
             />
           </Link>
-          <Link href="/Jacopo Lombardo - English.pdf" target="_blank">
+          <Link href="/Jacopo Lombardo.pdf" target="_blank">
             <Image
               src="https://res.cloudinary.com/dtl48kr1u/image/upload/v1694426624/personal-site/cv_zec3wq.png"
               alt="cv"

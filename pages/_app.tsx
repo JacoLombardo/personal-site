@@ -1,8 +1,18 @@
 import "bootstrap/dist/css/bootstrap.css";
 import Head from "next/head";
 import "../styles/global.css";
+import { ThemeProvider } from "styled-components";
+import { useState } from "react";
+import { GlobalStyles, darkTheme, lightTheme } from "@/styles/ThemeConfig";
+import { Mode } from "@/types";
 
 export default function MyApp({ Component, pageProps }: any) {
+  const [theme, setTheme] = useState<Mode>("dark");
+
+  const toggleTheme = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  };
+
   return (
     <>
       <Head>
@@ -14,7 +24,10 @@ export default function MyApp({ Component, pageProps }: any) {
         />
         <title>Jacopo Lombardo</title>
       </Head>
-      <Component {...pageProps} />
+      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+        <GlobalStyles />
+        <Component {...pageProps} theme={theme} toggleTheme={toggleTheme} />
+      </ThemeProvider>
     </>
   );
 }

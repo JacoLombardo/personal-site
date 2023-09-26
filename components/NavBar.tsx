@@ -4,43 +4,69 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import styles from "@/styles/homepage.module.css";
-import { Project } from "@/types/project";
+import { Mode, Project } from "@/types";
+import { DarkModeToggle } from "@anatoliygatt/dark-mode-toggle";
 
 interface Props {
   page: string;
   projects: Project[];
+  theme: Mode;
+  toggleTheme: Function;
 }
 
-export default function NavBar({ page, projects }: Props) {
+export default function NavBar({ page, projects, theme, toggleTheme }: Props) {
   return (
     <>
       <Navbar
         expand="lg"
-        // className={styles.navbar}
-        // className={`bg-body-tertiary ${styles.navbar}`}
-        data-bs-theme="dark"
-        // style={{ backgroundColor: "black", color: "white" }}
+        data-bs-theme={theme === "dark" ? "dark" : "light"}
+        style={{ fontWeight: "700" }}
       >
         <Container className={styles.navbar}>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               {page === "home" ? (
-                <Nav.Link href="#about" style={{ color: "white" }}>
+                <Nav.Link
+                  href="#about"
+                  style={
+                    theme === "dark" ? { color: "white" } : { color: "black" }
+                  }
+                >
                   About
                 </Nav.Link>
               ) : (
-                <Nav.Link href="/" style={{ color: "white" }}>
+                <Nav.Link
+                  href="/"
+                  style={
+                    theme === "dark" ? { color: "white" } : { color: "black" }
+                  }
+                >
                   Home
                 </Nav.Link>
               )}
               {page === "home" ? (
-                <Nav.Link href="#projects" style={{ color: "white" }}>
+                <Nav.Link
+                  href="#projects"
+                  style={
+                    theme === "dark" ? { color: "white" } : { color: "black" }
+                  }
+                >
                   Projects
                 </Nav.Link>
               ) : (
                 <NavDropdown
-                  title={<span style={{ color: "white" }}>Projects</span>}
+                  title={
+                    <span
+                      style={
+                        theme === "dark"
+                          ? { color: "white" }
+                          : { color: "black" }
+                      }
+                    >
+                      Projects
+                    </span>
+                  }
                   id="basic-nav-dropdown"
                 >
                   {projects &&
@@ -56,11 +82,35 @@ export default function NavBar({ page, projects }: Props) {
                     })}
                 </NavDropdown>
               )}
-              <Nav.Link href="#contact" style={{ color: "white" }}>
+              <Nav.Link
+                href="#contact"
+                style={
+                  theme === "dark" ? { color: "white" } : { color: "black" }
+                }
+              >
                 Contact
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
+          <DarkModeToggle
+            mode={theme}
+            dark="dark"
+            light="light"
+            size="sm"
+            inactiveLabelColor="white"
+            inactiveTrackColor="white"
+            inactiveTrackColorOnHover="#f8fafc"
+            inactiveTrackColorOnActive="#cbd5e1"
+            activeLabelColor="black"
+            activeTrackColor="black"
+            activeTrackColorOnHover="#1e293b"
+            activeTrackColorOnActive="#0f172a"
+            inactiveThumbColor="#1e293b"
+            activeThumbColor="white"
+            onChange={() => {
+              toggleTheme();
+            }}
+          />
         </Container>
       </Navbar>
     </>

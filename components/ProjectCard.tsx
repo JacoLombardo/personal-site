@@ -1,5 +1,5 @@
 import styles from "@/styles/homepage.module.css";
-import { Project } from "@/types/project";
+import { Project } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
