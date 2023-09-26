@@ -202,7 +202,12 @@ export default function ProjectDetails({
               })
               .map((project: Project, index: number) => {
                 return (
-                  <ProjectCard project={project} key={index} page={"id"} />
+                  <ProjectCard
+                    project={project}
+                    key={index}
+                    page={"id"}
+                    theme={theme}
+                  />
                 );
               })}
           </div>
