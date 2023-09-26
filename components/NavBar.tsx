@@ -20,7 +20,7 @@ export default function NavBar({ page, projects, theme, toggleTheme }: Props) {
       <Navbar
         expand="lg"
         data-bs-theme={theme === "dark" ? "dark" : "light"}
-        style={{ fontWeight: "700" }}
+        className={styles.navbar}
       >
         <Container className={styles.navbar}>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -92,25 +92,27 @@ export default function NavBar({ page, projects, theme, toggleTheme }: Props) {
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
-          <DarkModeToggle
-            mode={theme}
-            dark="dark"
-            light="light"
-            size="sm"
-            inactiveLabelColor="white"
-            inactiveTrackColor="white"
-            inactiveTrackColorOnHover="#f8fafc"
-            inactiveTrackColorOnActive="#cbd5e1"
-            activeLabelColor="black"
-            activeTrackColor="black"
-            activeTrackColorOnHover="#1e293b"
-            activeTrackColorOnActive="#0f172a"
-            inactiveThumbColor="#1e293b"
-            activeThumbColor="white"
-            onChange={() => {
-              toggleTheme();
-            }}
-          />
+          <div className={styles.navbar_switch}>
+            <DarkModeToggle
+              mode={theme}
+              dark="dark"
+              light="light"
+              size="sm"
+              inactiveLabelColor="white"
+              inactiveTrackColor="white"
+              inactiveTrackColorOnHover="#f8fafc"
+              inactiveTrackColorOnActive="#cbd5e1"
+              activeLabelColor="black"
+              activeTrackColor="black"
+              activeTrackColorOnHover="#1e293b"
+              activeTrackColorOnActive="#0f172a"
+              inactiveThumbColor="#1e293b"
+              activeThumbColor="white"
+              onChange={() => {
+                toggleTheme();
+              }}
+            />
+          </div>
         </Container>
       </Navbar>
     </>
