@@ -7,16 +7,22 @@ export default function About() {
         About:
         <div>
           <p>
-            After many years working as kitchen chef, I recently decided to move
-            to tech and I attended a 5 months Full Stack Development bootcamp at
-            Codac Berlin. The course gave me all the tools and knowledge to
-            enter this new world, and now I cannot stop looking for more.
+            When I was little I had two passions, computers and cooking. To
+            shape my path I decided to follow the second and I started a career
+            as chef that brought me in kitchens in Ireland, Denmark, Germany
+            and, of course, Italy. But gastronomy is a tough and everchanging
+            sector, and witnessing the new direction I eventually lost passion
+            and decided to move to something else. And that’s when I decided to
+            go back to the origins and I enrolled in a Full Stack Web
+            Development course. I loved it, coding is the perfect food for my
+            logical mind!
           </p>
           <p style={{ color: "grey" }}>
-            During my background in gastronomy, I strengthened my stress and
-            team management skills, enhancing my efficiency and time management
-            abilities. These transferable skills are instrumental in maintaining
-            focus and meeting deadlines.
+            Currently I’m working on both widening my tech knowledge and
+            improving my German skills. I’m a passionate and motivated person,
+            goal-oriented but not too self-focused. I find myself very
+            comfortable in collaborative working in groups, as I manage to get
+            the best out of it.
           </p>
         </div>
       </div>
