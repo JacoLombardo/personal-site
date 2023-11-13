@@ -85,6 +85,7 @@ export default function ProjectDetails({
                   width="35"
                   height="35"
                   sizes="100vw"
+                  priority={true}
                   style={{ marginRight: "10px" }}
                 />
               );
