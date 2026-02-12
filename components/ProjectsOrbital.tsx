@@ -19,8 +19,13 @@ const CONV_CENTER = { x: 600, y: 360 };
 
 // Both outer-most rings meet exactly at x = 600
 const TANGENT_R = 270;
-const MIN_ORBIT_R = 60;
 const CONV_RADII = [20, 40];
+
+// Uniform spacing for school rings (≈ current ring 2↔3 / ring 1↔2 distances)
+const SE_SCHOOL_SPACING = 24;
+const WD_SCHOOL_SPACING = 23;
+// School types that determine tight-packed rings
+const SCHOOL_TYPES = new Set(["42", "CODAC"]);
 
 const SE_HUE = "#00e5ff";
 const WD_HUE = "#00e676";
@@ -57,14 +62,30 @@ interface OrbitalProject {
    DATA PROCESSING
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/** Ring 0 = center (radius 0). Rings 1-maxRing spread from MIN_ORBIT_R to TANGENT_R.
- *  Uses a power curve (t^1.6) so school rings cluster tighter near the core. */
-function buildRadii(maxRing: number): number[] {
-  const radii = [0]; // ring 0 sits at the core
-  for (let i = 1; i <= maxRing; i++) {
-    const t = maxRing <= 1 ? 0 : (i - 1) / (maxRing - 1);
-    radii.push(MIN_ORBIT_R + Math.pow(t, 1.6) * (TANGENT_R - MIN_ORBIT_R));
+/**
+ * Ring 0 = center dot (radius 0).
+ * School rings (1 → schoolLast) get uniform tight spacing starting at schoolSpacing.
+ * Post-school rings fill the remaining space to TANGENT_R.
+ */
+function buildRadii(maxRing: number, schoolLast: number, schoolSpacing: number): number[] {
+  const sl = Math.min(schoolLast, maxRing);
+  const radii: number[] = [0]; // ring 0 at center
+
+  // School rings 1→sl: uniform spacing
+  for (let i = 1; i <= sl; i++) {
+    radii.push(schoolSpacing * i);
   }
+
+  // Post-school rings: spread evenly from last school ring to TANGENT_R
+  const postCount = maxRing - sl;
+  if (postCount > 0) {
+    const lastSchool = radii[radii.length - 1];
+    const gap = (TANGENT_R - lastSchool) / postCount;
+    for (let j = 1; j <= postCount; j++) {
+      radii.push(lastSchool + gap * j);
+    }
+  }
+
   return radii;
 }
 
@@ -73,11 +94,12 @@ function orbitSpeed(ring: number): number {
   return ring % 2 === 0 ? base : -base;
 }
 
+/** Outer rings = more important = bigger dots. Ring 0 = core dot. */
 function dotSize(ring: number, maxRing: number): number {
-  if (ring === 0) return 6; // core dot
-  if (maxRing <= 1) return 5;
+  if (ring === 0) return 4; // core dot
+  if (maxRing <= 1) return 4;
   const t = (ring - 1) / (maxRing - 1);
-  return 5.5 - t * 2; // 5.5 → 3.5
+  return 3 + t * 3; // ring 1 → 3, outermost → 6
 }
 
 function processData(raw: JsonProject[]) {
@@ -90,8 +112,14 @@ function processData(raw: JsonProject[]) {
   const seMax = seAll.length ? Math.max(...seAll.map((p) => p.ring)) : 0;
   const wdMax = wdAll.length ? Math.max(...wdAll.map((p) => p.ring)) : 0;
 
-  const seRadii = buildRadii(seMax);
-  const wdRadii = buildRadii(wdMax);
+  // Detect last school ring from project type
+  const seSchoolRings = seAll.filter((p) => SCHOOL_TYPES.has(p.type)).map((p) => p.ring);
+  const seSchoolLast = seSchoolRings.length ? Math.max(...seSchoolRings) : seMax;
+  const wdSchoolRings = wdAll.filter((p) => SCHOOL_TYPES.has(p.type)).map((p) => p.ring);
+  const wdSchoolLast = wdSchoolRings.length ? Math.max(...wdSchoolRings) : wdMax;
+
+  const seRadii = buildRadii(seMax, seSchoolLast, SE_SCHOOL_SPACING);
+  const wdRadii = buildRadii(wdMax, wdSchoolLast, WD_SCHOOL_SPACING);
 
   const orbital: OrbitalProject[] = [];
 
@@ -297,7 +325,7 @@ export default function ProjectsOrbital({ theme }: Props) {
 
         <circle cx={SE_CENTER.x} cy={SE_CENTER.y} r={TANGENT_R + 40} fill="url(#rg-se)" />
 
-        {/* Orbit rings (skip ring 0 which is the core at radius 0) */}
+        {/* Orbit rings (skip ring 0 which is the core dot at center) */}
         {seRadii.slice(1).map((r, i) => (
           <circle
             key={`se-o-${i}`}
@@ -319,7 +347,7 @@ export default function ProjectsOrbital({ theme }: Props) {
 
         <circle cx={WD_CENTER.x} cy={WD_CENTER.y} r={TANGENT_R + 40} fill="url(#rg-wd)" />
 
-        {/* Orbit rings (skip ring 0 which is the core at radius 0) */}
+        {/* Orbit rings (skip ring 0 which is the core dot at center) */}
         {wdRadii.slice(1).map((r, i) => (
           <circle
             key={`wd-o-${i}`}
