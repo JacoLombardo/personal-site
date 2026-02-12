@@ -12,23 +12,27 @@ import projectsJson from "../public/projects.json";
 
 const VIEW_W = 1200;
 const VIEW_H = 700;
-
-const SE_CENTER = { x: 330, y: 360 };
-const WD_CENTER = { x: 870, y: 360 };
-const CONV_CENTER = { x: 600, y: 360 };
-
-// Both outer-most rings meet exactly at x = 600
-const TANGENT_R = 270;
+const CENTER_Y = 360;
 const CONV_RADII = [20, 40];
 
-// Uniform spacing for school rings (≈ current ring 2↔3 / ring 1↔2 distances)
-const SE_SCHOOL_SPACING = 24;
-const WD_SCHOOL_SPACING = 23;
-// School types that determine tight-packed rings
-const SCHOOL_TYPES = new Set(["42", "CODAC"]);
+// Each successive ring gap is wider (0.7 = 70 % increase inner→outer)
+const GROWTH = 0.7;
+// School rings are compressed by 50 % relative to the growth curve
+const SCHOOL_COMPRESS = 0.7;
+
+// Largest outer radius – the system with more rings fills this; the other
+// is proportionally smaller.  Derived from viewBox so it scales with layout.
+const SIDE_PAD = 60;
+const MAX_R = Math.min(
+  (VIEW_W - 2 * SIDE_PAD) / 4, // horizontal fit (center − outerR ≥ pad)
+  CENTER_Y - 60, // vertical top
+  VIEW_H - CENTER_Y - 60 // vertical bottom
+);
 
 const SE_HUE = "#00e5ff";
+const SE_HUE_BRIGHT = "#80f0ff";
 const WD_HUE = "#00e676";
+const WD_HUE_BRIGHT = "#80ffb0";
 const FONT = "poppins, sans-serif";
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -44,7 +48,11 @@ interface JsonProject {
   tech_stack: string[];
   description: string;
   isShared: boolean;
+  highlighted: boolean;
 }
+
+type ProjectType = "42" | "CODAC" | "independent" | "professional";
+type FilterOption = ProjectType | "highlighted";
 
 interface OrbitalProject {
   id: string;
@@ -56,36 +64,47 @@ interface OrbitalProject {
   speed: number;
   size: number;
   category: "se" | "wd" | "conv";
+  isSchool: boolean;
+  highlighted: boolean;
+  projectType: ProjectType;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
    DATA PROCESSING
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/** Sum of spacing multipliers for n rings (used to derive baseGap).
+ *  School rings (1→schoolLast) are compressed by SCHOOL_COMPRESS. */
+function ringWeightSum(n: number, schoolLast: number): number {
+  if (n <= 0) return 0;
+  let sum = 0;
+  for (let i = 1; i <= n; i++) {
+    const t = n <= 1 ? 0 : (i - 1) / (n - 1);
+    const w = 1 + GROWTH * t;
+    sum += i <= schoolLast ? w * SCHOOL_COMPRESS : w;
+  }
+  return sum;
+}
+
 /**
  * Ring 0 = center dot (radius 0).
- * School rings (1 → schoolLast) get uniform tight spacing starting at schoolSpacing.
- * Post-school rings fill the remaining space to TANGENT_R.
+ * Rings 1-maxRing have increasing spacing (GROWTH), with school rings
+ * additionally compressed by SCHOOL_COMPRESS.
  */
-function buildRadii(maxRing: number, schoolLast: number, schoolSpacing: number): number[] {
-  const sl = Math.min(schoolLast, maxRing);
-  const radii: number[] = [0]; // ring 0 at center
-
-  // School rings 1→sl: uniform spacing
-  for (let i = 1; i <= sl; i++) {
-    radii.push(schoolSpacing * i);
+function buildRadii(
+  maxRing: number,
+  baseGap: number,
+  schoolLast: number
+): number[] {
+  const radii = [0]; // ring 0 at center
+  let cumul = 0;
+  for (let i = 1; i <= maxRing; i++) {
+    const t = maxRing <= 1 ? 0 : (i - 1) / (maxRing - 1);
+    let spacing = baseGap * (1 + GROWTH * t);
+    if (i <= schoolLast) spacing *= SCHOOL_COMPRESS;
+    cumul += spacing;
+    radii.push(cumul);
   }
-
-  // Post-school rings: spread evenly from last school ring to TANGENT_R
-  const postCount = maxRing - sl;
-  if (postCount > 0) {
-    const lastSchool = radii[radii.length - 1];
-    const gap = (TANGENT_R - lastSchool) / postCount;
-    for (let j = 1; j <= postCount; j++) {
-      radii.push(lastSchool + gap * j);
-    }
-  }
-
   return radii;
 }
 
@@ -113,13 +132,26 @@ function processData(raw: JsonProject[]) {
   const wdMax = wdAll.length ? Math.max(...wdAll.map((p) => p.ring)) : 0;
 
   // Detect last school ring from project type
-  const seSchoolRings = seAll.filter((p) => SCHOOL_TYPES.has(p.type)).map((p) => p.ring);
-  const seSchoolLast = seSchoolRings.length ? Math.max(...seSchoolRings) : seMax;
-  const wdSchoolRings = wdAll.filter((p) => SCHOOL_TYPES.has(p.type)).map((p) => p.ring);
-  const wdSchoolLast = wdSchoolRings.length ? Math.max(...wdSchoolRings) : wdMax;
+  const se42 = seAll.filter((p) => p.type === "42").map((p) => p.ring);
+  const seSchoolLast = se42.length ? Math.max(...se42) : 0;
+  const wdCodac = wdAll.filter((p) => p.type === "CODAC").map((p) => p.ring);
+  const wdSchoolLast = wdCodac.length ? Math.max(...wdCodac) : 0;
 
-  const seRadii = buildRadii(seMax, seSchoolLast, SE_SCHOOL_SPACING);
-  const wdRadii = buildRadii(wdMax, wdSchoolLast, WD_SCHOOL_SPACING);
+  // Each system gets its own baseGap so both fill MAX_R (same outer radius)
+  const seBaseGap = seMax > 0 ? MAX_R / ringWeightSum(seMax, seSchoolLast) : 0;
+  const wdBaseGap = wdMax > 0 ? MAX_R / ringWeightSum(wdMax, wdSchoolLast) : 0;
+
+  const seRadii = buildRadii(seMax, seBaseGap, seSchoolLast);
+  const wdRadii = buildRadii(wdMax, wdBaseGap, wdSchoolLast);
+
+  const seOuterR = seRadii[seRadii.length - 1] || 0;
+  const wdOuterR = wdRadii[wdRadii.length - 1] || 0;
+
+  // Position centers so the two systems are tangent at the SVG midpoint
+  const midX = VIEW_W / 2;
+  const seCenter = { x: midX - seOuterR, y: CENTER_Y };
+  const wdCenter = { x: midX + wdOuterR, y: CENTER_Y };
+  const convCenter = { x: midX, y: CENTER_Y };
 
   const orbital: OrbitalProject[] = [];
 
@@ -128,6 +160,7 @@ function processData(raw: JsonProject[]) {
     projects: JsonProject[],
     ring: number,
     maxRing: number,
+    schoolLast: number,
     cat: "se" | "wd"
   ) {
     const n = projects.length;
@@ -143,12 +176,29 @@ function processData(raw: JsonProject[]) {
         speed: orbitSpeed(ring),
         size: dotSize(ring, maxRing),
         category: cat,
+        isSchool: ring <= schoolLast,
+        highlighted: p.highlighted ?? false,
+        projectType: p.type as ProjectType,
       });
     });
   }
 
-  for (let r = 0; r <= seMax; r++) pushRing(seAll.filter((p) => p.ring === r), r, seMax, "se");
-  for (let r = 0; r <= wdMax; r++) pushRing(wdAll.filter((p) => p.ring === r), r, wdMax, "wd");
+  for (let r = 0; r <= seMax; r++)
+    pushRing(
+      seAll.filter((p) => p.ring === r),
+      r,
+      seMax,
+      seSchoolLast,
+      "se"
+    );
+  for (let r = 0; r <= wdMax; r++)
+    pushRing(
+      wdAll.filter((p) => p.ring === r),
+      r,
+      wdMax,
+      wdSchoolLast,
+      "wd"
+    );
 
   shared.forEach((p, i) => {
     orbital.push({
@@ -161,22 +211,33 @@ function processData(raw: JsonProject[]) {
       speed: i % 2 === 0 ? 0.05 : -0.04,
       size: 4,
       category: "conv",
+      isSchool: false,
+      highlighted: p.highlighted ?? false,
+      projectType: p.type as ProjectType,
     });
   });
 
-  return { orbital, seRadii, wdRadii, hasConv: shared.length > 0 };
+  return {
+    orbital,
+    seRadii,
+    wdRadii,
+    seCenter,
+    wdCenter,
+    convCenter,
+    seOuterR,
+    wdOuterR,
+    hasConv: shared.length > 0,
+  };
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
    UTILITIES
    ═══════════════════════════════════════════════════════════════════════════ */
 
-function getCenter(cat: string) {
-  return cat === "se" ? SE_CENTER : cat === "wd" ? WD_CENTER : CONV_CENTER;
-}
-
-function getColor(cat: string) {
-  return cat === "se" ? SE_HUE : cat === "wd" ? WD_HUE : "#ffffff";
+function getColor(cat: string, isSchool: boolean) {
+  if (cat === "se") return isSchool ? SE_HUE : SE_HUE_BRIGHT;
+  if (cat === "wd") return isSchool ? WD_HUE : WD_HUE_BRIGHT;
+  return "#ffffff";
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -190,16 +251,32 @@ interface Props {
 export default function ProjectsOrbital({ theme }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const groupRefs = useRef<Map<string, SVGGElement>>(new Map());
   const pausedRef = useRef(false);
   const timeRef = useRef(0);
 
   const [hovered, setHovered] = useState<OrbitalProject | null>(null);
+  const [activeFilter, setActiveFilter] = useState<FilterOption | null>(null);
   const [tipPos, setTipPos] = useState({ x: 0, y: 0 });
+  const [arcGeo, setArcGeo] = useState<{ cx: number; cy: number; r: number } | null>(null);
 
-  const { orbital, seRadii, wdRadii, hasConv } = useMemo(
-    () => processData(projectsJson.projects as JsonProject[]),
-    []
+  const {
+    orbital,
+    seRadii,
+    wdRadii,
+    seCenter,
+    wdCenter,
+    convCenter,
+    seOuterR,
+    wdOuterR,
+    hasConv,
+  } = useMemo(() => processData(projectsJson.projects as JsonProject[]), []);
+
+  const getCenter = useCallback(
+    (cat: string) =>
+      cat === "se" ? seCenter : cat === "wd" ? wdCenter : convCenter,
+    [seCenter, wdCenter, convCenter]
   );
 
   const getRadius = useCallback(
@@ -209,6 +286,36 @@ export default function ProjectsOrbital({ theme }: Props) {
     },
     [seRadii, wdRadii]
   );
+
+  /* ── Compute arc geometry: SE center relative to filter wrapper ── */
+  useEffect(() => {
+    const svg = svgRef.current;
+    const wrapper = wrapperRef.current;
+    if (!svg || !wrapper) return;
+
+    const update = () => {
+      const svgRect = svg.getBoundingClientRect();
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const scale = svgRect.width / VIEW_W;
+
+      // SE orbit center in page pixels
+      const seCxPage = svgRect.left + seCenter.x * scale;
+      const seCyPage = svgRect.top + seCenter.y * scale;
+
+      // Relative to wrapper origin
+      const cx = seCxPage - wrapperRect.left;
+      const cy = seCyPage - wrapperRect.top;
+      // Ring radius = seOuterR + offset for a bigger invisible ring
+      const r = (seOuterR + 30) * scale;
+
+      setArcGeo({ cx, cy, r });
+    };
+
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(svg);
+    return () => ro.disconnect();
+  }, [seCenter, seOuterR]);
 
   /* ── Animation loop ─────────────────────────────────── */
   useEffect(() => {
@@ -226,7 +333,10 @@ export default function ProjectsOrbital({ theme }: Props) {
         const c = getCenter(p.category);
         const r = getRadius(p.category, p.orbit);
         const a = p.angle + timeRef.current * p.speed;
-        g.setAttribute("transform", `translate(${c.x + Math.cos(a) * r},${c.y + Math.sin(a) * r})`);
+        g.setAttribute(
+          "transform",
+          `translate(${c.x + Math.cos(a) * r},${c.y + Math.sin(a) * r})`
+        );
       }
 
       frameId = requestAnimationFrame(tick);
@@ -234,7 +344,7 @@ export default function ProjectsOrbital({ theme }: Props) {
 
     frameId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frameId);
-  }, [orbital, getRadius]);
+  }, [orbital, getRadius, getCenter]);
 
   /* ── Handlers ───────────────────────────────────────── */
   const onEnter = useCallback((p: OrbitalProject, e: React.MouseEvent) => {
@@ -268,29 +378,86 @@ export default function ProjectsOrbital({ theme }: Props) {
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 1.2 }}
     >
+      {/* ══════════ FILTER TABS ══════════ */}
+      <div ref={wrapperRef} className={styles.filterBarWrapper}>
+        <div
+          className={styles.filterBar}
+          style={
+            arcGeo
+              ? {
+                  WebkitMaskImage: `radial-gradient(circle ${arcGeo.r}px at ${arcGeo.cx}px ${arcGeo.cy}px, transparent ${arcGeo.r - 1}px, black ${arcGeo.r}px)`,
+                  maskImage: `radial-gradient(circle ${arcGeo.r}px at ${arcGeo.cx}px ${arcGeo.cy}px, transparent ${arcGeo.r - 1}px, black ${arcGeo.r}px)`,
+                }
+              : undefined
+          }
+        >
+          {(["independent", "professional", "CODAC", "42", "highlighted"] as FilterOption[]).map((t) => {
+            const label = t === "42" ? "42" : t === "CODAC" ? "CODAC" : t === "independent" ? "Independent" : t === "professional" ? "Professional" : "★";
+            const tint = t === "42" ? SE_HUE : t === "CODAC" ? WD_HUE : t === "independent" ? SE_HUE_BRIGHT : t === "professional" ? WD_HUE_BRIGHT : "#ffd54f";
+            const isActive = activeFilter === t;
+            return (
+              <button
+                key={t}
+                className={`${styles.filterTab} ${isActive ? styles.filterTabActive : ""}`}
+                style={isActive && tint ? { borderColor: tint, color: tint } : undefined}
+                onClick={() => setActiveFilter(isActive ? null : t)}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+        {/* Arc border along the circular cut */}
+        {arcGeo && (
+          <div
+            className={styles.filterBarArc}
+            style={{
+              width: arcGeo.r * 2,
+              height: arcGeo.r * 2,
+              top: arcGeo.cy - arcGeo.r,
+              left: arcGeo.cx - arcGeo.r,
+            }}
+          />
+        )}
+      </div>
+
       <svg
         ref={svgRef}
         viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
         className={styles.svg}
         data-hovering={hovered ? "true" : "false"}
+        data-filtering={activeFilter ? "true" : "false"}
       >
         {/* ══════════ DEFS ══════════ */}
         <defs>
           <filter id="gl-se" x="-200%" y="-200%" width="500%" height="500%">
             <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b" />
-            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
           </filter>
           <filter id="gl-wd" x="-200%" y="-200%" width="500%" height="500%">
             <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b" />
-            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
           </filter>
           <filter id="gl-cv" x="-200%" y="-200%" width="500%" height="500%">
             <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="b" />
-            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
           </filter>
           <filter id="gl-core" x="-300%" y="-300%" width="700%" height="700%">
             <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="b" />
-            <feMerge><feMergeNode in="b" /><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
           </filter>
 
           <radialGradient id="rg-conv" cx="50%" cy="50%" r="50%">
@@ -319,18 +486,36 @@ export default function ProjectsOrbital({ theme }: Props) {
             <stop offset="50%" stopColor="#fff" stopOpacity={0.8} />
             <stop offset="100%" stopColor="#fff" stopOpacity={0} />
           </linearGradient>
+
+          {/* Arc paths for labels along the outermost ring */}
+          {/* Arc paths inside the outermost ring */}
+          <path
+            id="arc-se"
+            d={`M ${seCenter.x - seOuterR + 28},${seCenter.y} A ${seOuterR - 28},${seOuterR - 28} 0 0,1 ${seCenter.x + seOuterR - 28},${seCenter.y}`}
+            fill="none"
+          />
+          <path
+            id="arc-wd"
+            d={`M ${wdCenter.x - wdOuterR + 28},${wdCenter.y} A ${wdOuterR - 28},${wdOuterR - 28} 0 0,1 ${wdCenter.x + wdOuterR - 28},${wdCenter.y}`}
+            fill="none"
+          />
         </defs>
 
         {/* ══════════ SOFTWARE ENGINEERING SYSTEM ══════════ */}
 
-        <circle cx={SE_CENTER.x} cy={SE_CENTER.y} r={TANGENT_R + 40} fill="url(#rg-se)" />
+        <circle
+          cx={seCenter.x}
+          cy={seCenter.y}
+          r={seOuterR + 40}
+          fill="url(#rg-se)"
+        />
 
         {/* Orbit rings (skip ring 0 which is the core dot at center) */}
         {seRadii.slice(1).map((r, i) => (
           <circle
             key={`se-o-${i}`}
-            cx={SE_CENTER.x}
-            cy={SE_CENTER.y}
+            cx={seCenter.x}
+            cy={seCenter.y}
             r={r}
             fill="none"
             stroke={SE_HUE}
@@ -339,20 +524,35 @@ export default function ProjectsOrbital({ theme }: Props) {
           />
         ))}
 
-        {/* Labels */}
-        <text x={SE_CENTER.x} y={34} textAnchor="middle" fill="#fff" fontSize={13} fontWeight="600" fontFamily={FONT} letterSpacing={3.5} opacity={0.6}>SOFTWARE ENGINEERING</text>
-        <text x={SE_CENTER.x - 80} y={VIEW_H - 28} textAnchor="middle" fill={SE_HUE} fontSize={11} fontFamily={FONT} fontStyle="italic" opacity={0.4}>Post-42 Projects</text>
+        {/* Label – arc along outermost ring */}
+        <text
+          fill="#fff"
+          fontSize={11}
+          fontWeight="600"
+          fontFamily={FONT}
+          letterSpacing={4}
+          opacity={0.35}
+        >
+          <textPath href="#arc-se" startOffset="35%" textAnchor="middle">
+            SOFTWARE ENGINEERING
+          </textPath>
+        </text>
 
         {/* ══════════ WEB DEVELOPMENT SYSTEM ══════════ */}
 
-        <circle cx={WD_CENTER.x} cy={WD_CENTER.y} r={TANGENT_R + 40} fill="url(#rg-wd)" />
+        <circle
+          cx={wdCenter.x}
+          cy={wdCenter.y}
+          r={wdOuterR + 40}
+          fill="url(#rg-wd)"
+        />
 
         {/* Orbit rings (skip ring 0 which is the core dot at center) */}
         {wdRadii.slice(1).map((r, i) => (
           <circle
             key={`wd-o-${i}`}
-            cx={WD_CENTER.x}
-            cy={WD_CENTER.y}
+            cx={wdCenter.x}
+            cy={wdCenter.y}
             r={r}
             fill="none"
             stroke={WD_HUE}
@@ -361,38 +561,122 @@ export default function ProjectsOrbital({ theme }: Props) {
           />
         ))}
 
-        {/* Labels */}
-        <text x={WD_CENTER.x} y={34} textAnchor="middle" fill="#fff" fontSize={13} fontWeight="600" fontFamily={FONT} letterSpacing={3.5} opacity={0.6}>WEB DEVELOPMENT</text>
-        <text x={WD_CENTER.x + 60} y={78} textAnchor="middle" fill={WD_HUE} fontSize={11} fontFamily={FONT} fontStyle="italic" opacity={0.4}>Latest Professional Work</text>
+        {/* Label – arc along outermost ring */}
+        <text
+          fill="#fff"
+          fontSize={11}
+          fontWeight="600"
+          fontFamily={FONT}
+          letterSpacing={4}
+          opacity={0.35}
+        >
+          <textPath href="#arc-wd" startOffset="65%" textAnchor="middle">
+            WEB DEVELOPMENT
+          </textPath>
+        </text>
 
         {/* ══════════ CONVERGENCE ZONE ══════════ */}
         {hasConv && (
           <>
-            <circle cx={CONV_CENTER.x} cy={CONV_CENTER.y} r={55} fill="url(#rg-conv)" className={styles.convergenceGlow} />
-            <rect x={CONV_CENTER.x - 1} y={CONV_CENTER.y - 80} width={2} height={160} fill="url(#lg-beam-v)" opacity={0.1} />
-            <rect x={CONV_CENTER.x - 25} y={CONV_CENTER.y - 0.5} width={50} height={1} fill="url(#lg-beam-h)" opacity={0.06} />
+            <circle
+              cx={convCenter.x}
+              cy={convCenter.y}
+              r={55}
+              fill="url(#rg-conv)"
+              className={styles.convergenceGlow}
+            />
+            <rect
+              x={convCenter.x - 1}
+              y={convCenter.y - 80}
+              width={2}
+              height={160}
+              fill="url(#lg-beam-v)"
+              opacity={0.1}
+            />
+            <rect
+              x={convCenter.x - 25}
+              y={convCenter.y - 0.5}
+              width={50}
+              height={1}
+              fill="url(#lg-beam-h)"
+              opacity={0.06}
+            />
             {CONV_RADII.map((r, i) => (
-              <circle key={`cv-o-${i}`} cx={CONV_CENTER.x} cy={CONV_CENTER.y} r={r} fill="none" stroke="#fff" strokeWidth={0.4} opacity={0.12} />
+              <circle
+                key={`cv-o-${i}`}
+                cx={convCenter.x}
+                cy={convCenter.y}
+                r={r}
+                fill="none"
+                stroke="#fff"
+                strokeWidth={0.4}
+                opacity={0.12}
+              />
             ))}
-            <circle cx={CONV_CENTER.x} cy={CONV_CENTER.y} r={2.5} fill="#fff" opacity={0.9} filter="url(#gl-core)" />
-            <text x={CONV_CENTER.x} y={CONV_CENTER.y + 58} textAnchor="middle" fill="#fff" fontSize={8.5} fontWeight="600" fontFamily={FONT} letterSpacing={2} opacity={0.35}>CONVERGENCE ZONE</text>
+            <circle
+              cx={convCenter.x}
+              cy={convCenter.y}
+              r={2.5}
+              fill="#fff"
+              opacity={0.9}
+              filter="url(#gl-core)"
+            />
+            <text
+              x={convCenter.x}
+              y={convCenter.y + 58}
+              textAnchor="middle"
+              fill="#fff"
+              fontSize={8.5}
+              fontWeight="600"
+              fontFamily={FONT}
+              letterSpacing={2}
+              opacity={0.35}
+            >
+              CONVERGENCE ZONE
+            </text>
           </>
         )}
 
         {/* ══════════ PROJECT DOTS ══════════ */}
         {orbital.map((p) => {
-          const color = getColor(p.category);
-          const filter = p.category === "se" ? "gl-se" : p.category === "wd" ? "gl-wd" : "gl-cv";
+          const color = getColor(p.category, p.isSchool);
+          const filter =
+            p.category === "se"
+              ? "gl-se"
+              : p.category === "wd"
+              ? "gl-wd"
+              : "gl-cv";
+          const dimmed = activeFilter !== null && (
+            activeFilter === "highlighted" ? !p.highlighted : p.projectType !== activeFilter
+          );
           return (
             <g
               key={p.id}
-              ref={(el) => { if (el) groupRefs.current.set(p.id, el); }}
-              className={styles.projectGroup}
+              ref={(el) => {
+                if (el) groupRefs.current.set(p.id, el);
+              }}
+              className={`${styles.projectGroup} ${dimmed ? styles.dimmed : ""}`}
               onMouseEnter={(e) => onEnter(p, e)}
               onMouseLeave={onLeave}
             >
               <circle r={14} fill="transparent" />
-              <circle r={p.size} fill={color} filter={`url(#${filter})`} className={styles.dot} />
+              <circle
+                r={p.size}
+                fill={color}
+                filter={`url(#${filter})`}
+                className={styles.dot}
+              />
+              {p.highlighted && (() => {
+                const s = p.size * 0.45; // star arm length relative to dot
+                return (
+                  <path
+                    d={`M0,${-s} L${s*0.22},${-s*0.22} L${s},0 L${s*0.22},${s*0.22} L0,${s} L${-s*0.22},${s*0.22} L${-s},0 L${-s*0.22},${-s*0.22}Z`}
+                    fill="#000"
+                    opacity={0.7}
+                    style={{ pointerEvents: "none" }}
+                  />
+                );
+              })()}
             </g>
           );
         })}
