@@ -1,3 +1,5 @@
+export type ProjectCategory = "web-development" | "software-engineering" | "42berlin";
+
 export interface Project {
   internal_id: number;
   name: string;
@@ -11,6 +13,14 @@ export interface Project {
   mockup_mobile: string;
   link: string;
   repository: string;
+  /** Optional: groups project into Web Development, Software Engineering, or 42Berlin. Defaults to web-development. */
+  category?: ProjectCategory;
 }
 
 export type Mode = "dark" | "light";
+
+export const CATEGORY_LABELS: Record<ProjectCategory, string> = {
+  "web-development": "Web Development",
+  "software-engineering": "Software Engineering",
+  "42berlin": "42Berlin",
+};

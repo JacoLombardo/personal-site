@@ -237,31 +237,36 @@ export default function ProjectDetails({
 }
 
 export async function getStaticPaths() {
-  const client = await clientPromise;
-  const db = client.db("personal-site");
-
-  const res = await db.collection("projects").find({}).toArray();
-  const paths = res.map((project) => ({
-    params: { id: JSON.stringify(project.internal_id) },
-  }));
-
-  return { paths, fallback: false };
+  try {
+    const client = await clientPromise;
+    const db = client.db("personal-site");
+    const res = await db.collection("projects").find({}).toArray();
+    const paths = res.map((project) => ({
+      params: { id: JSON.stringify(project.internal_id) },
+    }));
+    return { paths, fallback: "blocking" };
+  } catch (e) {
+    console.error("MongoDB connection failed (check MONGODB_URI and network):", e);
+    return { paths: [], fallback: "blocking" };
+  }
 }
 
 export async function getStaticProps({ params }: any) {
-  const client = await clientPromise;
-  const db = client.db("personal-site");
-  const id: number = +params.id;
-  const projects = await db.collection("projects").find({}).toArray();
-  const project = await db.collection("projects").findOne({ internal_id: id });
-
-  const projectString = JSON.stringify(project);
-  const projectsString = JSON.stringify(projects);
-
-  return {
-    props: {
-      projectString,
-      projectsString,
-    },
-  };
+  try {
+    const client = await clientPromise;
+    const db = client.db("personal-site");
+    const id: number = +params.id;
+    const projects = await db.collection("projects").find({}).toArray();
+    const project = await db.collection("projects").findOne({ internal_id: id });
+    if (!project) return { notFound: true };
+    return {
+      props: {
+        projectString: JSON.stringify(project),
+        projectsString: JSON.stringify(projects),
+      },
+    };
+  } catch (e) {
+    console.error("MongoDB connection failed (check MONGODB_URI and network):", e);
+    return { notFound: true };
+  }
 }

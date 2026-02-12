@@ -1,19 +1,62 @@
-body {
-  font-family: "poppins";
-  background-color: black;
-  color: white;
+/* Theme variables for data-theme (set in _app) */
+:root[data-theme="dark"] {
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --divider: rgba(255, 255, 255, 0.08);
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --accent-web: #38bdf8;
+  --accent-software: #a78bfa;
+  --accent-42: #fbbf24;
 }
 
-hr {
-  height: 2px;
-  width: 80%;
-  margin: 30px auto 30px;
-  border-width: 0;
-  color: gray;
-  background-color: gray;
+:root[data-theme="light"] {
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --divider: rgba(0, 0, 0, 0.08);
+  --card-bg: rgba(0, 0, 0, 0.02);
+  --card-border: rgba(0, 0, 0, 0.08);
+  --accent-web: #0284c7;
+  --accent-software: #7c3aed;
+  --accent-42: #d97706;
+}
+
+/* Fallback when JS hasn't set data-theme yet */
+:root {
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --divider: rgba(255, 255, 255, 0.08);
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --accent-web: #38bdf8;
+  --accent-software: #a78bfa;
+  --accent-42: #fbbf24;
 }
 
 @font-face {
   font-family: "poppins";
   src: url(Poppins-Regular.ttf);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "poppins", system-ui, sans-serif;
+}
+
+hr {
+  height: 1px;
+  width: 88%;
+  max-width: 1200px;
+  margin: 2.5rem auto;
+  border: 0;
+  background: var(--divider);
+}
+
+/* ── Global star twinkle (used by StarBackground) ── */
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.75; }
 }

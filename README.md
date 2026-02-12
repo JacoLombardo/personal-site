@@ -34,7 +34,11 @@ npm install
 npm run dev
 ```
 
-Set `MONGODB_URI` (or equivalent) for the database connection used in `lib/mongodb.ts` and API routes.
+Set `MONGODB_URI` in `.env.local` for the database connection (see [docs/MONGODB_SETUP.md](docs/MONGODB_SETUP.md) for creating a new Atlas cluster). Optionally seed a sample project:
+
+```bash
+node --env-file=.env.local scripts/seed-projects.js
+```
 
 Open [http://localhost:3000](http://localhost:3000).
 
@@ -49,3 +53,18 @@ npm run start
 
 - Projects are read from MongoDB; ensure the DB and collection are set up and env vars are correct.
 - Media folder at repo level (mockups, screenshots) is for design only and can be ignored for running the app.
+
+## Troubleshooting: `querySrv ENOTFOUND _mongodb._tcp.cluster0....mongodb.net`
+
+This means the app cannot resolve your MongoDB Atlas hostname. Common fixes:
+
+1. **Check the exact connection string**  
+   In [MongoDB Atlas](https://cloud.mongodb.com) → your cluster → **Connect** → **Drivers**. Copy the URI and set it in `.env.local` as `MONGODB_URI`. The hostname (e.g. `cluster0.xxxxx.mongodb.net`) must match your cluster.
+
+2. **Typo or old cluster**  
+   If you recreated the cluster, the hostname changed. Replace `MONGODB_URI` in `.env.local` with the new URI from Atlas.
+
+3. **Network / DNS**  
+   Ensure you have internet access and that firewall/VPN allow outbound DNS and connections to `*.mongodb.net`. Try from another network if needed.
+
+If MongoDB is unreachable, the site still builds and runs: the homepage shows with no projects, and project detail pages return 404 until the DB is reachable again.

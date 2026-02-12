@@ -35,15 +35,13 @@ export default function Home({ projectString, theme, toggleTheme }: Props) {
 }
 
 export async function getStaticProps() {
-  const client = await clientPromise;
-  const db = client.db("personal-site");
-
-  const res = await db.collection("projects").find({}).toArray();
-  const projectString = JSON.stringify(res);
-
-  return {
-    props: {
-      projectString,
-    },
-  };
+  try {
+    const client = await clientPromise;
+    const db = client.db("personal-site");
+    const res = await db.collection("projects").find({}).toArray();
+    return { props: { projectString: JSON.stringify(res) } };
+  } catch (e) {
+    console.error("MongoDB connection failed (check MONGODB_URI and network):", e);
+    return { props: { projectString: "[]" } };
+  }
 }

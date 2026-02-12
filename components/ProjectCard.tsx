@@ -1,5 +1,8 @@
+"use client";
+
+import { motion } from "framer-motion";
 import styles from "@/styles/homepage.module.css";
-import { Mode, Project } from "@/types";
+import { Mode, Project, ProjectCategory } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -7,16 +10,21 @@ interface Props {
   project: Project;
   page: string;
   theme: Mode;
+  category?: ProjectCategory;
 }
 
-export default function ProjectCard({ project, page, theme }: Props) {
+export default function ProjectCard({ project, page, theme, category }: Props) {
   return (
-    <>
-      <div className={styles.project_div}>
-        <Link
-          href={`/project/${project.internal_id}`}
-          style={{ textDecoration: "none" }}
-        >
+    <motion.div
+      className={styles.project_div}
+      whileHover={{ y: -8, transition: { duration: 0.2 } }}
+      transition={{ type: "spring", stiffness: 300, damping: 24 }}
+    >
+      <Link
+        href={`/project/${project.internal_id}`}
+        className={styles.project_link}
+      >
+        <div className={styles.project_img_wrapper}>
           <Image
             src={project.mockup_desktop}
             alt={project.alt}
@@ -28,21 +36,11 @@ export default function ProjectCard({ project, page, theme }: Props) {
               page === "home" ? styles.project_img_home : styles.project_img
             }
           />
-          <h3
-            style={
-              page === "home"
-                ? theme === "dark"
-                  ? { color: "white", fontSize: "medium" }
-                  : { color: "black", fontSize: "medium" }
-                : theme === "dark"
-                ? { color: "white", maxWidth: "180px", fontSize: "12px" }
-                : { color: "black", maxWidth: "180px", fontSize: "12px" }
-            }
-          >
-            {project.name} / {project.stack}
-          </h3>
-        </Link>
-      </div>
-    </>
+        </div>
+        <h3 className={styles.project_title} data-theme={theme} data-page={page}>
+          {project.name} <span className={styles.project_stack}>/ {project.stack}</span>
+        </h3>
+      </Link>
+    </motion.div>
   );
 }

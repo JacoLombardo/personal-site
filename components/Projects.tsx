@@ -1,7 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import styles from "@/styles/homepage.module.css";
+"use client";
+
 import { Mode, Project } from "@/types";
-import ProjectCard from "./ProjectCard";
+import ProjectsOrbital from "./ProjectsOrbital";
 
 interface Props {
   projects: Project[];
@@ -9,23 +9,5 @@ interface Props {
 }
 
 export default function Projects({ projects, theme }: Props) {
-  return (
-    <>
-      <div id="projects" className={styles.projects_div}>
-        Projects
-        <div>
-          {projects?.map((project: Project, index: number) => {
-            return (
-              <ProjectCard
-                project={project}
-                key={index}
-                page={"home"}
-                theme={theme}
-              />
-            );
-          })}
-        </div>
-      </div>
-    </>
-  );
+  return <ProjectsOrbital theme={theme} />;
 }

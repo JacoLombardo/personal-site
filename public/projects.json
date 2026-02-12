@@ -1,0 +1,646 @@
+{
+  "projects": [
+    {
+      "id": "get-a-recipe",
+      "name": "Get A Recipe!",
+      "domain": "web",
+      "type": "CODAC",
+      "ring": 0,
+      "tech_stack": ["HTML", "CSS", "JavaScript", "Bootstrap", "Vercel"],
+      "description": "Searching for recipes using multiple criteria including name, ingredients, calories, and cuisine type, with filters for dietary preferences like vegetarian, vegan, gluten-free, and dairy-free. Displaying detailed recipe instructions with ingredients and step-by-step cooking procedures. Saving favorite recipes to a personal collection using browser storage for quick access later.",
+      "isShared": false
+    },
+    {
+      "id": "berlin-fantastic-creatures",
+      "name": "Berlin Fantastic Creatures",
+      "domain": "web",
+      "type": "CODAC",
+      "ring": 1,
+      "tech_stack": ["JavaScript", "React", "Vercel"],
+      "description": "Creating a social network platform for sharing and discovering content about Berlin's city life and U-Bahn experiences. Enabling users to publish posts with images and text, interact through likes and favorites, and engage in discussions through comments. Providing user profiles where members can showcase their posts and curate collections of favorited content.",
+      "isShared": false
+    },
+    {
+      "id": "age-of-empires-2",
+      "name": "Age of Empires 2",
+      "domain": "web",
+      "type": "CODAC",
+      "ring": 2,
+      "tech_stack": ["JavaScript", "React", "Vercel"],
+      "description": "Providing an interactive encyclopedia for Age of Empires 2 game content, displaying detailed information about civilizations, units, technologies, and structures. Enabling users to browse, search, and view detailed pages for each game element. Allowing registered users to save favorite items to a personal collection for quick access.",
+      "isShared": false
+    },
+    {
+      "id": "age-of-empires-2-api",
+      "name": "Age of Empires 2 API",
+      "domain": "web",
+      "type": "CODAC",
+      "ring": 2,
+      "tech_stack": [
+        "JavaScript",
+        "React",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Vercel"
+      ],
+      "description": "Providing game data for Age of Empires 2 via REST endpoints covering civilizations, units, technologies, and buildings. Serving complete lists, single items by ID, and multiple items by IDs. Providing interactive documentation with endpoint examples, property descriptions, and usage instructions for each category.",
+      "isShared": false
+    },
+    {
+      "id": "codac-berlin",
+      "name": "CODAC Berlin",
+      "domain": "web",
+      "type": "CODAC",
+      "ring": 3,
+      "tech_stack": ["Next.js", "TypeScript", "Tailwind", "Vercel"],
+      "description": "Building an educational platform for Code Academy Berlin students, offering a learning management system with structured course content for Data Science and Web Development tracks, progress tracking dashboards, and achievement systems. Supporting student collaboration through real-time chat, a Q&A forum, coding challenges, and community features connecting cohorts, mentors, and alumni. Facilitating engagement with voting battles, job postings, project showcases, and quest-based learning modules for enrollment and soft skills development.",
+      "isShared": false
+    },
+    {
+      "id": "squisito",
+      "name": "Squisito",
+      "domain": "web",
+      "type": "personal",
+      "ring": 4,
+      "tech_stack": [
+        "Next.js",
+        "TypeScript",
+        "MongoDB",
+        "Material-UI",
+        "Bootstrap",
+        "Vercel"
+      ],
+      "description": "Building an e-commerce storefront for kitchen appliances that displays product catalogs with color variants and detailed product pages. Managing shopping cart state with quantity controls, calculating order totals and shipping costs, and processing checkout orders through customer information forms.",
+      "isShared": false
+    },
+    {
+      "id": "bad-jokes",
+      "name": "Very Bad Jokes",
+      "domain": "web",
+      "type": "personal",
+      "ring": 4,
+      "tech_stack": [
+        "Next.js",
+        "TypeScript",
+        "MongoDB",
+        "Bootstrap",
+        "OpenAI API",
+        "Vercel"
+      ],
+      "description": "Generating personalized dad jokes from user-selected words, allowing users to pick up to three words from a predefined set to guide the joke. Displaying the generated jokes in an animated modal with sound effects and visual elements, featuring an interactive avatar that changes states during generation. Providing a comic-style interface where users can repeatedly select different word combinations to create new jokes on demand.",
+      "isShared": false
+    },
+    {
+      "id": "ciao-claudia",
+      "name": "Ciao Claudia",
+      "domain": "web",
+      "type": "personal",
+      "ring": 4,
+      "tech_stack": [
+        "Next.js",
+        "TypeScript",
+        "MongoDB",
+        "Tailwind",
+        "MongoDB",
+        "Vercel"
+      ],
+      "description": "Creating an interactive web experience centered on Claudia, enabling users to request random stories from her collection and capture photos with her silhouette overlay. Displaying bilingual stories in random order and merging camera captures with Claudia's image for sharing. Maintaining a gallery of saved photos and accepting user-submitted stories through a submission form.",
+      "isShared": false
+    },
+    {
+      "id": "need4deed",
+      "name": "Need4Deed",
+      "domain": "web",
+      "type": "work",
+      "ring": 5,
+      "tech_stack": ["React", "TypeScript", "Vite", "Bootstrap"],
+      "description": "Connecting volunteers with refugees living in Berlin accommodation centers by matching volunteers to specific needs and opportunities. Enabling organizations to post volunteer opportunities across categories like translation, mentoring, child care, sports programs, and cultural activities, while allowing volunteers to sign up with their availability, languages, skills, and preferences. Facilitating refugee integration through a multilingual platform supporting Arabic, Farsi, Russian, Turkish, German, and English, with event calendars and a workflow system for coordinating volunteer support.",
+      "isShared": false
+    },
+    {
+      "id": "42_libft",
+      "name": "Libft",
+      "domain": "software",
+      "type": "42",
+      "ring": 0,
+      "tech_stack": ["C", "Makefile"],
+      "description": "Recoding a set of standard C library functions from scratch, including string manipulation, memory allocation, and character checks. Building a reusable linked list library with utility functions for insertion, deletion, iteration, and mapping. The final library serves as a personal toolbox used across all subsequent C projects at 42.",
+      "isShared": false
+    },
+    {
+      "id": "42_ft_printf",
+      "name": "ft_printf",
+      "domain": "software",
+      "type": "42",
+      "ring": 1,
+      "tech_stack": ["C", "Makefile"],
+      "description": "Recoding the printf function from the C standard library, handling conversions for characters, strings, pointers, integers, and hexadecimals. Parsing a format string to manage flags, width, and precision specifiers while using variadic arguments to accept any number of parameters. The result is a drop-in replacement integrated into libft for use in all future projects.",
+      "isShared": false
+    },
+    {
+      "id": "42_get_next_line",
+      "name": "get_next_line",
+      "domain": "software",
+      "type": "42",
+      "ring": 1,
+      "tech_stack": ["C"],
+      "description": "Reading a file line by line through a single function call, returning one line at a time regardless of buffer size. Managing a static variable to persist leftover data between calls, handling arbitrary line lengths, multiple file descriptors simultaneously, and edge cases like missing newlines at the end of a file.",
+      "isShared": false
+    },
+    {
+      "id": "42_born2beroot",
+      "name": "Born2beroot",
+      "domain": "software",
+      "type": "42",
+      "ring": 1,
+      "tech_stack": ["VirtualBox", "Debian", "SSH"],
+      "description": "Setting up a virtual machine with a minimal Debian installation and strict security policies. Configuring LVM-encrypted partitions, a UFW firewall, SSH access on a non-default port, and a strong password policy with sudo rules. Writing a monitoring script that broadcasts system information — architecture, CPU load, memory usage, disk usage, and active connections — to all terminals at regular intervals via wall.",
+      "isShared": false
+    },
+    {
+      "id": "42_push_swap",
+      "name": "push_swap",
+      "domain": "software",
+      "type": "42",
+      "ring": 2,
+      "tech_stack": ["C", "Makefile"],
+      "description": "Sorting a stack of integers using a limited set of operations in the fewest moves possible. Implementing and benchmarking different sorting strategies, from simple insertion sorts to more efficient chunk-based algorithms, while working within the constraint of only two stacks and a handful of allowed actions.",
+      "isShared": false
+    },
+    {
+      "id": "42_fdf",
+      "name": "Fdf",
+      "domain": "software",
+      "type": "42",
+      "ring": 2,
+      "tech_stack": ["C", "MiniLibX", "Makefile"],
+      "description": "Rendering a 3D wireframe mesh from a heightmap file using isometric and parallel projections. Handling window management, pixel drawing, color gradients, and real-time rotation and zoom through keyboard and mouse events, all built on top of the MiniLibX graphics library.",
+      "isShared": false
+    },
+    {
+      "id": "42_minitalk",
+      "name": "minitalk",
+      "domain": "software",
+      "type": "42",
+      "ring": 2,
+      "tech_stack": ["C", "Makefile"],
+      "description": "Building a small data exchange program using only UNIX signals. The client encodes and transmits a string to the server bit by bit via SIGUSR1 and SIGUSR2, while the server reconstructs the message in real time. Focus on signal handling, bitwise operations, and ensuring reliable delivery without data loss.",
+      "isShared": false
+    },
+    {
+      "id": "42_philosophers",
+      "name": "Philosophers",
+      "domain": "software",
+      "type": "42",
+      "ring": 3,
+      "tech_stack": ["C", "Makefile"],
+      "description": "Simulating the classic dining philosophers problem with threads and mutexes. Each philosopher is a separate thread competing for shared forks, and the challenge is to prevent deadlocks and race conditions while ensuring no philosopher starves. Focus on precise timing, synchronization primitives, and concurrent resource management.",
+      "isShared": false
+    },
+    {
+      "id": "42_minishell",
+      "name": "minishell",
+      "domain": "software",
+      "type": "42",
+      "ring": 3,
+      "tech_stack": ["C", "Readline", "Makefile"],
+      "description": "Building a functional shell from scratch, closely replicating bash behavior. Implementing a lexer and parser for command-line input, handling pipes, input/output redirections, heredocs, environment variable expansion, and built-in commands like cd, export, and unset. Managing child processes with fork and execve while properly handling signals and exit codes.",
+      "isShared": false
+    },
+    {
+      "id": "42_netpractice",
+      "name": "NetPractice",
+      "domain": "software",
+      "type": "42",
+      "ring": 4,
+      "tech_stack": [],
+      "description": "A system administration exercise focused on configuring small-scale networks. Solving a series of increasingly complex networking puzzles by assigning correct IP addresses, subnet masks, and routing tables to make all hosts communicate. Building a practical understanding of TCP/IP addressing, CIDR notation, and how packets are routed between subnets.",
+      "isShared": false
+    },
+    {
+      "id": "42_cub3d",
+      "name": "cub3d",
+      "domain": "software",
+      "type": "42",
+      "ring": 4,
+      "tech_stack": ["C", "MiniLibX", "Makefile"],
+      "description": "Building a raycasting engine inspired by Wolfenstein 3D to render a navigable 3D maze from a first-person perspective. Parsing a map file to generate the level, casting rays to calculate wall distances and heights, and applying textured surfaces to walls, floor, and ceiling. Implementing smooth player movement, collision detection, and real-time rendering at interactive frame rates.",
+      "isShared": false
+    },
+    {
+      "id": "42_cpp",
+      "name": "CPP",
+      "domain": "software",
+      "type": "42",
+      "ring": 5,
+      "tech_stack": ["C++", "Makefile"],
+      "description": "A series of ten modules covering the fundamentals and advanced features of C++. Progressing from basic I/O, classes, and operator overloading through inheritance, polymorphism, and abstract classes, to templates, iterators, and the Standard Template Library. Each module builds on the last, culminating in exercises that use containers, algorithms, and exception handling in realistic scenarios.",
+      "isShared": false
+    },
+    {
+      "id": "42_inception",
+      "name": "Inception",
+      "domain": "software",
+      "type": "42",
+      "ring": 5,
+      "tech_stack": [
+        "Docker",
+        "Docker Compose",
+        "NGINX",
+        "MariaDB",
+        "WordPress"
+      ],
+      "description": "Setting up a complete multi-service infrastructure using Docker Compose. Each service — NGINX with TLS, WordPress with php-fpm, and MariaDB — runs in its own container built from a custom Dockerfile. Focus on writing secure configurations, managing persistent volumes for the database and site files, and connecting everything through a private Docker network without relying on pre-built images.",
+      "isShared": false
+    },
+    {
+      "id": "42_webserv",
+      "name": "webserv",
+      "domain": "software",
+      "type": "42",
+      "ring": 5,
+      "tech_stack": ["C++", "Sockets", "Makefile"],
+      "description": "Building a fully functional HTTP/1.1 server from scratch in C++. Handling GET, POST, and DELETE methods, serving static files, executing CGI scripts, and supporting chunked transfer encoding and multiple virtual hosts via a configuration file. Implementing non-blocking I/O with poll/select to manage many simultaneous connections efficiently, closely following the behavior outlined in the HTTP RFC.",
+      "isShared": false
+    },
+    {
+      "id": "42_ft_transcendence",
+      "name": "ft_transcendence",
+      "domain": "software",
+      "type": "42",
+      "ring": 6,
+      "tech_stack": [
+        "TypeScript",
+        "Fastify",
+        "Node.js",
+        "SQLite",
+        "WebSockets"
+      ],
+      "description": "The 42 capstone project: a full-stack web application centered around a real-time multiplayer Pong game. Implementing user authentication with OAuth and two-factor auth, a live chat system with channels and direct messages, player matchmaking, leaderboards, and friend management. The backend is built with NestJS and PostgreSQL, while the frontend delivers a responsive single-page experience with real-time game state synced over WebSockets.",
+      "isShared": false
+    },
+    {
+      "id": "transcendence-lite",
+      "name": "TranscendenceLite",
+      "domain": "software",
+      "type": "personal",
+      "ring": 7,
+      "tech_stack": [
+        "TypeScript",
+        "Fastify",
+        "Node.js",
+        "PostgreSQL",
+        "WebSockets"
+      ],
+      "description": "",
+      "isShared": false
+    },
+    {
+      "id": "vid-base",
+      "name": "VidBase",
+      "domain": "software",
+      "type": "personal",
+      "ring": 7,
+      "tech_stack": [
+        "Electron",
+        "TypeScript",
+        "Vite",
+        "React",
+        "ExcelJS",
+        "XLSX",
+        "ExifTool",
+        "FFmpeg"
+      ],
+      "description": "Cataloging local video and movie collections by scanning folders, extracting metadata, and generating thumbnails for browsing. Managing video libraries with tags, favorites, and batch editing, while supporting Excel-based movie catalogs with optional TMDb enrichment. Providing filtering, search, and sorting across collections stored locally alongside media files.",
+      "isShared": true
+    }
+  ],
+  "technologies": [
+    {
+      "id": "html",
+      "name": "HTML",
+      "type": "Language",
+      "level": "Basic",
+      "projects": ["get-a-recipe"]
+    },
+    {
+      "id": "css",
+      "name": "CSS",
+      "type": "Language",
+      "level": "Basic",
+      "projects": ["get-a-recipe"]
+    },
+    {
+      "id": "javascript",
+      "name": "JavaScript",
+      "type": "Language",
+      "level": "Intermediate",
+      "projects": [
+        "get-a-recipe",
+        "berlin-fantastic-creatures",
+        "age-of-empires-2",
+        "age-of-empires-2-api"
+      ]
+    },
+    {
+      "id": "typescript",
+      "name": "TypeScript",
+      "type": "Language",
+      "level": "Intermediate",
+      "projects": [
+        "codac-berlin",
+        "squisito",
+        "bad-jokes",
+        "ciao-claudia",
+        "need4deed",
+        "42_ft_transcendence",
+        "transcendence-lite",
+        "vid-base"
+      ]
+    },
+    {
+      "id": "c",
+      "name": "C",
+      "type": "Language",
+      "level": "Advanced",
+      "projects": [
+        "42_libft",
+        "42_ft_printf",
+        "42_get_next_line",
+        "42_push_swap",
+        "42_fdf",
+        "42_minitalk",
+        "42_philosophers",
+        "42_minishell",
+        "42_cub3d"
+      ]
+    },
+    {
+      "id": "cpp",
+      "name": "C++",
+      "type": "Language",
+      "level": "Intermediate",
+      "projects": ["42_cpp", "42_webserv"]
+    },
+    {
+      "id": "react",
+      "name": "React",
+      "type": "Framework",
+      "level": "Intermediate",
+      "projects": [
+        "berlin-fantastic-creatures",
+        "age-of-empires-2",
+        "age-of-empires-2-api",
+        "need4deed",
+        "vid-base"
+      ]
+    },
+    {
+      "id": "nextjs",
+      "name": "Next.js",
+      "type": "Framework",
+      "level": "Intermediate",
+      "projects": ["codac-berlin", "squisito", "bad-jokes", "ciao-claudia"]
+    },
+    {
+      "id": "express",
+      "name": "Express",
+      "type": "Framework",
+      "level": "Basic",
+      "projects": ["age-of-empires-2-api"]
+    },
+    {
+      "id": "fastify",
+      "name": "Fastify",
+      "type": "Framework",
+      "level": "Basic",
+      "projects": ["42_ft_transcendence", "transcendence-lite"]
+    },
+    {
+      "id": "electron",
+      "name": "Electron",
+      "type": "Framework",
+      "level": "Basic",
+      "projects": ["vid-base"]
+    },
+    {
+      "id": "bootstrap",
+      "name": "Bootstrap",
+      "type": "Library",
+      "level": "Intermediate",
+      "projects": ["get-a-recipe", "squisito", "bad-jokes", "need4deed"]
+    },
+    {
+      "id": "tailwind",
+      "name": "Tailwind",
+      "type": "Library",
+      "level": "Basic",
+      "projects": ["codac-berlin", "ciao-claudia"]
+    },
+    {
+      "id": "material-ui",
+      "name": "Material-UI",
+      "type": "Library",
+      "level": "Basic",
+      "projects": ["squisito"]
+    },
+    {
+      "id": "minilibx",
+      "name": "MiniLibX",
+      "type": "Library",
+      "level": "Intermediate",
+      "projects": ["42_fdf", "42_cub3d"]
+    },
+    {
+      "id": "readline",
+      "name": "Readline",
+      "type": "Library",
+      "level": "Basic",
+      "projects": ["42_minishell"]
+    },
+    {
+      "id": "exceljs",
+      "name": "ExcelJS",
+      "type": "Library",
+      "level": "Basic",
+      "projects": ["vid-base"]
+    },
+    {
+      "id": "xlsx",
+      "name": "XLSX",
+      "type": "Library",
+      "level": "Basic",
+      "projects": ["vid-base"]
+    },
+    {
+      "id": "mongodb",
+      "name": "MongoDB",
+      "type": "Database",
+      "level": "Intermediate",
+      "projects": [
+        "age-of-empires-2-api",
+        "squisito",
+        "bad-jokes",
+        "ciao-claudia"
+      ]
+    },
+    {
+      "id": "sqlite",
+      "name": "SQLite",
+      "type": "Database",
+      "level": "Basic",
+      "projects": ["42_ft_transcendence"]
+    },
+    {
+      "id": "postgresql",
+      "name": "PostgreSQL",
+      "type": "Database",
+      "level": "Basic",
+      "projects": ["transcendence-lite"]
+    },
+    {
+      "id": "mariadb",
+      "name": "MariaDB",
+      "type": "Database",
+      "level": "Basic",
+      "projects": ["42_inception"]
+    },
+    {
+      "id": "nodejs",
+      "name": "Node.js",
+      "type": "Runtime",
+      "level": "Intermediate",
+      "projects": [
+        "age-of-empires-2-api",
+        "42_ft_transcendence",
+        "transcendence-lite"
+      ]
+    },
+    {
+      "id": "makefile",
+      "name": "Makefile",
+      "type": "Tool",
+      "level": "Intermediate",
+      "projects": [
+        "42_libft",
+        "42_ft_printf",
+        "42_push_swap",
+        "42_fdf",
+        "42_minitalk",
+        "42_philosophers",
+        "42_minishell",
+        "42_cub3d",
+        "42_cpp",
+        "42_webserv"
+      ]
+    },
+    {
+      "id": "vite",
+      "name": "Vite",
+      "type": "Tool",
+      "level": "Basic",
+      "projects": ["vid-base", "need4deed"]
+    },
+    {
+      "id": "docker",
+      "name": "Docker",
+      "type": "Tool",
+      "level": "Intermediate",
+      "projects": ["42_inception"]
+    },
+    {
+      "id": "docker-compose",
+      "name": "Docker Compose",
+      "type": "Tool",
+      "level": "Intermediate",
+      "projects": ["42_inception"]
+    },
+    {
+      "id": "nginx",
+      "name": "NGINX",
+      "type": "Tool",
+      "level": "Basic",
+      "projects": ["42_inception"]
+    },
+    {
+      "id": "virtualbox",
+      "name": "VirtualBox",
+      "type": "Tool",
+      "level": "Basic",
+      "projects": ["42_born2beroot"]
+    },
+    {
+      "id": "ffmpeg",
+      "name": "FFmpeg",
+      "type": "Tool",
+      "level": "Basic",
+      "projects": ["vid-base"]
+    },
+    {
+      "id": "exiftool",
+      "name": "ExifTool",
+      "type": "Tool",
+      "level": "Basic",
+      "projects": ["vid-base"]
+    },
+    {
+      "id": "vercel",
+      "name": "Vercel",
+      "type": "Platform",
+      "level": "Intermediate",
+      "projects": [
+        "get-a-recipe",
+        "berlin-fantastic-creatures",
+        "age-of-empires-2",
+        "age-of-empires-2-api",
+        "codac-berlin",
+        "squisito",
+        "bad-jokes",
+        "ciao-claudia"
+      ]
+    },
+    {
+      "id": "debian",
+      "name": "Debian",
+      "type": "Platform",
+      "level": "Basic",
+      "projects": ["42_born2beroot"]
+    },
+    {
+      "id": "wordpress",
+      "name": "WordPress",
+      "type": "Platform",
+      "level": "Basic",
+      "projects": ["42_inception"]
+    },
+    {
+      "id": "ssh",
+      "name": "SSH",
+      "type": "Protocol",
+      "level": "Basic",
+      "projects": ["42_born2beroot"]
+    },
+    {
+      "id": "sockets",
+      "name": "Sockets",
+      "type": "Protocol",
+      "level": "Basic",
+      "projects": ["42_webserv"]
+    },
+    {
+      "id": "websockets",
+      "name": "WebSockets",
+      "type": "Protocol",
+      "level": "Basic",
+      "projects": ["42_ft_transcendence", "transcendence-lite"]
+    },
+    {
+      "id": "openai-api",
+      "name": "OpenAI API",
+      "type": "API",
+      "level": "Basic",
+      "projects": ["bad-jokes"]
+    }
+  ]
+}
