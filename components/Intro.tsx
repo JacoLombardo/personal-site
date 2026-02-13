@@ -3,6 +3,9 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import styles from "@/styles/homepage.module.css";
+import siteData from "../public/projects.json";
+
+const { intro } = siteData as { intro: { title: string; subtitle: string; photo: string } };
 
 export default function Intro() {
   return (
@@ -12,16 +15,21 @@ export default function Intro() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <h1 className={styles.intro_title}>
-        Hi, I&apos;m Jacopo. A junior Full-Stack Developer, based in Berlin.
-      </h1>
+      <div>
+        <h1 className={styles.intro_title}>
+          Hi, I&apos;m Jacopo. {intro.title}, based in Berlin.
+        </h1>
+        {intro.subtitle && (
+          <p className={styles.intro_subtitle}>{intro.subtitle}</p>
+        )}
+      </div>
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
       >
         <Image
-          src="https://res.cloudinary.com/dtl48kr1u/image/upload/v1694358931/personal-site/DSC02863_owsl4d.jpg"
+          src={intro.photo}
           alt="Jacopo Lombardo"
           width={420}
           height={0}

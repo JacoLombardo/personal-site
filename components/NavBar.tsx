@@ -91,11 +91,14 @@ export default function NavBar({ page }: Props) {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#about" style={navLinkStyle}>
-                About
-              </Nav.Link>
               <Nav.Link href="#first-circle" style={navLinkStyle}>
                 Projects
+              </Nav.Link>
+              <Nav.Link href="#technologies" style={navLinkStyle}>
+                Technologies
+              </Nav.Link>
+              <Nav.Link href="#about" style={navLinkStyle}>
+                About
               </Nav.Link>
               <Nav.Link href="#contact" style={navLinkStyle}>
                 Contact

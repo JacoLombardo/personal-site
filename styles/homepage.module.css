@@ -61,6 +61,13 @@
   font-weight: 500;
 }
 
+.intro_subtitle {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
 /* ========== ABOUT ========== */
 .about_div {
   composes: section_width;
@@ -102,6 +109,179 @@
 .about_div p {
   line-height: 1.7;
   margin-bottom: 0.75rem;
+}
+
+/* ========== TECHNOLOGIES ========== */
+.technologies_div {
+  composes: section_width;
+  padding-top: 1rem;
+  padding-bottom: 4rem;
+}
+
+@media screen and (max-width: 550px) {
+  .technologies_div {
+    padding-bottom: 3rem;
+  }
+}
+
+.technologies_columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2rem;
+  align-items: flex-start;
+}
+
+.technology_group {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.technology_group_label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 0 0 0.35rem 0;
+}
+
+.technologies_list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  overflow: visible;
+}
+
+.technology_card_wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 80px;
+  overflow: visible;
+}
+
+/* All cards same size; space for level reserved so no layout shift */
+.technology_card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 4px 6px 2px;
+  min-height: 76px;
+  width: 100%;
+  box-sizing: border-box;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(255, 255, 255, 0.1) 45%,
+    transparent 70%
+  );
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.technology_card_wrapper:hover .technology_card {
+  transform: translateY(-4px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+.technology_card_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  filter: grayscale(100%);
+  transition: filter 0.25s ease;
+}
+
+.technology_card_wrapper:hover .technology_card_icon {
+  filter: grayscale(0%);
+}
+
+.technology_card_icon img {
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.technology_card_name {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Level: fixed-height slot at bottom of card, visible on hover so others don't move */
+.technology_card_meta {
+  margin-top: auto;
+  height: 1.15em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.technology_card_level {
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.technology_card_wrapper:hover .technology_card_level {
+  opacity: 1;
+}
+
+/* Halo: orbit around the card (card = core), like projects orbital */
+.technology_card_halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.technology_halo_svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.technology_halo_circle {
+  /* Orbit ring – same geometry as planet positions */
+}
+
+.technology_halo_dot {
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+}
+
+.technology_halo_label {
+  position: absolute;
+  font-size: 0.5rem;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+
+/* No icon: center the name in the card */
+.technology_card_no_icon {
+  justify-content: center;
+  padding: 6px 8px;
+}
+
+.technology_card_no_icon .technology_card_name {
+  width: 100%;
 }
 
 /* ========== SECTION HEADERS (Web Dev / Software Eng / 42Berlin) ========== */

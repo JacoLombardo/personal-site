@@ -4,6 +4,7 @@ import Contact from "@/components/Contact";
 import Intro from "@/components/Intro";
 import NavBar from "@/components/NavBar";
 import Projects from "@/components/Projects";
+import Technologies from "@/components/Technologies";
 import clientPromise from "@/lib/mongodb";
 
 interface Props {
@@ -17,9 +18,11 @@ export default function Home({ projectString }: Props) {
       <NavBar page={"home"} />
       <Intro />
       <hr />
-      <About />
-      <hr />
       <Projects projects={projects} />
+      <hr />
+      <Technologies />
+      <hr />
+      <About />
       <hr />
       <Contact />
     </>

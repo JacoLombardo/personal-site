@@ -360,33 +360,39 @@
       "id": "html",
       "name": "HTML",
       "type": "Language",
-      "level": "Basic",
-      "projects": ["get-a-recipe"]
+      "level": "Familiar",
+      "projects": ["get-a-recipe"],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983174/personal-site/icons/HTML5_u2dbrz.png"
     },
     {
       "id": "css",
       "name": "CSS",
       "type": "Language",
-      "level": "Basic",
-      "projects": ["get-a-recipe"]
+      "level": "Familiar",
+      "projects": ["get-a-recipe"],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983171/personal-site/icons/CSS3_cmqvpg.png"
     },
     {
       "id": "javascript",
       "name": "JavaScript",
       "type": "Language",
-      "level": "Intermediate",
+      "level": "Proficient",
       "projects": [
         "get-a-recipe",
         "berlin-fantastic-creatures",
         "age-of-empires-2",
         "age-of-empires-2-api"
-      ]
+      ],
+      "alwaysShown": true,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983175/personal-site/icons/JavaScript_ugvc6g.png"
     },
     {
       "id": "typescript",
       "name": "TypeScript",
       "type": "Language",
-      "level": "Intermediate",
+      "level": "Proficient",
       "projects": [
         "codac-berlin",
         "squisito",
@@ -396,13 +402,15 @@
         "42_ft_transcendence",
         "transcendence-lite",
         "vid-base"
-      ]
+      ],
+      "alwaysShown": true,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983183/personal-site/icons/TypeScript_vhducr.png"
     },
     {
       "id": "c",
       "name": "C",
       "type": "Language",
-      "level": "Advanced",
+      "level": "Expert",
       "projects": [
         "42_libft",
         "42_ft_printf",
@@ -413,154 +421,192 @@
         "42_philosophers",
         "42_minishell",
         "42_cub3d"
-      ]
+      ],
+      "alwaysShown": true,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983171/personal-site/icons/C_hudulj.png"
     },
     {
       "id": "cpp",
       "name": "C++",
       "type": "Language",
-      "level": "Intermediate",
-      "projects": ["42_cpp", "42_webserv"]
+      "level": "Proficient",
+      "projects": ["42_cpp", "42_webserv"],
+      "alwaysShown": true,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983171/personal-site/icons/C_dwdmqt.png"
     },
     {
       "id": "react",
       "name": "React",
       "type": "Framework",
-      "level": "Intermediate",
+      "level": "Proficient",
       "projects": [
         "berlin-fantastic-creatures",
         "age-of-empires-2",
         "age-of-empires-2-api",
         "need4deed",
         "vid-base"
-      ]
+      ],
+      "alwaysShown": true,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983180/personal-site/icons/React_tbzewb.png"
     },
     {
       "id": "nextjs",
       "name": "Next.js",
       "type": "Framework",
-      "level": "Intermediate",
-      "projects": ["codac-berlin", "squisito", "bad-jokes", "ciao-claudia"]
+      "level": "Proficient",
+      "projects": ["codac-berlin", "squisito", "bad-jokes", "ciao-claudia"],
+      "alwaysShown": true,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983178/personal-site/icons/Next.js_zvqep0.png"
     },
     {
       "id": "express",
       "name": "Express",
       "type": "Framework",
-      "level": "Basic",
-      "projects": ["age-of-empires-2-api"]
+      "level": "Familiar",
+      "projects": ["age-of-empires-2-api"],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983172/personal-site/icons/Express_cpxquo.png"
     },
     {
       "id": "fastify",
       "name": "Fastify",
       "type": "Framework",
-      "level": "Basic",
-      "projects": ["42_ft_transcendence", "transcendence-lite"]
+      "level": "Familiar",
+      "projects": ["42_ft_transcendence", "transcendence-lite"],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983173/personal-site/icons/Fastify_yabwgh.png"
     },
     {
       "id": "electron",
       "name": "Electron",
       "type": "Framework",
-      "level": "Basic",
-      "projects": ["vid-base"]
+      "level": "Familiar",
+      "projects": ["vid-base"],
+      "alwaysShown": true,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983172/personal-site/icons/Electron_nrt5op.png"
     },
     {
       "id": "bootstrap",
       "name": "Bootstrap",
       "type": "Library",
-      "level": "Intermediate",
-      "projects": ["get-a-recipe", "squisito", "bad-jokes", "need4deed"]
+      "level": "Proficient",
+      "projects": ["get-a-recipe", "squisito", "bad-jokes", "need4deed"],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983171/personal-site/icons/Bootstrap_fdgdrf.png"
     },
     {
       "id": "tailwind",
       "name": "Tailwind",
       "type": "Library",
-      "level": "Basic",
-      "projects": ["codac-berlin", "ciao-claudia"]
+      "level": "Familiar",
+      "projects": ["codac-berlin", "ciao-claudia"],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983181/personal-site/icons/Tailwind_CSS_bptnde.png"
     },
     {
       "id": "material-ui",
       "name": "Material-UI",
       "type": "Library",
-      "level": "Basic",
-      "projects": ["squisito"]
+      "level": "Familiar",
+      "projects": ["squisito"],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983177/personal-site/icons/Material_UI_h2r9q6.png"
     },
     {
       "id": "minilibx",
       "name": "MiniLibX",
       "type": "Library",
-      "level": "Intermediate",
-      "projects": ["42_fdf", "42_cub3d"]
+      "level": "Proficient",
+      "projects": ["42_fdf", "42_cub3d"],
+      "alwaysShown": false,
+      "icon": ""
     },
     {
       "id": "readline",
       "name": "Readline",
       "type": "Library",
-      "level": "Basic",
-      "projects": ["42_minishell"]
+      "level": "Familiar",
+      "projects": ["42_minishell"],
+      "alwaysShown": false,
+      "icon": ""
     },
     {
       "id": "exceljs",
       "name": "ExcelJS",
       "type": "Library",
-      "level": "Basic",
-      "projects": ["vid-base"]
+      "level": "Familiar",
+      "projects": ["vid-base"],
+      "alwaysShown": false,
+      "icon": ""
     },
     {
       "id": "xlsx",
       "name": "XLSX",
       "type": "Library",
-      "level": "Basic",
-      "projects": ["vid-base"]
+      "level": "Familiar",
+      "projects": ["vid-base"],
+      "alwaysShown": false,
+      "icon": ""
     },
     {
       "id": "mongodb",
       "name": "MongoDB",
       "type": "Database",
-      "level": "Intermediate",
+      "level": "Proficient",
       "projects": [
         "age-of-empires-2-api",
         "squisito",
         "bad-jokes",
         "ciao-claudia"
-      ]
+      ],
+      "alwaysShown": true,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983177/personal-site/icons/MongoDB_agohrl.png"
     },
     {
       "id": "sqlite",
       "name": "SQLite",
       "type": "Database",
-      "level": "Basic",
-      "projects": ["42_ft_transcendence"]
+      "level": "Familiar",
+      "projects": ["42_ft_transcendence"],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983181/personal-site/icons/SQLite_ka03a9.png"
     },
     {
       "id": "postgresql",
       "name": "PostgreSQL",
       "type": "Database",
-      "level": "Basic",
-      "projects": ["transcendence-lite"]
+      "level": "Familiar",
+      "projects": ["transcendence-lite"],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983180/personal-site/icons/PostgreSQL_qfphs9.png"
     },
     {
       "id": "mariadb",
       "name": "MariaDB",
       "type": "Database",
-      "level": "Basic",
-      "projects": ["42_inception"]
+      "level": "Familiar",
+      "projects": ["42_inception"],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983175/personal-site/icons/MariaDB_u1r3gt.png"
     },
     {
       "id": "nodejs",
       "name": "Node.js",
       "type": "Runtime",
-      "level": "Intermediate",
+      "level": "Proficient",
       "projects": [
         "age-of-empires-2-api",
         "42_ft_transcendence",
         "transcendence-lite"
-      ]
+      ],
+      "alwaysShown": true,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983178/personal-site/icons/Node.js_eyigx8.png"
     },
     {
       "id": "makefile",
       "name": "Makefile",
       "type": "Tool",
-      "level": "Intermediate",
+      "level": "Proficient",
       "projects": [
         "42_libft",
         "42_ft_printf",
@@ -572,62 +618,78 @@
         "42_cub3d",
         "42_cpp",
         "42_webserv"
-      ]
+      ],
+      "alwaysShown": true,
+      "icon": ""
     },
     {
       "id": "vite",
       "name": "Vite",
       "type": "Tool",
-      "level": "Basic",
-      "projects": ["vid-base", "need4deed"]
+      "level": "Familiar",
+      "projects": ["vid-base", "need4deed"],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983183/personal-site/icons/Vite.js_ph7cst.png"
     },
     {
       "id": "docker",
       "name": "Docker",
       "type": "Tool",
-      "level": "Intermediate",
-      "projects": ["42_inception"]
+      "level": "Proficient",
+      "projects": ["42_inception"],
+      "alwaysShown": true,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983172/personal-site/icons/Docker_mgilpt.png"
     },
     {
       "id": "docker-compose",
       "name": "Docker Compose",
       "type": "Tool",
-      "level": "Intermediate",
-      "projects": ["42_inception"]
+      "level": "Proficient",
+      "projects": ["42_inception"],
+      "alwaysShown": false,
+      "icon": ""
     },
     {
       "id": "nginx",
       "name": "NGINX",
       "type": "Tool",
-      "level": "Basic",
-      "projects": ["42_inception"]
+      "level": "Familiar",
+      "projects": ["42_inception"],
+      "alwaysShown": false,
+      "icon": ""
     },
     {
       "id": "virtualbox",
       "name": "VirtualBox",
       "type": "Tool",
-      "level": "Basic",
-      "projects": ["42_born2beroot"]
+      "level": "Familiar",
+      "projects": ["42_born2beroot"],
+      "alwaysShown": false,
+      "icon": ""
     },
     {
       "id": "ffmpeg",
       "name": "FFmpeg",
       "type": "Tool",
-      "level": "Basic",
-      "projects": ["vid-base"]
+      "level": "Familiar",
+      "projects": ["vid-base"],
+      "alwaysShown": false,
+      "icon": ""
     },
     {
       "id": "exiftool",
       "name": "ExifTool",
       "type": "Tool",
-      "level": "Basic",
-      "projects": ["vid-base"]
+      "level": "Familiar",
+      "projects": ["vid-base"],
+      "alwaysShown": false,
+      "icon": ""
     },
     {
       "id": "vercel",
       "name": "Vercel",
       "type": "Platform",
-      "level": "Intermediate",
+      "level": "Proficient",
       "projects": [
         "get-a-recipe",
         "berlin-fantastic-creatures",
@@ -637,49 +699,63 @@
         "squisito",
         "bad-jokes",
         "ciao-claudia"
-      ]
+      ],
+      "alwaysShown": true,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983183/personal-site/icons/Vercel_q1kacy.png"
     },
     {
       "id": "debian",
       "name": "Debian",
       "type": "Platform",
-      "level": "Basic",
-      "projects": ["42_born2beroot"]
+      "level": "Familiar",
+      "projects": ["42_born2beroot"],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983171/personal-site/icons/Debian_sggcbk.png"
     },
     {
       "id": "wordpress",
       "name": "WordPress",
       "type": "Platform",
-      "level": "Basic",
-      "projects": ["42_inception"]
+      "level": "Familiar",
+      "projects": ["42_inception"],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983603/personal-site/icons/WordPress_nkh7t4.png"
     },
     {
       "id": "ssh",
       "name": "SSH",
       "type": "Protocol",
-      "level": "Basic",
-      "projects": ["42_born2beroot"]
+      "level": "Familiar",
+      "projects": ["42_born2beroot"],
+      "alwaysShown": false,
+      "icon": ""
     },
     {
       "id": "sockets",
       "name": "Sockets",
       "type": "Protocol",
-      "level": "Basic",
-      "projects": ["42_webserv"]
+      "level": "Familiar",
+      "projects": ["42_webserv"],
+      "alwaysShown": false,
+      "icon": ""
     },
     {
       "id": "websockets",
       "name": "WebSockets",
       "type": "Protocol",
-      "level": "Basic",
-      "projects": ["42_ft_transcendence", "transcendence-lite"]
+      "level": "Familiar",
+      "projects": ["42_ft_transcendence", "transcendence-lite"],
+      "alwaysShown": false,
+      "icon": ""
     },
     {
       "id": "openai-api",
       "name": "OpenAI API",
       "type": "API",
-      "level": "Basic",
-      "projects": ["bad-jokes"]
+      "level": "Familiar",
+      "projects": ["bad-jokes"],
+      "alwaysShown": false,
+      "icon": ""
     }
   ]
 }
