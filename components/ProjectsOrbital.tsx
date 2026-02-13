@@ -256,6 +256,22 @@ export default function ProjectsOrbital({ theme }: Props) {
   const pausedRef = useRef(false);
   const timeRef = useRef(0);
 
+  // Drag-to-spin state
+  const draggingRef = useRef(false);
+  const dragOffsetRef = useRef(0);   // accumulated angular offset (radians) added to all orbits
+  const dragVelRef = useRef(0);      // angular velocity at release (for momentum)
+  const lastDragAngleRef = useRef(0);
+  const lastDragTimeRef = useRef(0);
+  const dragCenterRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+
+  // DJ scratch audio
+  const scratchCtxRef = useRef<{
+    ctx: AudioContext;
+    source: AudioBufferSourceNode;
+    filter: BiquadFilterNode;
+    gain: GainNode;
+  } | null>(null);
+
   const [hovered, setHovered] = useState<OrbitalProject | null>(null);
   const [activeFilter, setActiveFilter] = useState<FilterOption | null>(null);
   const [tipPos, setTipPos] = useState({ x: 0, y: 0 });
@@ -328,14 +344,25 @@ export default function ProjectsOrbital({ theme }: Props) {
     function tick(now: number) {
       const dt = (now - last) / 1000;
       last = now;
-      if (!pausedRef.current) timeRef.current += dt;
+
+      // Momentum: after drag release, keep spinning with friction
+      if (!draggingRef.current && Math.abs(dragVelRef.current) > 0.001) {
+        dragOffsetRef.current += dragVelRef.current * dt;
+        dragVelRef.current *= Math.pow(0.02, dt); // friction: ~98 %/s decay
+      } else if (!draggingRef.current) {
+        dragVelRef.current = 0;
+      }
+
+      if (!pausedRef.current) {
+        timeRef.current += dt;
+      }
 
       for (const p of orbital) {
         const g = groupRefs.current.get(p.id);
         if (!g) continue;
         const c = getCenter(p.category);
         const r = getRadius(p.category, p.orbit);
-        const a = p.angle + timeRef.current * p.speed;
+        const a = p.angle + timeRef.current * p.speed + dragOffsetRef.current;
         g.setAttribute(
           "transform",
           `translate(${c.x + Math.cos(a) * r},${c.y + Math.sin(a) * r})`
@@ -369,6 +396,145 @@ export default function ProjectsOrbital({ theme }: Props) {
     pausedRef.current = false;
     setHovered(null);
   }, []);
+
+  /* ── DJ scratch audio ───────────────────────────────── */
+  const initScratchAudio = useCallback(() => {
+    if (scratchCtxRef.current) return;
+    const ctx = new AudioContext();
+
+    // Create 2 seconds of noise
+    const len = ctx.sampleRate * 2;
+    const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
+
+    const source = ctx.createBufferSource();
+    source.buffer = buf;
+    source.loop = true;
+
+    // Bandpass filter → scratchy character
+    const filter = ctx.createBiquadFilter();
+    filter.type = "bandpass";
+    filter.frequency.value = 800;
+    filter.Q.value = 1.5;
+
+    // Gain → silent until dragging
+    const gain = ctx.createGain();
+    gain.gain.value = 0;
+
+    source.connect(filter).connect(gain).connect(ctx.destination);
+    source.start();
+
+    scratchCtxRef.current = { ctx, source, filter, gain };
+  }, []);
+
+  const updateScratchAudio = useCallback((velocity: number) => {
+    const s = scratchCtxRef.current;
+    if (!s) return;
+    const absVel = Math.abs(velocity);
+    const t = s.ctx.currentTime;
+
+    // Volume proportional to speed (clamped)
+    const vol = Math.min(absVel / 6, 0.18);
+    s.gain.gain.cancelScheduledValues(t);
+    s.gain.gain.setTargetAtTime(vol, t, 0.03);
+
+    // Filter freq follows speed → higher = brighter scratch
+    const freq = 600 + Math.min(absVel, 10) * 300;
+    s.filter.frequency.cancelScheduledValues(t);
+    s.filter.frequency.setTargetAtTime(freq, t, 0.03);
+
+    // Playback rate: direction + speed → vinyl direction
+    const rate = Math.sign(velocity) * Math.max(0.3, Math.min(absVel * 1.5, 4));
+    s.source.playbackRate.cancelScheduledValues(t);
+    s.source.playbackRate.setTargetAtTime(rate || 0.3, t, 0.04);
+  }, []);
+
+  const fadeScratchAudio = useCallback(() => {
+    const s = scratchCtxRef.current;
+    if (!s) return;
+    const t = s.ctx.currentTime;
+    s.gain.gain.cancelScheduledValues(t);
+    s.gain.gain.setTargetAtTime(0, t, 0.12); // fade out over ~120 ms
+  }, []);
+
+  // Clean up audio on unmount
+  useEffect(() => {
+    return () => {
+      scratchCtxRef.current?.ctx.close();
+    };
+  }, []);
+
+  /* ── Drag-to-spin handlers ─────────────────────────── */
+
+  // Convert page coords to SVG viewBox coords
+  const pageToSvg = useCallback((px: number, py: number) => {
+    const svg = svgRef.current;
+    if (!svg) return { x: 0, y: 0 };
+    const rect = svg.getBoundingClientRect();
+    const s = VIEW_W / rect.width;
+    return { x: (px - rect.left) * s, y: (py - rect.top) * s };
+  }, []);
+
+  const onDragStart = useCallback(
+    (e: React.PointerEvent) => {
+      // Don't interfere with dot hover / click
+      if ((e.target as Element).closest(`.${styles.projectGroup}`)) return;
+      e.currentTarget.setPointerCapture(e.pointerId);
+      draggingRef.current = true;
+      dragVelRef.current = 0;
+
+      // Lazily init audio on first user gesture
+      initScratchAudio();
+
+      const pt = pageToSvg(e.clientX, e.clientY);
+      // Pick the closer orbit center as the drag pivot
+      const dSE = Math.hypot(pt.x - seCenter.x, pt.y - seCenter.y);
+      const dWD = Math.hypot(pt.x - wdCenter.x, pt.y - wdCenter.y);
+      const pivot = dSE <= dWD ? seCenter : wdCenter;
+      dragCenterRef.current = pivot;
+
+      lastDragAngleRef.current = Math.atan2(pt.y - pivot.y, pt.x - pivot.x);
+      lastDragTimeRef.current = performance.now();
+    },
+    [pageToSvg, seCenter, wdCenter, initScratchAudio]
+  );
+
+  const onDragMove = useCallback(
+    (e: React.PointerEvent) => {
+      if (!draggingRef.current) return;
+      const now = performance.now();
+      const dt = (now - lastDragTimeRef.current) / 1000;
+      if (dt < 0.005) return;
+
+      const pt = pageToSvg(e.clientX, e.clientY);
+      const pivot = dragCenterRef.current;
+      const angle = Math.atan2(pt.y - pivot.y, pt.x - pivot.x);
+
+      let delta = angle - lastDragAngleRef.current;
+      // Unwrap around ±π
+      if (delta > Math.PI) delta -= 2 * Math.PI;
+      if (delta < -Math.PI) delta += 2 * Math.PI;
+
+      // Add the angular change directly to the offset
+      dragOffsetRef.current += delta;
+      // Track velocity for momentum after release (smoothed)
+      dragVelRef.current = dragVelRef.current * 0.6 + (delta / dt) * 0.4;
+
+      // Update scratch audio
+      updateScratchAudio(dragVelRef.current);
+
+      lastDragAngleRef.current = angle;
+      lastDragTimeRef.current = now;
+    },
+    [pageToSvg, updateScratchAudio]
+  );
+
+  const onDragEnd = useCallback(() => {
+    draggingRef.current = false;
+    fadeScratchAudio();
+    // dragVelRef keeps its value → momentum decays via friction in the tick loop
+  }, [fadeScratchAudio]);
 
   /* ── Render ─────────────────────────────────────────── */
   return (
@@ -428,8 +594,13 @@ export default function ProjectsOrbital({ theme }: Props) {
         ref={svgRef}
         viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
         className={styles.svg}
+        style={{ touchAction: "none" }}
         data-hovering={hovered ? "true" : "false"}
         data-filtering={activeFilter ? "true" : "false"}
+        onPointerDown={onDragStart}
+        onPointerMove={onDragMove}
+        onPointerUp={onDragEnd}
+        onPointerCancel={onDragEnd}
       >
         {/* ══════════ DEFS ══════════ */}
         <defs>
