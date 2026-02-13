@@ -287,7 +287,7 @@ export default function ProjectsOrbital({ theme }: Props) {
     [seRadii, wdRadii]
   );
 
-  /* ── Compute arc geometry: SE center relative to filter wrapper ── */
+  /* ── Compute arc geometry + button scale ─────────────── */
   useEffect(() => {
     const svg = svgRef.current;
     const wrapper = wrapperRef.current;
@@ -298,14 +298,17 @@ export default function ProjectsOrbital({ theme }: Props) {
       const wrapperRect = wrapper.getBoundingClientRect();
       const scale = svgRect.width / VIEW_W;
 
+      // Scale buttons proportionally with the SVG
+      wrapper.style.setProperty("--btn-scale", String(Math.min(scale, 1)));
+
       // SE orbit center in page pixels
       const seCxPage = svgRect.left + seCenter.x * scale;
       const seCyPage = svgRect.top + seCenter.y * scale;
 
-      // Relative to wrapper origin
+      // Relative to wrapper origin (real CSS pixels)
       const cx = seCxPage - wrapperRect.left;
       const cy = seCyPage - wrapperRect.top;
-      // Ring radius = seOuterR + offset for a bigger invisible ring
+      // Ring radius in rendered pixels
       const r = (seOuterR + 30) * scale;
 
       setArcGeo({ cx, cy, r });
