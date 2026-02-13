@@ -154,23 +154,22 @@
 
 .technology_card_wrapper {
   position: relative;
-  width: 100%;
-  max-width: 80px;
+  width: 80px;
+  flex-shrink: 0;
   overflow: visible;
 }
 
-/* All cards same size; space for level reserved so no layout shift */
+/* All cards same size; fixed dimensions so every card is identical */
 .technology_card {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 3px;
   padding: 4px 6px 2px;
-  min-height: 76px;
-  width: 100%;
+  width: 80px;
+  height: 88px;
   box-sizing: border-box;
+  flex-shrink: 0;
   background: radial-gradient(
     circle at 50% 50%,
     rgba(255, 255, 255, 0.28) 0%,
@@ -179,6 +178,25 @@
   );
   border-radius: 8px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Main area: centers icon+name block (with icon) or name only (no icon) */
+.technology_card_main {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* With icon: icon and name as one block; vertical center = midpoint of this block */
+.technology_card_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding-top: 6px;
 }
 
 .technology_card_wrapper:hover .technology_card {
@@ -213,11 +231,18 @@
   color: var(--text);
   text-align: center;
   line-height: 1.2;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
-/* Level: fixed-height slot at bottom of card, visible on hover so others don't move */
+/* Level: at bottom of card, visible on hover */
 .technology_card_meta {
-  margin-top: auto;
+  flex-shrink: 0;
   height: 1.15em;
   display: flex;
   align-items: center;
@@ -274,14 +299,28 @@
   pointer-events: none;
 }
 
-/* No icon: center the name in the card */
+/* No icon: name centered vertically and horizontally; level underneath on hover */
 .technology_card_no_icon {
-  justify-content: center;
   padding: 6px 8px;
+}
+
+.technology_card_no_icon .technology_card_main {
+  align-items: center;
+  justify-content: center;
 }
 
 .technology_card_no_icon .technology_card_name {
   width: 100%;
+  text-align: center;
+}
+
+.technology_card_no_icon .technology_card_meta {
+  position: absolute;
+  top: 50%;
+  margin-top: 6px;
+  left: 0;
+  right: 0;
+  bottom: auto;
 }
 
 /* ========== SECTION HEADERS (Web Dev / Software Eng / 42Berlin) ========== */

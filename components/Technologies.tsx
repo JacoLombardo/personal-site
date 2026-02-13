@@ -30,7 +30,7 @@ const projectNameById = new Map<string, string>(
   (projectsList as ProjectItem[]).map((p) => [p.id, p.name])
 );
 
-const HALO_DELAY_MS = 1000;
+const HALO_DELAY_MS = 500;
 const HALO_SIZE = 200;   /* one coordinate system: orbit around card center */
 const HALO_CX = HALO_SIZE / 2;
 const HALO_CY = HALO_SIZE / 2;
@@ -67,17 +67,23 @@ function TechnologyCard({ tech }: { tech: Tech }) {
       <div
         className={`${styles.technology_card} ${!tech.icon?.trim() ? styles.technology_card_no_icon : ""}`}
       >
-        {tech.icon?.trim() ? (
-          <div className={styles.technology_card_icon}>
-            <Image
-              src={tech.icon}
-              alt={tech.name}
-              width={36}
-              height={36}
-            />
-          </div>
-        ) : null}
-        <span className={styles.technology_card_name}>{tech.name}</span>
+        <div className={styles.technology_card_main}>
+          {tech.icon?.trim() ? (
+            <div className={styles.technology_card_content}>
+              <div className={styles.technology_card_icon}>
+                <Image
+                  src={tech.icon}
+                  alt={tech.name}
+                  width={36}
+                  height={36}
+                />
+              </div>
+              <span className={styles.technology_card_name}>{tech.name}</span>
+            </div>
+          ) : (
+            <span className={styles.technology_card_name}>{tech.name}</span>
+          )}
+        </div>
         <div className={styles.technology_card_meta}>
           <span className={styles.technology_card_level}>{tech.level}</span>
         </div>
