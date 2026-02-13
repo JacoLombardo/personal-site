@@ -7,16 +7,11 @@
 }
 
 /* ========== NAVBAR ========== */
-@media screen and (max-width: 550px) {
-  .navbar_switch {
-    position: absolute;
-    top: 5px;
-    right: 20px;
-  }
-}
-
 .navbar {
   position: relative;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(10, 10, 11, 0.7) !important;
 }
 
 /* ========== INTRO ========== */
@@ -186,11 +181,7 @@
   line-height: 1.4;
 }
 
-.project_title[data-theme="dark"] {
-  color: var(--text);
-}
-
-.project_title[data-theme="light"] {
+.project_title {
   color: var(--text);
 }
 

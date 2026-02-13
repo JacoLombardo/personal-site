@@ -17,7 +17,6 @@ export interface Project {
   category?: ProjectCategory;
 }
 
-export type Mode = "dark" | "light";
 
 export const CATEGORY_LABELS: Record<ProjectCategory, string> = {
   "web-development": "Web Development",

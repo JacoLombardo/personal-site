@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import NavBar from "@/components/NavBar";
-import { Mode, Project } from "@/types";
+import { Project } from "@/types";
 import { useRef, useState } from "react";
 import styles from "@/styles/project.module.css";
 import Image from "next/image";
@@ -12,15 +12,11 @@ import clientPromise from "@/lib/mongodb";
 interface Props {
   projectString: string;
   projectsString: string;
-  theme: Mode;
-  toggleTheme: Function;
 }
 
 export default function ProjectDetails({
   projectString,
   projectsString,
-  theme,
-  toggleTheme,
 }: Props) {
   const project = JSON.parse(projectString);
   const projects = JSON.parse(projectsString);
@@ -61,12 +57,7 @@ export default function ProjectDetails({
 
   return (
     <>
-      <NavBar
-        page={"id"}
-        projects={projects}
-        theme={theme}
-        toggleTheme={toggleTheme}
-      />
+      <NavBar page={"id"} />
       {project && (
         <div className={styles.project_info_div}>
           <h3>{project.name}</h3>
@@ -77,7 +68,7 @@ export default function ProjectDetails({
                   key={index}
                   src={
                     stack === "Next.js"
-                      ? `/Icons/Stack/${stack}-${theme}.png`
+                      ? `/Icons/Stack/${stack}-dark.png`
                       : `/Icons/Stack/${stack}.png`
                   }
                   alt={stack}
@@ -207,7 +198,6 @@ export default function ProjectDetails({
                     project={project}
                     key={index}
                     page={"id"}
-                    theme={theme}
                   />
                 );
               })}
@@ -231,7 +221,7 @@ export default function ProjectDetails({
       <br />
       <br />
       <hr />
-      <Contact theme={theme} />
+      <Contact />
     </>
   );
 }

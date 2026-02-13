@@ -1,93 +1,109 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import Image from "next/image";
 import styles from "@/styles/homepage.module.css";
-import { Mode, Project } from "@/types";
-import { DarkModeToggle } from "@anatoliygatt/dark-mode-toggle";
 
 interface Props {
   page: string;
-  projects: Project[];
-  theme: Mode;
-  toggleTheme: Function;
 }
 
-const navLinkStyle = (theme: Mode) =>
-  theme === "dark" ? { color: "white" } : { color: "black" };
+const navLinkStyle = { color: "white" };
+const LOGO_URL =
+  "https://res.cloudinary.com/dtl48kr1u/image/upload/v1694445159/personal-site/j_nx7enz.png";
 
-export default function NavBar({ page, projects, theme, toggleTheme }: Props) {
+export default function NavBar({ page }: Props) {
+  const [hidden, setHidden] = useState(false);
+  const [hovered, setHovered] = useState(false);
+
+  const TOP_THRESHOLD = 60; // px from top to show navbar again
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y <= TOP_THRESHOLD) {
+        setHidden(false);
+      } else {
+        setHidden(true);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll(); // run once in case we're already at top
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const visible = !hidden || hovered;
+
   return (
-    <Navbar
-      expand="lg"
-      data-bs-theme={theme === "dark" ? "dark" : "light"}
-      className={styles.navbar}
-    >
-      <Container className={styles.navbar}>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            {page !== "home" && (
-              <Nav.Link href="/" style={navLinkStyle(theme)}>
-                Home
+    <>
+      {/* Invisible hover zone at the top to trigger reveal */}
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 24,
+          zIndex: 1001,
+        }}
+        onMouseEnter={() => setHovered(true)}
+      />
+      <Navbar
+        expand="lg"
+        data-bs-theme="dark"
+        className={styles.navbar}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          transform: visible ? "translateY(0)" : "translateY(-100%)",
+          transition: "transform 0.35s ease",
+        }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <Container className={styles.navbar}>
+          <Navbar.Brand href={page === "home" ? "#" : "/"} className="me-3">
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 34,
+                height: 34,
+                borderRadius: "50%",
+                background: "white",
+              }}
+            >
+              <Image
+                src={LOGO_URL}
+                alt="Home"
+                width={24}
+                height={24}
+              />
+            </span>
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href="#about" style={navLinkStyle}>
+                About
               </Nav.Link>
-            )}
-            <Nav.Link href="#about" style={navLinkStyle(theme)}>
-              About
-            </Nav.Link>
-            {page === "home" ? (
-              <>
-                <Nav.Link href="#web-development" style={navLinkStyle(theme)}>
-                  Web Development
-                </Nav.Link>
-                <Nav.Link href="#software-engineering" style={navLinkStyle(theme)}>
-                  Software Engineering
-                </Nav.Link>
-                <Nav.Link href="#42berlin" style={navLinkStyle(theme)}>
-                  42Berlin
-                </Nav.Link>
-              </>
-            ) : (
-              <NavDropdown
-                title={<span style={navLinkStyle(theme)}>Projects</span>}
-                id="basic-nav-dropdown"
-              >
-                {projects?.map((project: Project, index: number) => (
-                  <NavDropdown.Item
-                    href={`/project/${project.internal_id}`}
-                    key={index}
-                  >
-                    {project.name}
-                  </NavDropdown.Item>
-                ))}
-              </NavDropdown>
-            )}
-            <Nav.Link href="#contact" style={navLinkStyle(theme)}>
-              Contact
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-        <div className={styles.navbar_switch}>
-          <DarkModeToggle
-            mode={theme}
-            dark="dark"
-            light="light"
-            size="sm"
-            inactiveLabelColor="white"
-            inactiveTrackColor="white"
-            inactiveTrackColorOnHover="#f8fafc"
-            inactiveTrackColorOnActive="#cbd5e1"
-            activeLabelColor="black"
-            activeTrackColor="black"
-            activeTrackColorOnHover="#1e293b"
-            activeTrackColorOnActive="#0f172a"
-            inactiveThumbColor="#1e293b"
-            activeThumbColor="white"
-            onChange={() => toggleTheme()}
-          />
-        </div>
-      </Container>
-    </Navbar>
+              <Nav.Link href="#first-circle" style={navLinkStyle}>
+                Projects
+              </Nav.Link>
+              <Nav.Link href="#contact" style={navLinkStyle}>
+                Contact
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+    </>
   );
 }

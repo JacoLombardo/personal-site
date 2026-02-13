@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-import { Mode } from "@/types";
 
 interface Star {
   x: number;
@@ -25,14 +24,8 @@ function generateStars(count: number): Star[] {
   }));
 }
 
-interface Props {
-  theme: Mode;
-}
-
-export default function StarBackground({ theme }: Props) {
+export default function StarBackground() {
   const stars = useMemo(() => generateStars(300), []);
-
-  if (theme === "light") return null;
 
   return (
     <div

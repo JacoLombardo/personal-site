@@ -1,27 +1,4 @@
-/* Theme variables for data-theme (set in _app) */
-:root[data-theme="dark"] {
-  --text: #f1f5f9;
-  --text-muted: #94a3b8;
-  --divider: rgba(255, 255, 255, 0.08);
-  --card-bg: rgba(255, 255, 255, 0.03);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --accent-web: #38bdf8;
-  --accent-software: #a78bfa;
-  --accent-42: #fbbf24;
-}
-
-:root[data-theme="light"] {
-  --text: #0f172a;
-  --text-muted: #64748b;
-  --divider: rgba(0, 0, 0, 0.08);
-  --card-bg: rgba(0, 0, 0, 0.02);
-  --card-border: rgba(0, 0, 0, 0.08);
-  --accent-web: #0284c7;
-  --accent-software: #7c3aed;
-  --accent-42: #d97706;
-}
-
-/* Fallback when JS hasn't set data-theme yet */
+/* Theme variables – dark only */
 :root {
   --text: #f1f5f9;
   --text-muted: #94a3b8;

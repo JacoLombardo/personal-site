@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "@/styles/orbital.module.css";
-import { Mode } from "@/types";
+
 import projectsJson from "../public/projects.json";
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -244,11 +244,7 @@ function getColor(cat: string, isSchool: boolean) {
    COMPONENT
    ═══════════════════════════════════════════════════════════════════════════ */
 
-interface Props {
-  theme: Mode;
-}
-
-export default function ProjectsOrbital({ theme }: Props) {
+export default function ProjectsOrbital() {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -678,6 +674,7 @@ export default function ProjectsOrbital({ theme }: Props) {
         {/* ══════════ SOFTWARE ENGINEERING SYSTEM ══════════ */}
 
         <circle
+          id="first-circle"
           cx={seCenter.x}
           cy={seCenter.y}
           r={seOuterR + 40}

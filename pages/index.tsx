@@ -5,31 +5,23 @@ import Intro from "@/components/Intro";
 import NavBar from "@/components/NavBar";
 import Projects from "@/components/Projects";
 import clientPromise from "@/lib/mongodb";
-import { Mode } from "@/types";
 
 interface Props {
   projectString: string;
-  theme: Mode;
-  toggleTheme: Function;
 }
 
-export default function Home({ projectString, theme, toggleTheme }: Props) {
+export default function Home({ projectString }: Props) {
   const projects = JSON.parse(projectString);
   return (
     <>
-      <NavBar
-        page={"home"}
-        projects={projects}
-        theme={theme}
-        toggleTheme={toggleTheme}
-      />
+      <NavBar page={"home"} />
       <Intro />
       <hr />
       <About />
       <hr />
-      <Projects projects={projects} theme={theme} />
+      <Projects projects={projects} />
       <hr />
-      <Contact theme={theme} />
+      <Contact />
     </>
   );
 }

@@ -2,18 +2,17 @@
 
 import { motion } from "framer-motion";
 import styles from "@/styles/homepage.module.css";
-import { Mode, Project, ProjectCategory } from "@/types";
+import { Project, ProjectCategory } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
 interface Props {
   project: Project;
   page: string;
-  theme: Mode;
   category?: ProjectCategory;
 }
 
-export default function ProjectCard({ project, page, theme, category }: Props) {
+export default function ProjectCard({ project, page, category }: Props) {
   return (
     <motion.div
       className={styles.project_div}
@@ -37,7 +36,7 @@ export default function ProjectCard({ project, page, theme, category }: Props) {
             }
           />
         </div>
-        <h3 className={styles.project_title} data-theme={theme} data-page={page}>
+        <h3 className={styles.project_title} data-page={page}>
           {project.name} <span className={styles.project_stack}>/ {project.stack}</span>
         </h3>
       </Link>

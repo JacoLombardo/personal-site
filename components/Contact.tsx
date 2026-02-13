@@ -4,13 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import styles from "@/styles/homepage.module.css";
-import { Mode } from "@/types";
 
-interface Props {
-  theme: Mode;
-}
-
-export default function Contact({ theme }: Props) {
+export default function Contact() {
   return (
     <motion.div
       id="contact"
@@ -24,7 +19,7 @@ export default function Contact({ theme }: Props) {
       <div>
         <Link href="https://github.com/JacoLombardo" target="_blank" aria-label="GitHub">
           <Image
-            src={`/Icons/Contact/github-${theme}.png`}
+            src="/Icons/Contact/github-dark.png"
             alt="GitHub"
             title="GitHub"
             width={30}
@@ -37,7 +32,7 @@ export default function Contact({ theme }: Props) {
           aria-label="LinkedIn"
         >
           <Image
-            src={`/Icons/Contact/linkedin.png`}
+            src="/Icons/Contact/linkedin.png"
             alt="LinkedIn"
             title="LinkedIn"
             width={35}

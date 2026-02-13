@@ -1,4 +1,17 @@
 {
+  "intro": {
+    "title": "Full Stack Software Engineer",
+    "subtitle": "42 Berlin Alum",
+    "photo": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1694358931/personal-site/DSC02863_owsl4d.jpg"
+  },
+  "about-me": {
+    "text": "I have always been driven by two passions: the precision of technology and the creativity of cooking. After a 7-year career as a Chef de Partie (leading teams across Italy, Ireland, Denmark, and Germany) I pivoted to my original interest: Software Engineering.I discovered that the logical rigor of coding is the perfect fuel for my mind. Since then, I have graduated from the prestigious 42 Berlin core curriculum, where I mastered low-level C programming, memory management, and autonomous problem-solving in a high-intensity, peer-to-peer environment. This followed an intensive 840-hour Full-Stack bootcamp, giving me a robust foundation in modern web architecture.Most recently, I contributed as a Full-Stack Developer at Need4Deed, building scalable features with Next.js. Having led teams in high-pressure kitchens, I bring a 'cool under pressure' mindset, a detail-oriented approach, and unique communication skills to every engineering squad I join."
+  },
+  "contact": {
+    "email": "jacopo.lombardo@outlook.com",
+    "linkedin": "https://www.linkedin.com/in/jacopo-lombardo/",
+    "github": "https://github.com/JacoLombardo"
+  },
   "projects": [
     {
       "id": "get-a-recipe",
