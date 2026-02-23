@@ -6,7 +6,7 @@ import styles from "@/styles/project.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import Contact from "@/components/Contact";
-import ProjectCard from "@/components/ProjectCard";
+import ProjectCard from "@/components/projects/ProjectCard";
 import clientPromise from "@/lib/mongodb";
 
 interface Props {

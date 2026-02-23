@@ -92,9 +92,13 @@
 /* ========== INTRO ========== */
 .intro_div {
   composes: section_width;
+  min-height: 100vh;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
   display: flex;
   align-items: center;
   gap: 2rem;
+  box-sizing: border-box;
 }
 
 @media screen and (min-width: 550px) {
@@ -162,11 +166,15 @@
 /* ========== ABOUT ========== */
 .about_div {
   composes: section_width;
+  min-height: 100vh;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 2rem;
   padding-top: 1rem;
+  box-sizing: border-box;
   padding-bottom: 4rem;
 }
 
@@ -188,7 +196,8 @@
   }
 }
 
-.about_label {
+.about_label,
+.section_label {
   font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -205,8 +214,15 @@
 /* ========== TECHNOLOGIES ========== */
 .technologies_div {
   composes: section_width;
+  min-height: 100vh;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
   padding-top: 1rem;
   padding-bottom: 4rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 @media screen and (max-width: 550px) {
@@ -638,11 +654,15 @@
 /* ========== CONTACT ========== */
 .contact_div {
   composes: section_width;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 1.1rem;
   font-weight: 600;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   padding-top: 2rem;
   padding-bottom: 4rem;
   gap: 1.5rem;
@@ -664,12 +684,43 @@
   transform: scale(1.08);
 }
 
-/* ========== DIVIDER ========== */
-.section_hr {
-  height: 1px;
-  width: 88%;
-  max-width: 1200px;
-  margin: 2.5rem auto;
-  border: 0;
-  background: var(--divider);
+/* ========== CV ========== */
+.cv_section {
+  composes: section_width;
+  min-height: 100vh;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.cv_inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cv_heading {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cv_link {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: opacity 0.2s ease;
+}
+
+.cv_link:hover {
+  opacity: 0.85;
 }

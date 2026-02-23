@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import About from "@/components/About";
+import About from "@/components/about/About";
 import Contact from "@/components/Contact";
-import Intro from "@/components/Intro";
+import CV from "@/components/cv/CV";
+import Intro from "@/components/intro/Intro";
 import NavBar from "@/components/NavBar";
 import Projects from "@/components/Projects";
-import Technologies from "@/components/Technologies";
+import Technologies from "@/components/technologies/Technologies";
 import clientPromise from "@/lib/mongodb";
 
 interface Props {
@@ -16,15 +17,14 @@ export default function Home({ projectString }: Props) {
   return (
     <>
       <NavBar page={"home"} />
-      <Intro />
-      <hr />
-      <Projects projects={projects} />
-      <hr />
-      <Technologies />
-      <hr />
-      <About />
-      <hr />
-      <Contact />
+      <main>
+        <Intro />
+        <Projects projects={projects} />
+        <Technologies />
+        <About />
+        <CV />
+        <Contact />
+      </main>
     </>
   );
 }

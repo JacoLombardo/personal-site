@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import styles from "@/styles/homepage.module.css";
-import siteData from "../public/projects.json";
+import siteData from "../../public/projects.json";
 
 interface Tech {
   id: string;
@@ -29,17 +29,17 @@ const { technologies, projects: projectsList } = siteData as {
 };
 
 const projectNameById = new Map<string, string>(
-  (projectsList as ProjectItem[]).map((p) => [p.id, p.name])
+  (projectsList as ProjectItem[]).map((p) => [p.id, p.name]),
 );
 
 const HALO_DELAY_MS = 500;
 const HALO_CLOSE_DELAY_MS = 200;
-const HALO_SIZE = 200;   /* one coordinate system: orbit around card center */
+const HALO_SIZE = 200; /* one coordinate system: orbit around card center */
 const HALO_CX = HALO_SIZE / 2;
 const HALO_CY = HALO_SIZE / 2;
-const HALO_R = 62;      /* orbit radius – ring passes through planet dots */
-const PLANET_R = 4;     /* dot radius in SVG */
-const PLANET_HIT = 12;  /* clickable hit area radius */
+const HALO_R = 62; /* orbit radius – ring passes through planet dots */
+const PLANET_R = 4; /* dot radius in SVG */
+const PLANET_HIT = 12; /* clickable hit area radius */
 
 function TechnologyCard({ tech }: { tech: Tech }) {
   const [haloVisible, setHaloVisible] = useState(false);
@@ -76,7 +76,10 @@ function TechnologyCard({ tech }: { tech: Tech }) {
       clearTimeout(openTimeoutRef.current);
       openTimeoutRef.current = null;
     }
-    closeTimeoutRef.current = setTimeout(() => setHaloVisible(false), HALO_CLOSE_DELAY_MS);
+    closeTimeoutRef.current = setTimeout(
+      () => setHaloVisible(false),
+      HALO_CLOSE_DELAY_MS,
+    );
   }, []);
 
   const onPortalEnter = useCallback(() => {
@@ -118,8 +121,7 @@ function TechnologyCard({ tech }: { tech: Tech }) {
   }, [haloVisible, updateHaloPosition]);
 
   const projectIds = tech.projects.filter(Boolean);
-  const projectNames = projectIds
-    .map((id) => projectNameById.get(id) || id);
+  const projectNames = projectIds.map((id) => projectNameById.get(id) || id);
   const n = projectIds.length;
 
   const haloPortal =
@@ -143,96 +145,96 @@ function TechnologyCard({ tech }: { tech: Tech }) {
             onMouseEnter={onPortalEnter}
             onMouseLeave={onPortalLeave}
           >
-          <div className={styles.technology_card_halo_clipped}>
-            <div className={styles.technology_card_halo_backdrop} />
-            <svg
-              className={styles.technology_halo_svg}
-              viewBox={`0 0 ${HALO_SIZE} ${HALO_SIZE}`}
-              width="100%"
-              height="100%"
-            >
-              <circle
-                className={styles.technology_halo_circle}
-                cx={HALO_CX}
-                cy={HALO_CY}
-                r={HALO_R}
-                fill="none"
-                stroke="rgba(255,255,255,0.75)"
-                strokeWidth="2"
-              />
-              {projectNames.map((_, i) => {
+            <div className={styles.technology_card_halo_clipped}>
+              <div className={styles.technology_card_halo_backdrop} />
+              <svg
+                className={styles.technology_halo_svg}
+                viewBox={`0 0 ${HALO_SIZE} ${HALO_SIZE}`}
+                width="100%"
+                height="100%"
+              >
+                <circle
+                  className={styles.technology_halo_circle}
+                  cx={HALO_CX}
+                  cy={HALO_CY}
+                  r={HALO_R}
+                  fill="none"
+                  stroke="rgba(255,255,255,0.75)"
+                  strokeWidth="2"
+                />
+                {projectNames.map((_, i) => {
+                  const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
+                  const px = HALO_CX + HALO_R * Math.cos(angle);
+                  const py = HALO_CY + HALO_R * Math.sin(angle);
+                  return (
+                    <circle
+                      key={`${tech.id}-${i}`}
+                      className={styles.technology_halo_dot}
+                      cx={px}
+                      cy={py}
+                      r={PLANET_R}
+                      fill="rgba(255,255,255,0.95)"
+                    />
+                  );
+                })}
+              </svg>
+            </div>
+            <div className={styles.technology_card_halo}>
+              {projectIds.map((id, i) => {
                 const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
-                const px = HALO_CX + HALO_R * Math.cos(angle);
-                const py = HALO_CY + HALO_R * Math.sin(angle);
+                const x = HALO_CX + HALO_R * Math.cos(angle);
+                const y = HALO_CY + HALO_R * Math.sin(angle);
+                /* Top half: name above planet. Bottom half or midline: name underneath planet. */
+                const labelOffset = 14;
+                const lx = x;
+                const ly = y < HALO_CY ? y - labelOffset : y + labelOffset;
+                const name = projectNames[i] || id;
+                /* Limit label width so long names don't reach the card (80px wide, center 100) */
+                const cardLeft = 60;
+                const cardRight = 140;
+                const clearance = 4;
+                const maxLabelWidth =
+                  lx <= HALO_CX
+                    ? 2 * (lx - cardLeft - clearance)
+                    : 2 * (cardRight - lx - clearance);
+                const clampedMaxWidth = Math.min(
+                  110,
+                  Math.max(44, Math.round(maxLabelWidth)),
+                );
                 return (
-                  <circle
-                    key={`${tech.id}-${i}`}
-                    className={styles.technology_halo_dot}
-                    cx={px}
-                    cy={py}
-                    r={PLANET_R}
-                    fill="rgba(255,255,255,0.95)"
-                  />
+                  <Link
+                    key={`${tech.id}-link-${i}`}
+                    href={`/project/${id}`}
+                    className={styles.technology_halo_planet_link}
+                    style={{
+                      left: x,
+                      top: y,
+                      width: PLANET_HIT * 2,
+                      height: PLANET_HIT * 2,
+                      marginLeft: -PLANET_HIT,
+                      marginTop: -PLANET_HIT,
+                    }}
+                    title={name}
+                  >
+                    <span
+                      className={styles.technology_halo_label}
+                      style={{
+                        left: lx - x + PLANET_HIT,
+                        top: ly - y + PLANET_HIT,
+                        transform: "translate(-50%, -50%)",
+                        maxWidth: clampedMaxWidth,
+                      }}
+                    >
+                      {name}
+                    </span>
+                  </Link>
                 );
               })}
-            </svg>
-          </div>
-          <div className={styles.technology_card_halo}>
-            {projectIds.map((id, i) => {
-              const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
-              const x = HALO_CX + HALO_R * Math.cos(angle);
-              const y = HALO_CY + HALO_R * Math.sin(angle);
-              /* Top half: name above planet. Bottom half or midline: name underneath planet. */
-              const labelOffset = 14;
-              const lx = x;
-              const ly = y < HALO_CY ? y - labelOffset : y + labelOffset;
-              const name = projectNames[i] || id;
-              /* Limit label width so long names don't reach the card (80px wide, center 100) */
-              const cardLeft = 60;
-              const cardRight = 140;
-              const clearance = 4;
-              const maxLabelWidth =
-                lx <= HALO_CX
-                  ? 2 * (lx - cardLeft - clearance)
-                  : 2 * (cardRight - lx - clearance);
-              const clampedMaxWidth = Math.min(
-                110,
-                Math.max(44, Math.round(maxLabelWidth))
-              );
-              return (
-                <Link
-                  key={`${tech.id}-link-${i}`}
-                  href={`/project/${id}`}
-                  className={styles.technology_halo_planet_link}
-                  style={{
-                    left: x,
-                    top: y,
-                    width: PLANET_HIT * 2,
-                    height: PLANET_HIT * 2,
-                    marginLeft: -PLANET_HIT,
-                    marginTop: -PLANET_HIT,
-                  }}
-                  title={name}
-                >
-                  <span
-                    className={styles.technology_halo_label}
-                    style={{
-                      left: lx - x + PLANET_HIT,
-                      top: ly - y + PLANET_HIT,
-                      transform: "translate(-50%, -50%)",
-                      maxWidth: clampedMaxWidth,
-                    }}
-                  >
-                    {name}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>,
-      document.body
+      document.body,
     );
 
   return (
@@ -249,12 +251,7 @@ function TechnologyCard({ tech }: { tech: Tech }) {
           {tech.icon?.trim() ? (
             <div className={styles.technology_card_content}>
               <div className={styles.technology_card_icon}>
-                <Image
-                  src={tech.icon}
-                  alt={tech.name}
-                  width={36}
-                  height={36}
-                />
+                <Image src={tech.icon} alt={tech.name} width={36} height={36} />
               </div>
               <span className={styles.technology_card_name}>{tech.name}</span>
             </div>
@@ -297,11 +294,12 @@ export default function Technologies() {
   const [showAll, setShowAll] = useState(false);
   const byType = groupByType(technologies);
   const orderedTypes = TYPE_ORDER.filter((type) => byType.has(type));
-  const otherTypes = Array.from(byType.keys()).filter((t) => !TYPE_ORDER.includes(t));
+  const otherTypes = Array.from(byType.keys()).filter(
+    (t) => !TYPE_ORDER.includes(t),
+  );
 
   const typesToRender = [...orderedTypes, ...otherTypes];
-  const hasHidden =
-    technologies.some((t) => !t.alwaysShown);
+  const hasHidden = technologies.some((t) => !t.alwaysShown);
 
   const getTechsForType = (type: string) => {
     const list = byType.get(type) ?? [];
@@ -309,7 +307,7 @@ export default function Technologies() {
   };
 
   return (
-    <motion.div
+    <motion.section
       id="technologies"
       className={styles.technologies_div}
       initial={{ opacity: 0, y: 24 }}
@@ -317,6 +315,7 @@ export default function Technologies() {
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
+      <span className={styles.section_label}>Technologies</span>
       <div className={styles.technologies_columns}>
         {typesToRender.map((type) => {
           const techs = getTechsForType(type);
@@ -344,6 +343,6 @@ export default function Technologies() {
           </button>
         )}
       </div>
-    </motion.div>
+    </motion.section>
   );
 }

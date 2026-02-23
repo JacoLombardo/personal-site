@@ -2,13 +2,13 @@
 
 import { motion } from "framer-motion";
 import styles from "@/styles/homepage.module.css";
-import siteData from "../public/projects.json";
+import siteData from "../../public/projects.json";
 
 const { "about-me": aboutMe } = siteData as { "about-me": { text: string } };
 
 export default function About() {
   return (
-    <motion.div
+    <motion.section
       id="about"
       className={styles.about_div}
       initial={{ opacity: 0, y: 24 }}
@@ -20,6 +20,6 @@ export default function About() {
       <div>
         <p>{aboutMe.text}</p>
       </div>
-    </motion.div>
+    </motion.section>
   );
 }

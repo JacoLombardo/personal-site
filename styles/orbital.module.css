@@ -3,9 +3,125 @@
 .container {
   position: relative;
   width: 100%;
+  min-height: 100vh;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
   background: transparent;
   padding: 3rem 0 2rem;
   overflow: hidden;
+  box-sizing: border-box;
+}
+
+.projects_main {
+  width: 88%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.orbits {
+  position: relative;
+  margin-top: 1rem;
+}
+
+/* ── View toggle ── */
+.viewToggle {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.viewToggleBtn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.375em;
+  padding: 0.35em 0.85em;
+  font-size: 0.8em;
+  font-weight: 500;
+  font-family: poppins, sans-serif;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.viewToggleBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.viewToggleBtnActive {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+/* ── List view ── */
+.list_columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.list_column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.list_column_title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 0 0 0.25rem 0;
+}
+
+.list_column_content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.list_items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.list_item_link {
+  color: var(--text, #e0e0e0);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.list_item_link:hover {
+  color: #fff;
+}
+
+.list_item_stack {
+  color: var(--text-muted, rgba(255, 255, 255, 0.5));
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .list_columns {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.section_title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
 }
 
 .svg {

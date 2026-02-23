@@ -3,13 +3,14 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import styles from "@/styles/homepage.module.css";
-import siteData from "../public/projects.json";
+import siteData from "../../public/projects.json";
 
 const { intro } = siteData as { intro: { name: string; title: string; photo: string } };
 
 export default function Intro() {
   return (
-    <motion.div
+    <motion.section
+      id="intro"
       className={styles.intro_div}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -33,6 +34,6 @@ export default function Intro() {
           className={styles.intro_img}
         />
       </motion.div>
-    </motion.div>
+    </motion.section>
   );
 }

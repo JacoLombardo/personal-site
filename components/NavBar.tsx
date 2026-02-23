@@ -100,6 +100,9 @@ export default function NavBar({ page }: Props) {
               <Nav.Link href="#about" style={navLinkStyle}>
                 About
               </Nav.Link>
+              <Nav.Link href="#cv" style={navLinkStyle}>
+                CV
+              </Nav.Link>
               <Nav.Link href="#contact" style={navLinkStyle}>
                 Contact
               </Nav.Link>

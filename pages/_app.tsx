@@ -3,7 +3,7 @@ import Head from "next/head";
 import "../styles/global.css";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles, darkTheme } from "@/styles/ThemeConfig";
-import StarBackground from "@/components/StarBackground";
+import StarBackground from "@/components/layout/StarBackground";
 
 export default function MyApp({ Component, pageProps }: any) {
   return (

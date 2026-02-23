@@ -7,7 +7,7 @@ import styles from "@/styles/homepage.module.css";
 
 export default function Contact() {
   return (
-    <motion.div
+    <motion.footer
       id="contact"
       className={styles.contact_div}
       initial={{ opacity: 0, y: 20 }}
@@ -58,6 +58,6 @@ export default function Contact() {
           />
         </Link>
       </div>
-    </motion.div>
+    </motion.footer>
   );
 }
