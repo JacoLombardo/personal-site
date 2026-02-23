@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import styles from "@/styles/homepage.module.css";
 import siteData from "../public/projects.json";
 
-const { intro } = siteData as { intro: { title: string; subtitle: string; photo: string } };
+const { intro } = siteData as { intro: { name: string; title: string; photo: string } };
 
 export default function Intro() {
   return (
@@ -15,13 +15,9 @@ export default function Intro() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div>
-        <h1 className={styles.intro_title}>
-          Hi, I&apos;m Jacopo. {intro.title}, based in Berlin.
-        </h1>
-        {intro.subtitle && (
-          <p className={styles.intro_subtitle}>{intro.subtitle}</p>
-        )}
+      <div className={styles.intro_left}>
+        <h1 className={styles.intro_name}>{intro.name}</h1>
+        <p className={styles.intro_title}>{intro.title}</p>
       </div>
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
@@ -30,7 +26,7 @@ export default function Intro() {
       >
         <Image
           src={intro.photo}
-          alt="Jacopo Lombardo"
+          alt={intro.name}
           width={420}
           height={0}
           sizes="(max-width: 550px) 100vw, 420px"

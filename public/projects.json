@@ -1,11 +1,11 @@
 {
   "intro": {
-    "title": "Full Stack Software Engineer",
-    "subtitle": "42 Berlin Alum",
+    "name": "Jacopo Lombardo",
+    "title": "Junior Software Engineer | Full Stack",
     "photo": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1694358931/personal-site/DSC02863_owsl4d.jpg"
   },
   "about-me": {
-    "text": "I have always been driven by two passions: the precision of technology and the creativity of cooking. After a 7-year career as a Chef de Partie (leading teams across Italy, Ireland, Denmark, and Germany) I pivoted to my original interest: Software Engineering.I discovered that the logical rigor of coding is the perfect fuel for my mind. Since then, I have graduated from the prestigious 42 Berlin core curriculum, where I mastered low-level C programming, memory management, and autonomous problem-solving in a high-intensity, peer-to-peer environment. This followed an intensive 840-hour Full-Stack bootcamp, giving me a robust foundation in modern web architecture.Most recently, I contributed as a Full-Stack Developer at Need4Deed, building scalable features with Next.js. Having led teams in high-pressure kitchens, I bring a 'cool under pressure' mindset, a detail-oriented approach, and unique communication skills to every engineering squad I join."
+    "text": "I have always been driven by two passions: the precision of technology and the creativity of cooking. After a 7-year career as a Chef de Partie (leading teams across Italy, Ireland, Denmark, and Germany) I pivoted to my original interest: Software Engineering. I discovered that the logical rigor of coding is the perfect fuel for my mind. Since then, I have graduated from the prestigious 42 Berlin core curriculum, where I mastered low-level C programming, memory management, and autonomous problem-solving in a high-intensity, peer-to-peer environment. This followed an intensive 840-hour Full-Stack bootcamp, giving me a robust foundation in modern web architecture. Most recently, I contributed as a Full-Stack Developer at Need4Deed, building scalable features with Next.js. Having led teams in high-pressure kitchens, I bring a 'cool under pressure' mindset, a detail-oriented approach, and unique communication skills to every engineering squad I join."
   },
   "contact": {
     "email": "jacopo.lombardo@outlook.com",
@@ -99,14 +99,7 @@
       "domain": "web",
       "type": "independent",
       "ring": 4,
-      "tech_stack": [
-        "Next.js",
-        "TypeScript",
-        "MongoDB",
-        "Bootstrap",
-        "OpenAI API",
-        "Vercel"
-      ],
+      "tech_stack": ["Next.js", "TypeScript", "MongoDB", "Bootstrap", "Vercel"],
       "description": "Generating personalized dad jokes from user-selected words, allowing users to pick up to three words from a predefined set to guide the joke. Displaying the generated jokes in an animated modal with sound effects and visual elements, featuring an interactive avatar that changes states during generation. Providing a comic-style interface where users can repeatedly select different word combinations to create new jokes on demand.",
       "isShared": false,
       "highlighted": false
@@ -179,7 +172,7 @@
       "domain": "software",
       "type": "42",
       "ring": 1,
-      "tech_stack": ["VirtualBox", "Debian", "SSH"],
+      "tech_stack": ["Debian"],
       "description": "Setting up a virtual machine with a minimal Debian installation and strict security policies. Configuring LVM-encrypted partitions, a UFW firewall, SSH access on a non-default port, and a strong password policy with sudo rules. Writing a monitoring script that broadcasts system information — architecture, CPU load, memory usage, disk usage, and active connections — to all terminals at regular intervals via wall.",
       "isShared": false,
       "highlighted": false
@@ -201,7 +194,7 @@
       "domain": "software",
       "type": "42",
       "ring": 2,
-      "tech_stack": ["C", "MiniLibX", "Makefile"],
+      "tech_stack": ["C", "Makefile"],
       "description": "Rendering a 3D wireframe mesh from a heightmap file using isometric and parallel projections. Handling window management, pixel drawing, color gradients, and real-time rotation and zoom through keyboard and mouse events, all built on top of the MiniLibX graphics library.",
       "isShared": false,
       "highlighted": false
@@ -234,7 +227,7 @@
       "domain": "software",
       "type": "42",
       "ring": 3,
-      "tech_stack": ["C", "Readline", "Makefile"],
+      "tech_stack": ["C", "Makefile"],
       "description": "Building a functional shell from scratch, closely replicating bash behavior. Implementing a lexer and parser for command-line input, handling pipes, input/output redirections, heredocs, environment variable expansion, and built-in commands like cd, export, and unset. Managing child processes with fork and execve while properly handling signals and exit codes.",
       "isShared": false,
       "highlighted": false
@@ -256,7 +249,7 @@
       "domain": "software",
       "type": "42",
       "ring": 4,
-      "tech_stack": ["C", "MiniLibX", "Makefile"],
+      "tech_stack": ["C", "Makefile"],
       "description": "Building a raycasting engine inspired by Wolfenstein 3D to render a navigable 3D maze from a first-person perspective. Parsing a map file to generate the level, casting rays to calculate wall distances and heights, and applying textured surfaces to walls, floor, and ceiling. Implementing smooth player movement, collision detection, and real-time rendering at interactive frame rates.",
       "isShared": false,
       "highlighted": false
@@ -278,13 +271,7 @@
       "domain": "software",
       "type": "42",
       "ring": 5,
-      "tech_stack": [
-        "Docker",
-        "Docker Compose",
-        "NGINX",
-        "MariaDB",
-        "WordPress"
-      ],
+      "tech_stack": ["Docker", "NGINX", "MariaDB", "WordPress"],
       "description": "Setting up a complete multi-service infrastructure using Docker Compose. Each service — NGINX with TLS, WordPress with php-fpm, and MariaDB — runs in its own container built from a custom Dockerfile. Focus on writing secure configurations, managing persistent volumes for the database and site files, and connecting everything through a private Docker network without relying on pre-built images.",
       "isShared": false,
       "highlighted": false
@@ -295,7 +282,7 @@
       "domain": "software",
       "type": "42",
       "ring": 5,
-      "tech_stack": ["C++", "Sockets", "Makefile"],
+      "tech_stack": ["C++", "Makefile"],
       "description": "Building a fully functional HTTP/1.1 server from scratch in C++. Handling GET, POST, and DELETE methods, serving static files, executing CGI scripts, and supporting chunked transfer encoding and multiple virtual hosts via a configuration file. Implementing non-blocking I/O with poll/select to manage many simultaneous connections efficiently, closely following the behavior outlined in the HTTP RFC.",
       "isShared": false,
       "highlighted": true
@@ -306,13 +293,7 @@
       "domain": "software",
       "type": "42",
       "ring": 6,
-      "tech_stack": [
-        "TypeScript",
-        "Fastify",
-        "Node.js",
-        "SQLite",
-        "WebSockets"
-      ],
+      "tech_stack": ["TypeScript", "Fastify", "Node.js", "SQLite"],
       "description": "The 42 capstone project: a full-stack web application centered around a real-time multiplayer Pong game. Implementing user authentication with OAuth and two-factor auth, a live chat system with channels and direct messages, player matchmaking, leaderboards, and friend management. The backend is built with NestJS and PostgreSQL, while the frontend delivers a responsive single-page experience with real-time game state synced over WebSockets.",
       "isShared": false,
       "highlighted": true
@@ -323,13 +304,7 @@
       "domain": "software",
       "type": "independent",
       "ring": 7,
-      "tech_stack": [
-        "TypeScript",
-        "Fastify",
-        "Node.js",
-        "PostgreSQL",
-        "WebSockets"
-      ],
+      "tech_stack": ["TypeScript", "Fastify", "Node.js", "PostgreSQL"],
       "description": "",
       "isShared": false,
       "highlighted": false
@@ -345,8 +320,6 @@
         "TypeScript",
         "Vite",
         "React",
-        "ExcelJS",
-        "XLSX",
         "ExifTool",
         "FFmpeg"
       ],
@@ -513,42 +486,6 @@
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983177/personal-site/icons/Material_UI_h2r9q6.png"
     },
     {
-      "id": "minilibx",
-      "name": "MiniLibX",
-      "type": "Library",
-      "level": "Proficient",
-      "projects": ["42_fdf", "42_cub3d"],
-      "alwaysShown": false,
-      "icon": ""
-    },
-    {
-      "id": "readline",
-      "name": "Readline",
-      "type": "Library",
-      "level": "Familiar",
-      "projects": ["42_minishell"],
-      "alwaysShown": false,
-      "icon": ""
-    },
-    {
-      "id": "exceljs",
-      "name": "ExcelJS",
-      "type": "Library",
-      "level": "Familiar",
-      "projects": ["vid-base"],
-      "alwaysShown": false,
-      "icon": ""
-    },
-    {
-      "id": "xlsx",
-      "name": "XLSX",
-      "type": "Library",
-      "level": "Familiar",
-      "projects": ["vid-base"],
-      "alwaysShown": false,
-      "icon": ""
-    },
-    {
       "id": "mongodb",
       "name": "MongoDB",
       "type": "Database",
@@ -592,7 +529,7 @@
     {
       "id": "nodejs",
       "name": "Node.js",
-      "type": "Runtime",
+      "type": "Platform",
       "level": "Proficient",
       "projects": [
         "age-of-empires-2-api",
@@ -641,29 +578,11 @@
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983172/personal-site/icons/Docker_mgilpt.png"
     },
     {
-      "id": "docker-compose",
-      "name": "Docker Compose",
-      "type": "Tool",
-      "level": "Proficient",
-      "projects": ["42_inception"],
-      "alwaysShown": false,
-      "icon": ""
-    },
-    {
       "id": "nginx",
       "name": "NGINX",
       "type": "Tool",
       "level": "Familiar",
       "projects": ["42_inception"],
-      "alwaysShown": false,
-      "icon": ""
-    },
-    {
-      "id": "virtualbox",
-      "name": "VirtualBox",
-      "type": "Tool",
-      "level": "Familiar",
-      "projects": ["42_born2beroot"],
       "alwaysShown": false,
       "icon": ""
     },
@@ -720,42 +639,6 @@
       "projects": ["42_inception"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983603/personal-site/icons/WordPress_nkh7t4.png"
-    },
-    {
-      "id": "ssh",
-      "name": "SSH",
-      "type": "Protocol",
-      "level": "Familiar",
-      "projects": ["42_born2beroot"],
-      "alwaysShown": false,
-      "icon": ""
-    },
-    {
-      "id": "sockets",
-      "name": "Sockets",
-      "type": "Protocol",
-      "level": "Familiar",
-      "projects": ["42_webserv"],
-      "alwaysShown": false,
-      "icon": ""
-    },
-    {
-      "id": "websockets",
-      "name": "WebSockets",
-      "type": "Protocol",
-      "level": "Familiar",
-      "projects": ["42_ft_transcendence", "transcendence-lite"],
-      "alwaysShown": false,
-      "icon": ""
-    },
-    {
-      "id": "openai-api",
-      "name": "OpenAI API",
-      "type": "API",
-      "level": "Familiar",
-      "projects": ["bad-jokes"],
-      "alwaysShown": false,
-      "icon": ""
     }
   ]
 }

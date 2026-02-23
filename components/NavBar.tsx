@@ -3,35 +3,49 @@ import { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Image from "next/image";
 import styles from "@/styles/homepage.module.css";
+import siteData from "../public/projects.json";
+
+const { intro, contact } = siteData as {
+  intro: { name: string };
+  contact: { linkedin: string };
+};
 
 interface Props {
   page: string;
 }
 
 const navLinkStyle = { color: "white" };
-const LOGO_URL =
-  "https://res.cloudinary.com/dtl48kr1u/image/upload/v1694445159/personal-site/j_nx7enz.png";
+
+function LinkedInIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={styles.navbar_linkedin_svg}
+      aria-hidden
+    >
+      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+    </svg>
+  );
+}
 
 export default function NavBar({ page }: Props) {
   const [hidden, setHidden] = useState(false);
   const [hovered, setHovered] = useState(false);
 
-  const TOP_THRESHOLD = 60; // px from top to show navbar again
+  const TOP_THRESHOLD = 60;
 
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      if (y <= TOP_THRESHOLD) {
-        setHidden(false);
-      } else {
-        setHidden(true);
-      }
+      setHidden(y > TOP_THRESHOLD);
     };
-
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll(); // run once in case we're already at top
+    onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -39,7 +53,6 @@ export default function NavBar({ page }: Props) {
 
   return (
     <>
-      {/* Invisible hover zone at the top to trigger reveal */}
       <div
         style={{
           position: "fixed",
@@ -67,30 +80,17 @@ export default function NavBar({ page }: Props) {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        <Container className={styles.navbar}>
-          <Navbar.Brand href={page === "home" ? "#" : "/"} className="me-3">
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 34,
-                height: 34,
-                borderRadius: "50%",
-                background: "white",
-              }}
+        <Container className={styles.navbar_container}>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" className={styles.navbar_toggle_first} />
+          <Navbar.Collapse id="basic-navbar-nav" className={styles.navbar_collapse}>
+            <Navbar.Brand
+              href={page === "home" ? "#" : "/"}
+              className={styles.navbar_brand}
             >
-              <Image
-                src={LOGO_URL}
-                alt="Home"
-                width={24}
-                height={24}
-              />
-            </span>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
+              {intro.name}
+            </Navbar.Brand>
+            <div className={styles.navbar_spacer} />
+            <Nav className={styles.navbar_nav}>
               <Nav.Link href="#first-circle" style={navLinkStyle}>
                 Projects
               </Nav.Link>
@@ -104,6 +104,18 @@ export default function NavBar({ page }: Props) {
                 Contact
               </Nav.Link>
             </Nav>
+            <div className={styles.navbar_spacer} />
+            <div className={styles.navbar_right}>
+              <a
+                href={contact.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.navbar_linkedin}
+                aria-label="LinkedIn profile"
+              >
+                <LinkedInIcon />
+              </a>
+            </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>

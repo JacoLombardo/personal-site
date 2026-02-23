@@ -294,10 +294,19 @@ function groupByType(techs: Tech[]): Map<string, Tech[]> {
 }
 
 export default function Technologies() {
+  const [showAll, setShowAll] = useState(false);
   const byType = groupByType(technologies);
   const orderedTypes = TYPE_ORDER.filter((type) => byType.has(type));
-  // Include any type not in TYPE_ORDER (e.g. custom)
   const otherTypes = Array.from(byType.keys()).filter((t) => !TYPE_ORDER.includes(t));
+
+  const typesToRender = [...orderedTypes, ...otherTypes];
+  const hasHidden =
+    technologies.some((t) => !t.alwaysShown);
+
+  const getTechsForType = (type: string) => {
+    const list = byType.get(type) ?? [];
+    return showAll ? list : list.filter((t) => t.alwaysShown);
+  };
 
   return (
     <motion.div
@@ -309,16 +318,31 @@ export default function Technologies() {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className={styles.technologies_columns}>
-        {[...orderedTypes, ...otherTypes].map((type) => (
-          <div key={type} className={styles.technology_group}>
-            <h3 className={styles.technology_group_label}>{type}</h3>
-            <div className={styles.technologies_list}>
-              {(byType.get(type) ?? []).map((tech) => (
-                <TechnologyCard key={tech.id} tech={tech} />
-              ))}
+        {typesToRender.map((type) => {
+          const techs = getTechsForType(type);
+          if (techs.length === 0) return null;
+          return (
+            <div key={type} className={styles.technology_group}>
+              <h3 className={styles.technology_group_label}>{type}</h3>
+              <div className={styles.technologies_list}>
+                {techs.map((tech) => (
+                  <TechnologyCard key={tech.id} tech={tech} />
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
+        {hasHidden && (
+          <button
+            type="button"
+            className={styles.technologies_expand}
+            onClick={() => setShowAll((v) => !v)}
+            title={showAll ? "Show less" : "Show all technologies"}
+            aria-label={showAll ? "Show less" : "Show all technologies"}
+          >
+            {showAll ? "−" : "+"}
+          </button>
+        )}
       </div>
     </motion.div>
   );
