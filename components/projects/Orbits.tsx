@@ -105,12 +105,16 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
     const update = () => {
       const svgRect = svg.getBoundingClientRect();
       const wrapperRect = wrapper.getBoundingClientRect();
-      const scale = svgRect.width / VIEW_W;
+      /* Match preserveAspectRatio="xMidYMid meet": scale from cropped viewBox to SVG element */
+      const scale = Math.min(svgRect.width / VIEW_W, svgRect.height / viewBoxHeight);
+      const offsetX = (svgRect.width - VIEW_W * scale) / 2;
+      const offsetY = (svgRect.height - viewBoxHeight * scale) / 2;
 
       wrapper.style.setProperty("--btn-scale", String(Math.min(scale, 1)));
 
-      const seCxPage = svgRect.left + seCenter.x * scale;
-      const seCyPage = svgRect.top + seCenter.y * scale;
+      /* SE orbit center in viewBox coords -> SVG element coords (viewBox y starts at viewBoxY) */
+      const seCxPage = svgRect.left + offsetX + seCenter.x * scale;
+      const seCyPage = svgRect.top + offsetY + (seCenter.y - viewBoxY) * scale;
       const cx = seCxPage - wrapperRect.left;
       const cy = seCyPage - wrapperRect.top;
       const r = (seOuterR + 30) * scale;
@@ -122,7 +126,7 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
     const ro = new ResizeObserver(update);
     ro.observe(svg);
     return () => ro.disconnect();
-  }, [seCenter, seOuterR]);
+  }, [seCenter, seOuterR, viewBoxY, viewBoxHeight]);
 
   useEffect(() => {
     let frameId: number;
