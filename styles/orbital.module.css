@@ -20,28 +20,38 @@
 
 .orbits {
   position: relative;
-  margin-top: 1rem;
+  margin-top: 0;
 }
 
-/* ── View toggle ── */
+/* ── View toggle (two torpedoes touching flat-to-flat) ── */
 .viewToggle {
   display: flex;
-  gap: 0.5rem;
+  width: fit-content;
   margin-top: 0.75rem;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+  overflow: hidden;
 }
 
 .viewToggleBtn {
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.375em;
-  padding: 0.35em 0.85em;
+  border: none;
+  padding: 0.4em 1em;
   font-size: 0.8em;
   font-weight: 500;
   font-family: poppins, sans-serif;
   letter-spacing: 0.03em;
   color: rgba(255, 255, 255, 0.45);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: background 0.25s ease, color 0.25s ease;
+  /* Left torpedo: rounded left, flat right */
+  border-radius: 9999px 0 0 9999px;
+}
+
+.viewToggleBtn:last-child {
+  /* Right torpedo: flat left, rounded right */
+  border-radius: 0 9999px 9999px 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .viewToggleBtn:hover {
@@ -51,7 +61,6 @@
 
 .viewToggleBtnActive {
   background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.25);
   color: #fff;
 }
 
@@ -70,7 +79,7 @@
 }
 
 .list_column_title {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;

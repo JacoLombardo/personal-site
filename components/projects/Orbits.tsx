@@ -11,7 +11,8 @@ import type { OrbitalData, OrbitalProject, FilterOption } from "./projectsData";
 
 const VIEW_W = 1200;
 const VIEW_H = 700;
-const CONV_RADII = [20, 40];
+/** Match ORBIT_SCALE in projectsData.ts so convergence orbits stay proportional */
+const CONV_RADII = [18, 35];
 const SE_HUE = "#00e5ff";
 const SE_HUE_BRIGHT = "#80f0ff";
 const WD_HUE = "#00e676";
@@ -71,6 +72,16 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
     wdOuterR,
     hasConv,
   } = orbitalData;
+
+  /* ViewBox must contain the drawn circles: arcs use radius up to maxR + 40 (see r={seOuterR+40} below) */
+  const padding = 20;
+  const maxR = Math.max(seOuterR, wdOuterR);
+  const drawnOuterR = maxR + 40;
+  const contentTop = Math.min(seCenter.y - drawnOuterR, convCenter.y - 80);
+  const contentBottom = Math.max(seCenter.y + drawnOuterR, convCenter.y + 58);
+  const viewBoxY = contentTop - padding;
+  const viewBoxHeight = contentBottom - contentTop + padding * 2;
+  const viewBox = `0 ${viewBoxY} ${VIEW_W} ${viewBoxHeight}`;
 
   const getCenter = useCallback(
     (cat: string) =>
@@ -330,7 +341,8 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
 
       <svg
         ref={svgRef}
-        viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+        viewBox={viewBox}
+        preserveAspectRatio="xMidYMid meet"
         className={styles.svg}
         style={{ touchAction: "none" }}
         data-hovering={hovered ? "true" : "false"}

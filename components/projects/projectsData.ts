@@ -64,11 +64,14 @@ const CONV_RADII = [20, 40];
 const GROWTH = 0.7;
 const SCHOOL_COMPRESS = 0.7;
 const SIDE_PAD = 60;
-const MAX_R = Math.min(
-  (VIEW_W - 2 * SIDE_PAD) / 4,
-  CENTER_Y - 60,
-  700 - CENTER_Y - 60
-);
+/** Scale factor for orbit radii (0–1). Smaller = tighter orbits on screen. */
+const ORBIT_SCALE = 0.88;
+const MAX_R =
+  Math.min(
+    (VIEW_W - 2 * SIDE_PAD) / 4,
+    CENTER_Y - 60,
+    700 - CENTER_Y - 60
+  ) * ORBIT_SCALE;
 
 /* ═══════════════════════════════════════════════════════════════════════════
    PROCESSING
