@@ -1,11 +1,21 @@
 import { MongoClient } from "mongodb";
+import crypto from "crypto";
+import tls from "tls";
 
 if (!process.env.MONGODB_URI) {
   throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
 }
 
 const uri = process.env.MONGODB_URI;
-const options = {};
+
+// Work around TLS "internal error" / "unsafe legacy renegotiation disabled" on Windows with Node 17+ (OpenSSL 3)
+const secureContext = tls.createSecureContext({
+  secureOptions: crypto.constants.SSL_OP_LEGACY_SERVER_CONNECT ?? 0,
+});
+
+const options: import("mongodb").MongoClientOptions = {
+  ...(secureContext && { secureContext }),
+};
 
 let client;
 let clientPromise: Promise<MongoClient>;

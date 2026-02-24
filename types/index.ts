@@ -15,6 +15,8 @@ export interface Project {
   repository: string;
   /** Optional: groups project into Web Development, Software Engineering, or 42Berlin. Defaults to web-development. */
   category?: ProjectCategory;
+  /** Optional: source type for list grouping (42, CODAC, etc.). Set when using projects.json. */
+  projectType?: string;
 }
 
 

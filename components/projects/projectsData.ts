@@ -18,6 +18,8 @@ export interface JsonProject {
   ring: number;
   tech_stack: string[];
   description: string;
+  shortDescription?: string;
+  oneLiner?: string;
   isShared: boolean;
   highlighted: boolean;
 }
@@ -159,7 +161,7 @@ export function processOrbitalData(raw: JsonProject[]): OrbitalData {
       orbital.push({
         id: p.id,
         name: p.name,
-        stack: p.tech_stack.filter(Boolean).join(" / "),
+        stack: (p.shortDescription ?? p.tech_stack.filter(Boolean).join(" / ")),
         description: p.description,
         orbit: ring,
         angle: (2 * Math.PI * i) / n + offset,
@@ -194,7 +196,7 @@ export function processOrbitalData(raw: JsonProject[]): OrbitalData {
     orbital.push({
       id: p.id,
       name: p.name,
-      stack: p.tech_stack.filter(Boolean).join(" / "),
+      stack: (p.shortDescription ?? p.tech_stack.filter(Boolean).join(" / ")),
       description: p.description,
       orbit: i % CONV_RADII.length,
       angle: i * Math.PI * 1.236,
@@ -236,7 +238,6 @@ const PLACEHOLDER_IMAGE = "https://picsum.photos/400/300";
 
 function jsonToProjectCategory(p: JsonProject): ProjectCategory {
   if (!p) return "web-development";
-  if (p.isShared) return "web-development";
   if (p.domain === "software" && p.type === "42") return "42berlin";
   if (p.domain === "software") return "software-engineering";
   return "web-development";
@@ -253,7 +254,7 @@ export function getListProjectsFromJson(): Project[] {
     internal_id: index + 1000,
     name: p?.name ?? "Project",
     alt: p?.name ?? "Project",
-    stack: (p?.tech_stack ?? []).filter(Boolean).join(", "),
+    stack: (p?.shortDescription ?? (p?.tech_stack ?? []).filter(Boolean).join(", ")),
     stack_list: (p?.tech_stack ?? []).filter(Boolean),
     description: p?.description ?? "",
     composition: [],
@@ -263,5 +264,6 @@ export function getListProjectsFromJson(): Project[] {
     link: "",
     repository: "",
     category: jsonToProjectCategory(p),
+    projectType: p?.type,
   }));
 }

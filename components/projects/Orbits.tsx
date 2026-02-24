@@ -34,6 +34,7 @@ interface OrbitsProps {
 }
 
 export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
+  const orbitsRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const groupRefs = useRef<Map<string, SVGGElement>>(new Map());
@@ -153,17 +154,17 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
   const onEnter = useCallback((p: OrbitalProject, e: React.MouseEvent) => {
     pausedRef.current = true;
     setHovered(p);
-    const box = containerRef.current;
+    const box = orbitsRef.current;
     const g = e.currentTarget as SVGGElement;
     if (box && g) {
       const br = box.getBoundingClientRect();
       const gr = g.getBoundingClientRect();
       setTipPos({
-        x: gr.left + gr.width / 2 - br.left,
+        x: gr.left + gr.width / 2 - br.left + 20,
         y: gr.top - br.top - 10,
       });
     }
-  }, [containerRef]);
+  }, []);
 
   const onLeave = useCallback(() => {
     pausedRef.current = false;
@@ -285,7 +286,7 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
   }, [fadeScratchAudio]);
 
   return (
-    <div className={styles.orbits}>
+    <div ref={orbitsRef} className={styles.orbits}>
       <div ref={wrapperRef} className={styles.filterBarWrapper}>
         <div
           className={styles.filterBar}
