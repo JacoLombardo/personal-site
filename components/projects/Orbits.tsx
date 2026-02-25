@@ -74,7 +74,7 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
   } = orbitalData;
 
   /* ViewBox must contain the drawn circles: arcs use radius up to maxR + 40 (see r={seOuterR+40} below) */
-  const padding = 20;
+  const padding = 0;
   const maxR = Math.max(seOuterR, wdOuterR);
   const drawnOuterR = maxR + 40;
   const contentTop = Math.min(seCenter.y - drawnOuterR, convCenter.y - 80);

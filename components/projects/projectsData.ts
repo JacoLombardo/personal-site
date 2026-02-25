@@ -255,6 +255,7 @@ export function getListProjectsFromJson(): Project[] {
   if (!raw || !Array.isArray(raw)) return [];
   return raw.map((p, index) => ({
     internal_id: index + 1000,
+    id: p?.id ?? `project-${index + 1000}`,
     name: p?.name ?? "Project",
     alt: p?.name ?? "Project",
     stack: (p?.shortDescription ?? (p?.tech_stack ?? []).filter(Boolean).join(", ")),
@@ -268,5 +269,6 @@ export function getListProjectsFromJson(): Project[] {
     repository: "",
     category: jsonToProjectCategory(p),
     projectType: p?.type,
+    domain: p?.domain,
   }));
 }

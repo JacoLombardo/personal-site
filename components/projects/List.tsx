@@ -19,7 +19,7 @@ function renderProjectList(projects: Project[]) {
     <ul className={styles.list_items}>
       {projects.map((project) => (
         <li key={project.internal_id}>
-          <Link href={`/project/${project.internal_id}`} className={styles.list_item_link}>
+          <Link href={`/project/${project.id ?? project.internal_id}`} className={styles.list_item_link}>
             <span className={styles.list_item_name}>{project.name} / </span>
             <span className={styles.list_item_desc}>{project.stack}</span>
           </Link>

@@ -20,7 +20,7 @@ export default function ProjectCard({ project, page, category }: Props) {
       transition={{ type: "spring", stiffness: 300, damping: 24 }}
     >
       <Link
-        href={`/project/${project.internal_id}`}
+        href={`/project/${project.id ?? project.internal_id}`}
         className={styles.project_link}
       >
         <div className={styles.project_img_wrapper}>

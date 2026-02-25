@@ -51,6 +51,9 @@ export default function NavBar({ page }: Props) {
 
   const visible = !hidden || hovered;
 
+  /* From project (or other) pages, nav links must go to homepage + section. */
+  const base = page === "home" ? "" : "/";
+
   return (
     <>
       <div
@@ -91,19 +94,19 @@ export default function NavBar({ page }: Props) {
             </Navbar.Brand>
             <div className={styles.navbar_spacer} />
             <Nav className={styles.navbar_nav}>
-              <Nav.Link href="#first-circle" style={navLinkStyle}>
+              <Nav.Link href={`${base}#projects`} style={navLinkStyle}>
                 Projects
               </Nav.Link>
-              <Nav.Link href="#technologies" style={navLinkStyle}>
+              <Nav.Link href={`${base}#technologies`} style={navLinkStyle}>
                 Technologies
               </Nav.Link>
-              <Nav.Link href="#about" style={navLinkStyle}>
+              <Nav.Link href={`${base}#about`} style={navLinkStyle}>
                 About
               </Nav.Link>
-              <Nav.Link href="#cv" style={navLinkStyle}>
+              <Nav.Link href={`${base}#cv`} style={navLinkStyle}>
                 CV
               </Nav.Link>
-              <Nav.Link href="#contact" style={navLinkStyle}>
+              <Nav.Link href={`${base}#contact`} style={navLinkStyle}>
                 Contact
               </Nav.Link>
             </Nav>

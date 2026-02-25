@@ -2,6 +2,8 @@ export type ProjectCategory = "web-development" | "software-engineering" | "42be
 
 export interface Project {
   internal_id: number;
+  /** Optional: slug id from projects.json (e.g. "get-a-recipe"). Used for /project/[id] URLs. */
+  id?: string;
   name: string;
   alt: string;
   stack: string;
@@ -17,6 +19,8 @@ export interface Project {
   category?: ProjectCategory;
   /** Optional: source type for list grouping (42, CODAC, etc.). Set when using projects.json. */
   projectType?: string;
+  /** Optional: domain from projects.json (e.g. "web", "software"). */
+  domain?: string;
 }
 
 

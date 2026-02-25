@@ -30,7 +30,9 @@
       "shortDescription": "Recipe finder with filters and favourites.",
       "oneLiner": "A recipe discovery site with filters and a personal favourites list.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/get-a-recipe",
+      "link": "https://get-a-recipe.vercel.app/"
     },
     {
       "id": "berlin-fantastic-creatures",
@@ -47,7 +49,9 @@
       "shortDescription": "Social network for Berlin city and U-Bahn content.",
       "oneLiner": "A social network for sharing and discovering content about Berlin's city life and U-Bahn.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/berlin-fantastic-creatures",
+      "link": "https://berlin-fantastic-creatures.vercel.app/"
     },
     {
       "id": "age-of-empires-2",
@@ -64,7 +68,9 @@
       "shortDescription": "Interactive AoE2 encyclopedia with favourites.",
       "oneLiner": "An interactive encyclopedia for Age of Empires II with browse, search, and saved favourites.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/age-of-empires-2",
+      "link": "https://age-of-empires-2.vercel.app/"
     },
     {
       "id": "age-of-empires-2-api",
@@ -84,7 +90,9 @@
       "shortDescription": "REST API and docs for AoE2 game data.",
       "oneLiner": "A REST API and interactive documentation for Age of Empires II game data.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/age-of-empires-2-API",
+      "link": "https://age-of-empires-2-api-documentation.vercel.app/"
     },
     {
       "id": "codac-berlin",
@@ -102,7 +110,9 @@
       "shortDescription": "Learning and community platform for Code Academy Berlin.",
       "oneLiner": "The learning and community platform for Code Academy Berlin students.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/CODAC-berlin",
+      "link": ""
     },
     {
       "id": "squisito",
@@ -122,7 +132,9 @@
       "shortDescription": "E-commerce demo for kitchen appliances.",
       "oneLiner": "A demo e-commerce storefront for kitchen appliances with cart and checkout.",
       "isShared": false,
-      "highlighted": true
+      "highlighted": true,
+      "repository": "https://github.com/JacoLombardo/squisito",
+      "link": "https://squisito-one.vercel.app/"
     },
     {
       "id": "bad-jokes",
@@ -141,7 +153,9 @@
       "shortDescription": "AI-generated dad jokes from chosen words.",
       "oneLiner": "A playful app that generates dad jokes from user-selected words using AI.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/bad-jokes",
+      "link": "https://very-bad-jokes.vercel.app/"
     },
     {
       "id": "ciao-claudia",
@@ -161,7 +175,9 @@
       "shortDescription": "Chat with Claudia and take photos with her silhouette.",
       "oneLiner": "An interactive experience to receive messages from Claudia and take photos with her silhouette.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/ciao-claudia",
+      "link": "https://ciao-claudia.vercel.app/"
     },
     {
       "id": "need4deed",
@@ -179,7 +195,9 @@
       "shortDescription": "Volunteer–refugee matching platform for Berlin.",
       "oneLiner": "A multilingual platform connecting volunteers with refugee support opportunities in Berlin.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "",
+      "link": ""
     },
     {
       "id": "42_libft",
@@ -195,7 +213,9 @@
       "shortDescription": "Custom C library — reimplemented libc basics and linked lists.",
       "oneLiner": "A from-scratch C library used as the base for later 42 projects.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/42_libft",
+      "link": ""
     },
     {
       "id": "42_ft_printf",
@@ -211,7 +231,9 @@
       "shortDescription": "Reimplementation of printf with format parsing and variadic arguments.",
       "oneLiner": "A custom printf implementation in C for formatted output.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/42_ft-printf",
+      "link": ""
     },
     {
       "id": "42_get_next_line",
@@ -226,7 +248,9 @@
       "shortDescription": "Line-by-line file reader with configurable buffer and multi-fd support.",
       "oneLiner": "Reads a file line by line from a file descriptor in C.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/42_get-next-line",
+      "link": ""
     },
     {
       "id": "42_born2beroot",
@@ -241,7 +265,9 @@
       "shortDescription": "Secure Linux VM with LVM, encryption, SSH, and hardening.",
       "oneLiner": "A secured Linux VM configured for 42’s system-admin track.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/42_Born2beroot",
+      "link": ""
     },
     {
       "id": "42_push_swap",
@@ -257,7 +283,9 @@
       "shortDescription": "Sorts integers with two stacks and a minimal set of operations.",
       "oneLiner": "Sorts a stack with a second stack and a limited set of moves.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/42_push-swap",
+      "link": ""
     },
     {
       "id": "42_fdf",
@@ -273,7 +301,9 @@
       "shortDescription": "3D wireframe terrain viewer from elevation maps (isometric).",
       "oneLiner": "Turns elevation files into 3D wireframe landscapes.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/42_FdF",
+      "link": ""
     },
     {
       "id": "42_minitalk",
@@ -289,7 +319,9 @@
       "shortDescription": "Client–server messaging using only Unix signals.",
       "oneLiner": "Sends messages between processes using only signals.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/42_minitalk",
+      "link": ""
     },
     {
       "id": "42_philosophers",
@@ -305,7 +337,9 @@
       "shortDescription": "Dining Philosophers simulation with threads and mutexes.",
       "oneLiner": "A multithreaded simulation of the Dining Philosophers problem.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/42_Philosophers",
+      "link": ""
     },
     {
       "id": "42_minishell",
@@ -321,7 +355,9 @@
       "shortDescription": "Bash-like shell with pipes, redirections, built-ins, and signals.",
       "oneLiner": "A minimal Unix shell with pipes, redirections, and built-in commands.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/42_minishell",
+      "link": ""
     },
     {
       "id": "42_netpractice",
@@ -334,7 +370,9 @@
       "shortDescription": "Interactive TCP/IP and subnetting training (10 levels).",
       "oneLiner": "IP addressing and routing through 10 network puzzles.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/42_NetPractice",
+      "link": ""
     },
     {
       "id": "42_cub3d",
@@ -350,7 +388,9 @@
       "shortDescription": "Raycasting 3D engine with textured walls and .cub maps.",
       "oneLiner": "A first-person raycasting game inspired by Wolfenstein 3D.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/42_cub3d",
+      "link": ""
     },
     {
       "id": "42_cpp",
@@ -366,7 +406,9 @@
       "shortDescription": "Ten C++ modules from OOP to templates and STL.",
       "oneLiner": "The 42 C++ curriculum from basics to templates and practical projects.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/42_CPP",
+      "link": ""
     },
     {
       "id": "42_inception",
@@ -384,7 +426,9 @@
       "shortDescription": "Docker stack: Nginx, MariaDB, WordPress with HTTPS.",
       "oneLiner": "A containerized WordPress stack with Nginx and MariaDB.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/42_Inception",
+      "link": ""
     },
     {
       "id": "42_webserv",
@@ -400,7 +444,9 @@
       "shortDescription": "HTTP server in C++98 with config file and CGI.",
       "oneLiner": "A configurable HTTP server with static files and CGI.",
       "isShared": false,
-      "highlighted": true
+      "highlighted": true,
+      "repository": "https://github.com/JacoLombardo/42_webserv",
+      "link": ""
     },
     {
       "id": "42_ft_transcendence",
@@ -418,7 +464,9 @@
       "shortDescription": "Full-stack Pong with WebSockets, OAuth, and blockchain.",
       "oneLiner": "Multiplayer Pong with real-time play, tournaments, and on-chain results.",
       "isShared": false,
-      "highlighted": true
+      "highlighted": true,
+      "repository": "https://github.com/JacoLombardo/42_ft_transcendence",
+      "link": ""
     },
     {
       "id": "transcendence-lite",
@@ -436,7 +484,9 @@
       "shortDescription": "A full-stack multiplayer Pong game, refactored for lightweight, scalable deployment on modern cloud platforms.",
       "oneLiner": "A deploy-focused refactor of the original 42 Transcendence project, making it lighter and more maintainable.",
       "isShared": false,
-      "highlighted": false
+      "highlighted": false,
+      "repository": "https://github.com/JacoLombardo/transcendence-lite",
+      "link": "https://transcendence-lite.vercel.app/"
     },
     {
       "id": "vid-base",
@@ -456,7 +506,9 @@
       "shortDescription": "Desktop catalog for video and movie libraries.",
       "oneLiner": "A desktop app to catalog video and movie libraries locally with metadata and thumbnails.",
       "isShared": true,
-      "highlighted": true
+      "highlighted": true,
+      "repository": "https://github.com/JacoLombardo/vid-base",
+      "link": ""
     }
   ],
   "technologies": [

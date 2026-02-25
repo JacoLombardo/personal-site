@@ -17,6 +17,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Anchor scroll stops with section start at top of content (below fixed navbar) */
+  scroll-padding-top: 4.5rem;
 }
 
 body {

@@ -1,262 +1,158 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import NavBar from "@/components/NavBar";
-import { Project } from "@/types";
-import { useRef, useState } from "react";
-import styles from "@/styles/project.module.css";
-import Image from "next/image";
+import Head from "next/head";
 import Link from "next/link";
-import Contact from "@/components/Contact";
-import ProjectCard from "@/components/projects/ProjectCard";
-import clientPromise from "@/lib/mongodb";
+import NavBar from "@/components/NavBar";
+import projectsJson from "../../public/projects.json";
+import styles from "@/styles/project.module.css";
 
-interface Props {
-  projectString: string;
-  projectsString: string;
+interface JsonProject {
+  id: string;
+  name: string;
+  domain: string;
+  type: string;
+  description: string;
+  tech_stack?: string[];
+  repository?: string;
+  link?: string;
 }
 
-export default function ProjectDetails({
-  projectString,
-  projectsString,
-}: Props) {
-  const project = JSON.parse(projectString);
-  const projects = JSON.parse(projectsString);
-  const [mockup, setMockup] = useState<string>("desktop");
-  const [scrollX, setscrollX] = useState<number>(0);
-  const [scrolEnd, setscrolEnd] = useState<boolean>(false);
-  const scrl = useRef(null);
+interface AdjacentProject {
+  id: string;
+  name: string;
+}
 
-  const slide = (shift: number) => {
-    (scrl.current! as HTMLBodyElement).scrollLeft += shift;
-    if (
-      Math.floor(
-        (scrl.current! as HTMLBodyElement).scrollWidth -
-          (scrl.current! as HTMLBodyElement).scrollLeft
-      ) <= (scrl.current! as HTMLBodyElement).offsetWidth
-    ) {
-      setscrolEnd(true);
-    } else {
-      setscrolEnd(false);
-    }
+interface Props {
+  project: JsonProject | null;
+  prevProject: AdjacentProject;
+  nextProject: AdjacentProject;
+}
 
-    setscrollX(scrollX + shift);
-  };
-
-  const scrollCheck = () => {
-    setscrollX((scrl.current! as HTMLBodyElement).scrollLeft);
-    if (
-      Math.floor(
-        (scrl.current! as HTMLBodyElement).scrollWidth -
-          (scrl.current! as HTMLBodyElement).scrollLeft
-      ) <= (scrl.current! as HTMLBodyElement).offsetWidth
-    ) {
-      setscrolEnd(true);
-    } else {
-      setscrolEnd(false);
-    }
-  };
+export default function ProjectPage({ project, prevProject, nextProject }: Props) {
+  if (!project) {
+    return (
+      <>
+        <NavBar page="project" />
+        <main className={styles.project_page_main}>
+          <p>Project not found.</p>
+        </main>
+      </>
+    );
+  }
 
   return (
     <>
-      <NavBar page={"id"} />
-      {project && (
-        <div className={styles.project_info_div}>
-          <h3>{project.name}</h3>
-          <div>
-            {project.stack_list.map((stack: string, index: number) => {
-              return (
-                <Image
-                  key={index}
-                  src={
-                    stack === "Next.js"
-                      ? `/Icons/Stack/${stack}-dark.png`
-                      : `/Icons/Stack/${stack}.png`
-                  }
-                  alt={stack}
-                  title={stack}
-                  width="35"
-                  height="35"
-                  sizes="100vw"
-                  priority={true}
-                  style={{ marginRight: "10px" }}
-                />
-              );
-            })}
-          </div>
-          <div className={styles.project_info_body}>
-            <div>
-              <p>{project.description}</p>
-              <h2>Composition</h2>
-              <ul>
-                {project.composition.map((item: string, index: number) => {
-                  return <li key={index}>{item}</li>;
-                })}
-              </ul>
-              <h2>Features</h2>
-              <ul>
-                {project.features.map((item: string, index: number) => {
-                  return <li key={index}>{item}</li>;
-                })}
-              </ul>
-              <div className={styles.product_info_link}>
-                <p>
-                  Check the repository on{" "}
-                  <Link href={project.repository} target="_blank">
-                    → Github
-                  </Link>
-                </p>
-                <p>
-                  Check the deployed version on{" "}
-                  <Link href={project.link} target="_blank">
-                    → Vercel
-                  </Link>
-                </p>
-              </div>
+      <Head>
+        <title>{project.name} | Jacopo Lombardo</title>
+      </Head>
+      <NavBar page="project" />
+      <main className={styles.project_page_main}>
+        <nav className={styles.project_adjacent} aria-label="Previous and next project">
+          <Link href={`/project/${prevProject.id}`} className={styles.project_adjacent_link} title={prevProject.name}>
+            <span className={styles.project_adjacent_arrow} aria-hidden>←</span>
+            <span className={styles.project_adjacent_label}>{prevProject.name}</span>
+          </Link>
+          <Link href={`/project/${nextProject.id}`} className={styles.project_adjacent_link} title={nextProject.name}>
+            <span className={styles.project_adjacent_label}>{nextProject.name}</span>
+            <span className={styles.project_adjacent_arrow} aria-hidden>→</span>
+          </Link>
+        </nav>
+        <article className={styles.project_article}>
+          <h1 className={styles.project_title}>{project.name}</h1>
+          <dl className={styles.project_meta}>
+            <div className={styles.project_meta_row}>
+              <dt>Domain</dt>
+              <dd>{project.domain}</dd>
             </div>
-            <div className={styles.image_div}>
-              <Link href={project.link} target="_blank">
-                {mockup === "desktop" ? (
-                  <Image
-                    src={project.mockup_desktop}
-                    alt={project.alt}
-                    title={project.alt}
-                    width="0"
-                    height="0"
-                    sizes="100vw"
-                    className={styles.project_info_img}
-                  />
-                ) : (
-                  <Image
-                    src={project.mockup_mobile}
-                    alt={project.alt}
-                    title={project.alt}
-                    width="0"
-                    height="0"
-                    sizes="100vw"
-                    className={styles.project_info_img}
-                  />
+            <div className={styles.project_meta_row}>
+              <dt>Type</dt>
+              <dd>{project.type}</dd>
+            </div>
+          </dl>
+          {project.tech_stack && project.tech_stack.length > 0 && (
+            <div className={styles.project_stack_wrap}>
+              <h2 className={styles.project_stack_title}>Stack</h2>
+              <ul className={styles.project_stack_list}>
+                {project.tech_stack.map((tech) => (
+                  <li key={tech} className={styles.project_stack_tag}>
+                    {tech}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <div className={styles.project_description}>
+            <p>{project.description}</p>
+          </div>
+          {(project.repository || project.link) && (
+            <div className={styles.project_links}>
+              <h2 className={styles.project_links_title}>Links</h2>
+              <div className={styles.project_links_list}>
+                {project.repository && (
+                  <a
+                    href={project.repository}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.project_link}
+                  >
+                    Repository
+                  </a>
                 )}
-              </Link>
-              <div className={styles.icons_div}>
-                <Image
-                  src={"/Icons/desktop.png"}
-                  alt={"desktop"}
-                  title={"Desktop Mockup"}
-                  width="0"
-                  height="0"
-                  sizes="100vw"
-                  className={styles.mockup_icon}
-                  onClick={() => {
-                    setMockup("desktop");
-                  }}
-                />
-                <Image
-                  src={"/Icons/mobile.png"}
-                  alt={"mobile"}
-                  title={"Mobile Mockup"}
-                  width="0"
-                  height="0"
-                  sizes="100vw"
-                  className={styles.mockup_icon}
-                  onClick={() => {
-                    setMockup("mobile");
-                  }}
-                />
+                {project.link && (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.project_link}
+                  >
+                    Live site
+                  </a>
+                )}
               </div>
             </div>
-          </div>
-        </div>
-      )}
-      <hr />
-      <div className={styles.other_projects_div}>
-        {scrollX !== 0 && (
-          <div className={styles.scroll_button}>
-            <Image
-              src={"/Icons/left-arrow1.png"}
-              alt="left"
-              title="Go left"
-              width="0"
-              height="0"
-              sizes="100vw"
-              className={styles.scroll_icon}
-              onClick={() => slide(-150)}
-            />
-          </div>
-        )}
-        {projects && (
-          <div
-            className={styles.other_projects_div_2}
-            ref={scrl}
-            onScroll={scrollCheck}
-          >
-            {projects
-              .filter((item: Project) => {
-                return item.internal_id !== project?.internal_id;
-              })
-              .map((project: Project, index: number) => {
-                return (
-                  <ProjectCard
-                    project={project}
-                    key={index}
-                    page={"id"}
-                  />
-                );
-              })}
-          </div>
-        )}
-        {!scrolEnd && (
-          <div className={styles.scroll_button}>
-            <Image
-              src={"/Icons/right-arrow1.png"}
-              alt="right"
-              title="Go right"
-              width="0"
-              height="0"
-              sizes="100vw"
-              className={styles.scroll_icon}
-              onClick={() => slide(+150)}
-            />
-          </div>
-        )}
-      </div>
-      <br />
-      <br />
-      <hr />
-      <Contact />
+          )}
+        </article>
+      </main>
     </>
   );
 }
 
 export async function getStaticPaths() {
-  try {
-    const client = await clientPromise;
-    const db = client.db("personal-site");
-    const res = await db.collection("projects").find({}).toArray();
-    const paths = res.map((project) => ({
-      params: { id: JSON.stringify(project.internal_id) },
-    }));
-    return { paths, fallback: "blocking" };
-  } catch (e) {
-    console.error("MongoDB connection failed (check MONGODB_URI and network):", e);
-    return { paths: [], fallback: "blocking" };
+  const raw = (projectsJson as { projects?: JsonProject[] }).projects;
+  if (!raw || !Array.isArray(raw)) {
+    return { paths: [], fallback: false };
   }
+  const paths = raw.map((p) => ({ params: { id: p.id } }));
+  return { paths, fallback: false };
 }
 
-export async function getStaticProps({ params }: any) {
-  try {
-    const client = await clientPromise;
-    const db = client.db("personal-site");
-    const id: number = +params.id;
-    const projects = await db.collection("projects").find({}).toArray();
-    const project = await db.collection("projects").findOne({ internal_id: id });
-    if (!project) return { notFound: true };
-    return {
-      props: {
-        projectString: JSON.stringify(project),
-        projectsString: JSON.stringify(projects),
-      },
-    };
-  } catch (e) {
-    console.error("MongoDB connection failed (check MONGODB_URI and network):", e);
+export async function getStaticProps({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const raw = (projectsJson as { projects?: JsonProject[] }).projects;
+  if (!raw || !Array.isArray(raw)) {
     return { notFound: true };
   }
+  const index = raw.findIndex((p) => p.id === params.id);
+  if (index === -1) return { notFound: true };
+  const project = raw[index];
+  const last = raw.length - 1;
+  const prevProject = { id: raw[index === 0 ? last : index - 1].id, name: raw[index === 0 ? last : index - 1].name };
+  const nextProject = { id: raw[index === last ? 0 : index + 1].id, name: raw[index === last ? 0 : index + 1].name };
+  return {
+    props: {
+      project: {
+        id: project.id,
+        name: project.name,
+        domain: project.domain,
+        type: project.type,
+        description: project.description,
+        tech_stack: project.tech_stack ?? [],
+        repository: project.repository ?? "",
+        link: project.link ?? "",
+      },
+      prevProject,
+      nextProject,
+    },
+  };
 }
