@@ -26,6 +26,16 @@ interface Props {
   nextProject: AdjacentProject;
 }
 
+function formatDomain(domain: string): string {
+  if (domain === "software") return "Software Engineering";
+  if (domain === "web") return "Web Development";
+  return domain.charAt(0).toUpperCase() + domain.slice(1).toLowerCase();
+}
+
+function formatType(type: string): string {
+  return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+}
+
 export default function ProjectPage({ project, prevProject, nextProject }: Props) {
   if (!project) {
     return (
@@ -60,11 +70,11 @@ export default function ProjectPage({ project, prevProject, nextProject }: Props
           <dl className={styles.project_meta}>
             <div className={styles.project_meta_row}>
               <dt>Domain</dt>
-              <dd>{project.domain}</dd>
+              <dd>{formatDomain(project.domain)}</dd>
             </div>
             <div className={styles.project_meta_row}>
               <dt>Type</dt>
-              <dd>{project.type}</dd>
+              <dd>{formatType(project.type)}</dd>
             </div>
           </dl>
           {project.tech_stack && project.tech_stack.length > 0 && (
