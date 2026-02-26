@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import NavBar from "@/components/NavBar";
-import projectsJson from "../public/projects.json";
+import clientPromise from "@/lib/mongodb";
 import styles from "@/styles/speeddate.module.css";
 import projectStyles from "@/styles/project.module.css";
 
@@ -117,9 +117,13 @@ function EmailIcon() {
 interface Props {
   projects: JsonProject[];
   aboutText: string;
+  intro: { name: string } | null;
+  contact: { linkedin: string } | null;
 }
 
-export default function SpeedDatePage({ projects, aboutText }: Props) {
+export default function SpeedDatePage({ projects, aboutText, intro, contact }: Props) {
+  const navIntro = intro ? { name: intro.name } : undefined;
+  const navContact = contact ? { linkedin: contact.linkedin } : undefined;
   const [step, setStep] = useState(0);
 
   const goPrev = useCallback(() => {
@@ -201,7 +205,7 @@ export default function SpeedDatePage({ projects, aboutText }: Props) {
         <title>Quick tour | Jacopo Lombardo</title>
       </Head>
       <div className={styles.sd_page}>
-        <NavBar page="project" />
+        <NavBar page="project" intro={navIntro} contact={navContact} />
         <div className={styles.sd_content_wrap}>
           {showLeftArrow && (
             <button type="button" className={`${styles.sd_arrow} ${styles.sd_arrow_left}`} onClick={goPrev} aria-label="Previous">
@@ -221,16 +225,22 @@ export default function SpeedDatePage({ projects, aboutText }: Props) {
 }
 
 export async function getStaticProps() {
-  const data = projectsJson as { projects?: JsonProject[]; "about-me"?: { text: string } };
-  const raw = data.projects ?? [];
-  const aboutMe = data["about-me"];
-  const aboutText = aboutMe?.text ?? "";
-
-  const projects: JsonProject[] = HIGHLIGHTED_IDS.map((id) => raw.find((p: JsonProject) => p.id === id)).filter(Boolean) as JsonProject[];
-
-  return {
-    props: {
-      projects: projects.map((p) => ({
+  const empty = { projects: [], aboutText: "", intro: null, contact: null };
+  try {
+    const client = await clientPromise;
+    const db = client.db("personal-site");
+    const contentColl = db.collection("content");
+    const [raw, aboutMeDoc, introDoc, contactDoc] = await Promise.all([
+      db.collection("projects").find({}).toArray(),
+      contentColl.findOne({ _id: "about-me" } as Record<string, unknown>),
+      contentColl.findOne({ _id: "intro" } as Record<string, unknown>),
+      contentColl.findOne({ _id: "contact" } as Record<string, unknown>),
+    ]);
+    const aboutText = aboutMeDoc && "text" in aboutMeDoc ? aboutMeDoc.text : "";
+    const allProjects = raw as unknown as { id: string; name: string; domain: string; type: string; description: string; tech_stack?: string[]; repository?: string; link?: string }[];
+    const projects: JsonProject[] = HIGHLIGHTED_IDS.map((id) => allProjects.find((p) => p.id === id))
+      .filter((p): p is NonNullable<typeof p> => p != null)
+      .map((p) => ({
         id: p.id,
         name: p.name,
         domain: p.domain,
@@ -239,8 +249,13 @@ export async function getStaticProps() {
         tech_stack: p.tech_stack ?? [],
         repository: p.repository ?? "",
         link: p.link ?? "",
-      })),
-      aboutText,
-    },
-  };
+      }));
+    const intro = introDoc && "name" in introDoc ? { name: introDoc.name } : null;
+    const contact = contactDoc && "linkedin" in contactDoc ? { linkedin: contactDoc.linkedin } : null;
+    return {
+      props: { projects, aboutText, intro, contact },
+    };
+  } catch {
+    return { props: empty };
+  }
 }

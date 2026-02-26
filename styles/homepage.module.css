@@ -668,10 +668,29 @@
   gap: 1.5rem;
 }
 
+.contact_right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
 .contact_icons {
   display: flex;
   gap: 1rem;
   align-items: center;
+}
+
+.contact_privacy_link {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted, #94a3b8);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contact_privacy_link:hover {
+  color: var(--text, #f1f5f9);
 }
 
 .contact_icon_link {

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import NavBar from "@/components/NavBar";
-import projectsJson from "../../public/projects.json";
+import clientPromise from "@/lib/mongodb";
 import styles from "@/styles/project.module.css";
 
 interface JsonProject {
@@ -20,10 +20,17 @@ interface AdjacentProject {
   name: string;
 }
 
+interface ContentDoc {
+  name?: string;
+  linkedin?: string;
+}
+
 interface Props {
   project: JsonProject | null;
   prevProject: AdjacentProject;
   nextProject: AdjacentProject;
+  intro: { name: string } | null;
+  contact: { linkedin: string } | null;
 }
 
 function formatDomain(domain: string): string {
@@ -36,11 +43,13 @@ function formatType(type: string): string {
   return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
 }
 
-export default function ProjectPage({ project, prevProject, nextProject }: Props) {
+export default function ProjectPage({ project, prevProject, nextProject, intro, contact }: Props) {
+  const navIntro = intro ? { name: intro.name } : undefined;
+  const navContact = contact ? { linkedin: contact.linkedin } : undefined;
   if (!project) {
     return (
       <>
-        <NavBar page="project" />
+        <NavBar page="project" intro={navIntro} contact={navContact} />
         <main className={styles.project_page_main}>
           <p>Project not found.</p>
         </main>
@@ -53,7 +62,7 @@ export default function ProjectPage({ project, prevProject, nextProject }: Props
       <Head>
         <title>{project.name} | Jacopo Lombardo</title>
       </Head>
-      <NavBar page="project" />
+      <NavBar page="project" intro={navIntro} contact={navContact} />
       <main className={styles.project_page_main}>
         <nav className={styles.project_adjacent} aria-label="Previous and next project">
           <Link href={`/project/${prevProject.id}`} className={styles.project_adjacent_link} title={prevProject.name}>
@@ -126,43 +135,61 @@ export default function ProjectPage({ project, prevProject, nextProject }: Props
 }
 
 export async function getStaticPaths() {
-  const raw = (projectsJson as { projects?: JsonProject[] }).projects;
-  if (!raw || !Array.isArray(raw)) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("personal-site");
+    const raw = await db.collection("projects").find({}).toArray();
+    const paths = (raw as unknown as { id: string }[]).map((p) => ({ params: { id: p.id } }));
+    return { paths, fallback: false };
+  } catch {
     return { paths: [], fallback: false };
   }
-  const paths = raw.map((p) => ({ params: { id: p.id } }));
-  return { paths, fallback: false };
 }
+
+type MongoProject = { id: string; name: string; domain: string; type: string; description: string; tech_stack?: string[]; repository?: string; link?: string };
 
 export async function getStaticProps({
   params,
 }: {
   params: { id: string };
 }) {
-  const raw = (projectsJson as { projects?: JsonProject[] }).projects;
-  if (!raw || !Array.isArray(raw)) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("personal-site");
+    const raw = await db.collection("projects").find({}).toArray();
+    const projects = raw as unknown as MongoProject[];
+    const index = projects.findIndex((p) => p.id === params.id);
+    if (index === -1) return { notFound: true };
+    const project = projects[index];
+    const last = projects.length - 1;
+    const prevProject = { id: projects[index === 0 ? last : index - 1].id, name: projects[index === 0 ? last : index - 1].name };
+    const nextProject = { id: projects[index === last ? 0 : index + 1].id, name: projects[index === last ? 0 : index + 1].name };
+    const contentColl = db.collection("content");
+    const [introDoc, contactDoc] = await Promise.all([
+      contentColl.findOne({ _id: "intro" } as Record<string, unknown>),
+      contentColl.findOne({ _id: "contact" } as Record<string, unknown>),
+    ]);
+    const intro = introDoc ? { name: (introDoc as ContentDoc).name ?? "" } : null;
+    const contact = contactDoc ? { linkedin: (contactDoc as ContentDoc).linkedin ?? "" } : null;
+    return {
+      props: {
+        project: {
+          id: project.id,
+          name: project.name,
+          domain: project.domain,
+          type: project.type,
+          description: project.description,
+          tech_stack: project.tech_stack ?? [],
+          repository: project.repository ?? "",
+          link: project.link ?? "",
+        },
+        prevProject,
+        nextProject,
+        intro,
+        contact,
+      },
+    };
+  } catch {
     return { notFound: true };
   }
-  const index = raw.findIndex((p) => p.id === params.id);
-  if (index === -1) return { notFound: true };
-  const project = raw[index];
-  const last = raw.length - 1;
-  const prevProject = { id: raw[index === 0 ? last : index - 1].id, name: raw[index === 0 ? last : index - 1].name };
-  const nextProject = { id: raw[index === last ? 0 : index + 1].id, name: raw[index === last ? 0 : index + 1].name };
-  return {
-    props: {
-      project: {
-        id: project.id,
-        name: project.name,
-        domain: project.domain,
-        type: project.type,
-        description: project.description,
-        tech_stack: project.tech_stack ?? [],
-        repository: project.repository ?? "",
-        link: project.link ?? "",
-      },
-      prevProject,
-      nextProject,
-    },
-  };
 }

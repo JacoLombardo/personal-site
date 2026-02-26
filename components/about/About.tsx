@@ -2,11 +2,16 @@
 
 import { motion } from "framer-motion";
 import styles from "@/styles/homepage.module.css";
-import siteData from "../../public/projects.json";
 
-const { "about-me": aboutMe } = siteData as { "about-me": { text: string } };
+interface AboutMeData {
+  text: string;
+}
 
-export default function About() {
+interface Props {
+  aboutMe: AboutMeData | null;
+}
+
+export default function About({ aboutMe }: Props) {
   return (
     <motion.section
       id="about"
@@ -18,7 +23,7 @@ export default function About() {
     >
       <span className={styles.about_label}>About</span>
       <div>
-        <p>{aboutMe.text}</p>
+        {aboutMe?.text && <p>{aboutMe.text}</p>}
       </div>
     </motion.section>
   );

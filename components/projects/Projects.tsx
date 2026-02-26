@@ -2,25 +2,26 @@
 
 import { useState, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Project } from "@/types";
 import styles from "@/styles/orbital.module.css";
-import { getOrbitalData, getListProjectsFromJson } from "./projectsData";
+import { getOrbitalData, getListProjectsFromJson, convertToProjectList, type JsonProject } from "./projectsData";
 import Orbits from "./Orbits";
 import List from "./List";
 
 type ViewMode = "orbits" | "list";
 
 interface Props {
-  projects: Project[];
+  /** Raw project documents (e.g. from MongoDB), same shape as JsonProject. */
+  projects: JsonProject[];
 }
 
 export default function Projects({ projects }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [view, setView] = useState<ViewMode>("orbits");
-  const orbitalData = useMemo(() => getOrbitalData(), []);
+  const raw = useMemo(() => projects ?? [], [projects]);
+  const orbitalData = useMemo(() => getOrbitalData(raw), [raw]);
   const listProjects = useMemo(
-    () => ((projects ?? []).length > 0 ? projects : getListProjectsFromJson()),
-    [projects]
+    () => (raw.length > 0 ? convertToProjectList(raw) : getListProjectsFromJson()),
+    [raw]
   );
 
   return (

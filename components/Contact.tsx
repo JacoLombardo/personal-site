@@ -4,6 +4,16 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import styles from "@/styles/homepage.module.css";
 
+interface ContactData {
+  email: string;
+  linkedin: string;
+  github: string;
+}
+
+interface Props {
+  contact?: ContactData | null;
+}
+
 function LinkedInIcon() {
   return (
     <svg
@@ -46,7 +56,10 @@ function EmailEnvelopeIcon() {
   );
 }
 
-export default function Contact() {
+export default function Contact({ contact }: Props) {
+  const email = contact?.email ?? "jacopo.lombardo@outlook.com";
+  const linkedin = contact?.linkedin ?? "https://www.linkedin.com/in/jacopo-lombardo/";
+  const github = contact?.github ?? "https://github.com/JacoLombardo";
   return (
     <motion.footer
       id="contact"
@@ -57,31 +70,36 @@ export default function Contact() {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
       <span>Let&apos;s connect</span>
-      <div className={styles.contact_icons}>
-        <Link
-          href="https://github.com/JacoLombardo"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.contact_icon_link}
-          aria-label="GitHub"
-        >
-          <GitHubIcon />
-        </Link>
-        <Link
-          href="https://www.linkedin.com/in/jacopo-lombardo/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`${styles.contact_icon_link} ${styles.contact_icon_link_linkedin}`}
-          aria-label="LinkedIn"
-        >
-          <LinkedInIcon />
-        </Link>
-        <Link
-          href="mailto:jacopo.lombardo@outlook.com"
-          className={styles.contact_icon_link}
-          aria-label="Email"
-        >
-          <EmailEnvelopeIcon />
+      <div className={styles.contact_right}>
+        <div className={styles.contact_icons}>
+          <Link
+            href={github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.contact_icon_link}
+            aria-label="GitHub"
+          >
+            <GitHubIcon />
+          </Link>
+          <Link
+            href={linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.contact_icon_link} ${styles.contact_icon_link_linkedin}`}
+            aria-label="LinkedIn"
+          >
+            <LinkedInIcon />
+          </Link>
+          <Link
+            href={`mailto:${email}`}
+            className={styles.contact_icon_link}
+            aria-label="Email"
+          >
+            <EmailEnvelopeIcon />
+          </Link>
+        </div>
+        <Link href="/privacy" className={styles.contact_privacy_link}>
+          Privacy
         </Link>
       </div>
     </motion.footer>

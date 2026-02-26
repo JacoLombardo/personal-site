@@ -3,11 +3,19 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import styles from "@/styles/homepage.module.css";
-import siteData from "../../public/projects.json";
 
-const { intro } = siteData as { intro: { name: string; title: string; photo: string } };
+interface IntroData {
+  name: string;
+  title: string;
+  photo: string;
+}
 
-export default function Intro() {
+interface Props {
+  intro: IntroData;
+}
+
+export default function Intro({ intro }: Props) {
+  if (!intro?.name && !intro?.title && !intro?.photo) return null;
   return (
     <motion.section
       id="intro"
@@ -25,6 +33,7 @@ export default function Intro() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
       >
+        {intro.photo && (
         <Image
           src={intro.photo}
           alt={intro.name}
@@ -33,6 +42,7 @@ export default function Intro() {
           sizes="(max-width: 550px) 100vw, 420px"
           className={styles.intro_img}
         />
+        )}
       </motion.div>
     </motion.section>
   );

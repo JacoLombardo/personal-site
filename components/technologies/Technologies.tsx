@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import styles from "@/styles/homepage.module.css";
-import siteData from "../../public/projects.json";
 
-interface Tech {
+export interface Tech {
   id: string;
   name: string;
   type: string;
@@ -23,14 +22,10 @@ interface ProjectItem {
   name: string;
 }
 
-const { technologies, projects: projectsList } = siteData as {
+interface Props {
   technologies: Tech[];
   projects: ProjectItem[];
-};
-
-const projectNameById = new Map<string, string>(
-  (projectsList as ProjectItem[]).map((p) => [p.id, p.name]),
-);
+}
 
 const HALO_DELAY_MS = 500;
 const HALO_CLOSE_DELAY_MS = 200;
@@ -41,7 +36,7 @@ const HALO_R = 62; /* orbit radius – ring passes through planet dots */
 const PLANET_R = 4; /* dot radius in SVG */
 const PLANET_HIT = 12; /* clickable hit area radius */
 
-function TechnologyCard({ tech }: { tech: Tech }) {
+function TechnologyCard({ tech, projectNameById }: { tech: Tech; projectNameById: Map<string, string> }) {
   const [haloVisible, setHaloVisible] = useState(false);
   const [haloPosition, setHaloPosition] = useState({ x: 0, y: 0 });
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -290,7 +285,11 @@ function groupByType(techs: Tech[]): Map<string, Tech[]> {
   return map;
 }
 
-export default function Technologies() {
+export default function Technologies({ technologies, projects }: Props) {
+  const projectNameById = useMemo(
+    () => new Map(projects.map((p) => [p.id, p.name])),
+    [projects]
+  );
   const [showAll, setShowAll] = useState(false);
   const byType = groupByType(technologies);
   const orderedTypes = TYPE_ORDER.filter((type) => byType.has(type));
@@ -325,7 +324,7 @@ export default function Technologies() {
               <h3 className={styles.technology_group_label}>{type}</h3>
               <div className={styles.technologies_list}>
                 {techs.map((tech) => (
-                  <TechnologyCard key={tech.id} tech={tech} />
+                  <TechnologyCard key={tech.id} tech={tech} projectNameById={projectNameById} />
                 ))}
               </div>
             </div>

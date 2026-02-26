@@ -4,10 +4,12 @@ import "../styles/global.css";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles, darkTheme } from "@/styles/ThemeConfig";
 import StarBackground from "@/components/layout/StarBackground";
+import VisitLogger from "@/components/VisitLogger";
 
 export default function MyApp({ Component, pageProps }: any) {
   return (
     <>
+      <VisitLogger />
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link

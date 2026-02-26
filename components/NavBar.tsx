@@ -5,15 +5,19 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import styles from "@/styles/homepage.module.css";
-import siteData from "../public/projects.json";
 
-const { intro, contact } = siteData as {
-  intro: { name: string };
-  contact: { linkedin: string };
-};
+interface NavIntro {
+  name: string;
+}
+
+interface NavContact {
+  linkedin: string;
+}
 
 interface Props {
   page: string;
+  intro?: NavIntro;
+  contact?: NavContact;
 }
 
 const navLinkStyle = { color: "white" };
@@ -34,9 +38,11 @@ function LinkedInIcon() {
   );
 }
 
-export default function NavBar({ page }: Props) {
+export default function NavBar({ page, intro, contact }: Props) {
   const [hidden, setHidden] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const name = intro?.name ?? "Jacopo Lombardo";
+  const linkedinUrl = contact?.linkedin ?? "https://www.linkedin.com/in/jacopo-lombardo/";
 
   const TOP_THRESHOLD = 60;
 
@@ -88,7 +94,7 @@ export default function NavBar({ page }: Props) {
           <Navbar.Toggle aria-controls="basic-navbar-nav" className={styles.navbar_toggle_first} />
           <Navbar.Collapse id="basic-navbar-nav" className={styles.navbar_collapse}>
             <Navbar.Brand as={Link} href="/" className={styles.navbar_brand}>
-              {intro.name}
+              {name}
             </Navbar.Brand>
             <div className={styles.navbar_spacer} />
             <Nav className={styles.navbar_nav}>
@@ -111,7 +117,7 @@ export default function NavBar({ page }: Props) {
             <div className={styles.navbar_spacer} />
             <div className={styles.navbar_right}>
               <a
-                href={contact.linkedin}
+                href={linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.navbar_linkedin}

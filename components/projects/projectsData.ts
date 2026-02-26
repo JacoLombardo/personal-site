@@ -19,9 +19,10 @@ export interface JsonProject {
   tech_stack: string[];
   description: string;
   shortDescription?: string;
-  oneLiner?: string;
-  isShared: boolean;
-  highlighted: boolean;
+  isShared?: boolean;
+  highlighted?: boolean;
+  repository?: string;
+  link?: string;
 }
 
 export type ProjectType = "42" | "CODAC" | "independent" | "professional";
@@ -226,11 +227,10 @@ export function processOrbitalData(raw: JsonProject[]): OrbitalData {
 }
 
 /**
- * Loads projects from projects.json and returns processed orbital data.
+ * Returns processed orbital data from a projects array (e.g. from MongoDB).
  */
-export function getOrbitalData(): OrbitalData {
-  const raw = (projectsJson as { projects: JsonProject[] }).projects;
-  return processOrbitalData(raw);
+export function getOrbitalData(projects: JsonProject[]): OrbitalData {
+  return processOrbitalData(projects);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -247,11 +247,9 @@ function jsonToProjectCategory(p: JsonProject): ProjectCategory {
 }
 
 /**
- * Converts projects from projects.json into Project[] for List/ProjectCard.
- * Used when MongoDB returns no projects (fallback).
+ * Converts raw project objects (e.g. from MongoDB or JSON) into Project[] for List/ProjectCard.
  */
-export function getListProjectsFromJson(): Project[] {
-  const raw = (projectsJson as { projects?: JsonProject[] }).projects;
+export function convertToProjectList(raw: JsonProject[]): Project[] {
   if (!raw || !Array.isArray(raw)) return [];
   return raw.map((p, index) => ({
     internal_id: index + 1000,
@@ -265,10 +263,20 @@ export function getListProjectsFromJson(): Project[] {
     features: [],
     mockup_desktop: PLACEHOLDER_IMAGE,
     mockup_mobile: PLACEHOLDER_IMAGE,
-    link: "",
-    repository: "",
+    link: p?.link ?? "",
+    repository: p?.repository ?? "",
     category: jsonToProjectCategory(p),
     projectType: p?.type,
     domain: p?.domain,
   }));
 }
+
+/**
+ * Loads projects from projects.json and returns Project[]. Used when MongoDB returns no projects (fallback).
+ */
+export function getListProjectsFromJson(): Project[] {
+  const raw = (projectsJson as { projects?: JsonProject[] }).projects;
+  if (!raw || !Array.isArray(raw)) return [];
+  return convertToProjectList(raw);
+}
+

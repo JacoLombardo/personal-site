@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "push-json": "node --env-file=.env.local scripts/push-json-to-mongodb.js"
   },
   "engines": {
     "node": "22.x"
