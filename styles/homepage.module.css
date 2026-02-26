@@ -668,20 +668,38 @@
   gap: 1.5rem;
 }
 
-.contact_div > div {
+.contact_icons {
   display: flex;
-  gap: 1.25rem;
+  gap: 1rem;
   align-items: center;
 }
 
-.contact_div a {
+.contact_icon_link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border-radius: 4px;
+  color: white;
   opacity: 0.85;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
 }
 
-.contact_div a:hover {
+.contact_icon_link:hover {
   opacity: 1;
   transform: scale(1.08);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.contact_icon_svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* LinkedIn same as navbar: grayscale */
+.contact_icon_link_linkedin .contact_icon_svg {
+  filter: grayscale(100%);
 }
 
 /* ========== CV ========== */
