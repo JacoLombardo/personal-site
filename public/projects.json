@@ -5,7 +5,8 @@
     "photo": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1694358931/personal-site/DSC02863_owsl4d.jpg"
   },
   "about-me": {
-    "text": "I have always been driven by two passions: the precision of technology and the creativity of cooking. After a 7-year career as a Chef de Partie (leading teams across Italy, Ireland, Denmark, and Germany) I pivoted to my original interest: Software Engineering. I discovered that the logical rigor of coding is the perfect fuel for my mind. Since then, I have graduated from the prestigious 42 Berlin core curriculum, where I mastered low-level C programming, memory management, and autonomous problem-solving in a high-intensity, peer-to-peer environment. This followed an intensive 840-hour Full-Stack bootcamp, giving me a robust foundation in modern web architecture. Most recently, I contributed as a Full-Stack Developer at Need4Deed, building scalable features with Next.js. Having led teams in high-pressure kitchens, I bring a 'cool under pressure' mindset, a detail-oriented approach, and unique communication skills to every engineering squad I join."
+    "text": "I have always been driven by two passions: the precision of technology and the creativity of cooking. After a 7-year career as a Chef de Partie (leading teams across Italy, Ireland, Denmark, and Germany) I pivoted to my original interest: Software Engineering. I discovered that the logical rigor of coding is the perfect fuel for my mind. Since then, I have graduated from the prestigious 42 Berlin core curriculum, where I mastered low-level C programming, memory management, and autonomous problem-solving in a high-intensity, peer-to-peer environment. This followed an intensive 840-hour Full-Stack bootcamp, giving me a robust foundation in modern web architecture. Most recently, I contributed as a Full-Stack Developer at Need4Deed, building scalable features with Next.js. Having led teams in high-pressure kitchens, I bring a 'cool under pressure' mindset, a detail-oriented approach, and unique communication skills to every engineering squad I join.",
+    "shortText": "I thrive at the intersection of precision and creativity, whether in technology or gastronomy. After seven years as a Chef de Partie, leading teams across Europe in high-pressure kitchens, I returned to my first love: software engineering. My journey led me to 42 Berlin, where I honed low-level C programming, memory management, and autonomous problem-solving in a rigorous, peer-driven environment. I further solidified my skills with an 840-hour Full-Stack bootcamp, mastering modern web architecture. Most recently, as a Full-Stack Developer at Need4Deed, I built scalable features with Next.js and optimized systems for performance. My background in gastronomy taught me to stay cool under pressure, communicate clearly, and lead with a detail-oriented mindset, qualities I bring to every engineering team."
   },
   "contact": {
     "email": "jacopo.lombardo@outlook.com",
@@ -19,13 +20,7 @@
       "domain": "web",
       "type": "CODAC",
       "ring": 0,
-      "tech_stack": [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "Bootstrap",
-        "Vercel"
-      ],
+      "tech_stack": ["HTML", "CSS", "JavaScript", "Bootstrap", "Vercel"],
       "description": "A recipe discovery site where users filter by name, ingredients, calories, and cuisine and by dietary preferences such as vegetarian, vegan, or gluten-free. Detailed instructions and ingredients are shown for each recipe, and favourites can be saved in the browser for quick access.",
       "shortDescription": "Recipe finder with filters and favourites.",
       "isShared": false,
@@ -39,11 +34,7 @@
       "domain": "web",
       "type": "CODAC",
       "ring": 1,
-      "tech_stack": [
-        "JavaScript",
-        "React",
-        "Vercel"
-      ],
+      "tech_stack": ["JavaScript", "React", "Vercel"],
       "description": "A social network focused on Berlin city life and the U-Bahn. Users publish posts with images and text, like and favourite others' content, and comment on posts. User profiles showcase published posts and favourited collections; authentication and content are handled via a backend API.",
       "shortDescription": "Social network for Berlin city and U-Bahn content.",
       "isShared": false,
@@ -57,11 +48,7 @@
       "domain": "web",
       "type": "CODAC",
       "ring": 2,
-      "tech_stack": [
-        "JavaScript",
-        "React",
-        "Vercel"
-      ],
+      "tech_stack": ["JavaScript", "React", "Vercel"],
       "description": "A progressive web app that presents the Age of Empires II universe: civilizations, units, technologies, and structures. Users browse and search content and open detailed pages for each item; registered users can save favourites to a personal list for quick access.",
       "shortDescription": "Interactive AoE2 encyclopedia with favourites.",
       "isShared": false,
@@ -96,12 +83,7 @@
       "domain": "web",
       "type": "CODAC",
       "ring": 3,
-      "tech_stack": [
-        "Next.js",
-        "TypeScript",
-        "Tailwind",
-        "Vercel"
-      ],
+      "tech_stack": ["Next.js", "TypeScript", "Tailwind", "Vercel"],
       "description": "The Code Academy Berlin community platform: structured learning content for Data Science and Web Development, progress and achievement dashboards, and collaboration through chat, Q&A, and coding challenges. The site also supports community features, voting battles, job postings, project showcases, and quest-based modules for enrollment and soft skills.",
       "shortDescription": "Learning and community platform for Code Academy Berlin.",
       "isShared": false,
@@ -136,13 +118,7 @@
       "domain": "web",
       "type": "independent",
       "ring": 4,
-      "tech_stack": [
-        "Next.js",
-        "TypeScript",
-        "MongoDB",
-        "Bootstrap",
-        "Vercel"
-      ],
+      "tech_stack": ["Next.js", "TypeScript", "MongoDB", "Bootstrap", "Vercel"],
       "description": "A light-hearted web app where users choose up to three words to steer an AI-generated dad joke. The result is shown in a comic-style modal with sound and an animated avatar, for a playful, shareable experience.",
       "shortDescription": "AI-generated dad jokes from chosen words.",
       "isShared": false,
@@ -177,12 +153,7 @@
       "domain": "web",
       "type": "professional",
       "ring": 5,
-      "tech_stack": [
-        "React",
-        "TypeScript",
-        "Vite",
-        "Bootstrap"
-      ],
+      "tech_stack": ["React", "TypeScript", "Vite", "Bootstrap"],
       "description": "A platform that connects volunteers with refugees in Berlin accommodation centres. Organizations publish opportunities in categories such as translation, mentoring, childcare, sports, and culture; volunteers sign up with availability and skills. The site is multilingual to support integration and coordination.",
       "shortDescription": "Volunteer–refugee matching platform for Berlin.",
       "isShared": false,
@@ -196,10 +167,7 @@
       "domain": "software",
       "type": "42",
       "ring": 0,
-      "tech_stack": [
-        "C",
-        "Makefile"
-      ],
+      "tech_stack": ["C", "Makefile"],
       "description": "A custom C library built from scratch by reimplementing essential standard library functions (strings, memory, conversion, output) and a set of linked-list utilities. Serves as the foundation for later 42 projects and demonstrates a minimal, well-tested toolbox instead of black-box APIs.",
       "shortDescription": "Custom C library — reimplemented libc basics and linked lists.",
       "isShared": false,
@@ -213,10 +181,7 @@
       "domain": "software",
       "type": "42",
       "ring": 1,
-      "tech_stack": [
-        "C",
-        "Makefile"
-      ],
+      "tech_stack": ["C", "Makefile"],
       "description": "A recreation of printf in C without using the standard implementation. Handles variable arguments, format parsing, and multiple output types (strings, numbers, pointers) in a modular way. Produces a small static library reusable wherever printf is not allowed.",
       "shortDescription": "Reimplementation of printf with format parsing and variadic arguments.",
       "isShared": false,
@@ -230,9 +195,7 @@
       "domain": "software",
       "type": "42",
       "ring": 1,
-      "tech_stack": [
-        "C"
-      ],
+      "tech_stack": ["C"],
       "description": "A C function that reads a file line by line using only a fixed buffer and system calls. Handles long lines, multiple reads, and (in the bonus) several open files at once. Illustrates file descriptors, buffering, and memory management in C.",
       "shortDescription": "Line-by-line file reader with configurable buffer and multi-fd support.",
       "isShared": false,
@@ -246,9 +209,7 @@
       "domain": "software",
       "type": "42",
       "ring": 1,
-      "tech_stack": [
-        "Debian"
-      ],
+      "tech_stack": ["Debian"],
       "description": "A Linux virtual machine set up and hardened from scratch: partitioning with LVM and encryption, SSH on a custom port, firewall, strong password and sudo policies, and a monitoring script. Focuses on system administration and security practices used in real infrastructures.",
       "shortDescription": "Secure Linux VM with LVM, encryption, SSH, and hardening.",
       "isShared": false,
@@ -262,10 +223,7 @@
       "domain": "software",
       "type": "42",
       "ring": 2,
-      "tech_stack": [
-        "C",
-        "Makefile"
-      ],
+      "tech_stack": ["C", "Makefile"],
       "description": "An algorithm that sorts a stack of integers using only a second stack and a fixed set of operations (swap, push, rotate). The challenge is to minimize the number of moves. Includes cost-based decisions and a checker program to validate any solution.",
       "shortDescription": "Sorts integers with two stacks and a minimal set of operations.",
       "isShared": false,
@@ -279,10 +237,7 @@
       "domain": "software",
       "type": "42",
       "ring": 2,
-      "tech_stack": [
-        "C",
-        "Makefile"
-      ],
+      "tech_stack": ["C", "Makefile"],
       "description": "A 3D wireframe viewer in C that reads elevation maps from text files and draws them in isometric projection. Uses the school’s graphics library for map parsing, coordinate transforms, line drawing, and window interaction. A first step into graphics and spatial reasoning in code.",
       "shortDescription": "3D wireframe terrain viewer from elevation maps (isometric).",
       "isShared": false,
@@ -296,10 +251,7 @@
       "domain": "software",
       "type": "42",
       "ring": 2,
-      "tech_stack": [
-        "C",
-        "Makefile"
-      ],
+      "tech_stack": ["C", "Makefile"],
       "description": "A minimal client–server program where the client sends messages to the server using only Unix signals (no sockets). Bytes are encoded as signal sequences, illustrating low-level IPC and protocol design within strict constraints.",
       "shortDescription": "Client–server messaging using only Unix signals.",
       "isShared": false,
@@ -313,10 +265,7 @@
       "domain": "software",
       "type": "42",
       "ring": 3,
-      "tech_stack": [
-        "C",
-        "Makefile"
-      ],
+      "tech_stack": ["C", "Makefile"],
       "description": "A solution to the classic Dining Philosophers problem in C with threads and mutexes. Simulates philosophers sharing forks around a table, with configurable timings and optional meal limits. Focuses on avoiding deadlocks and starvation with a clear, predictable design.",
       "shortDescription": "Dining Philosophers simulation with threads and mutexes.",
       "isShared": false,
@@ -330,10 +279,7 @@
       "domain": "software",
       "type": "42",
       "ring": 3,
-      "tech_stack": [
-        "C",
-        "Makefile"
-      ],
+      "tech_stack": ["C", "Makefile"],
       "description": "A working Unix shell in C that parses commands, runs built-ins (cd, echo, export, etc.), executes external programs, and handles pipes and redirections. Includes signal handling, environment variables, and heredocs. Gives a concrete view of how shells and processes work under the hood.",
       "shortDescription": "Bash-like shell with pipes, redirections, built-ins, and signals.",
       "isShared": false,
@@ -361,10 +307,7 @@
       "domain": "software",
       "type": "42",
       "ring": 4,
-      "tech_stack": [
-        "C",
-        "Makefile"
-      ],
+      "tech_stack": ["C", "Makefile"],
       "description": "A Wolfenstein 3D–style raycasting engine in C. Reads map and texture configs from .cub files, casts rays to draw walls in 3D, and allows the player to move and look around. Combines math, parsing, and graphics into a small game built from the ground up.",
       "shortDescription": "Raycasting 3D engine with textured walls and .cub maps.",
       "isShared": false,
@@ -378,10 +321,7 @@
       "domain": "software",
       "type": "42",
       "ring": 5,
-      "tech_stack": [
-        "C++",
-        "Makefile"
-      ],
+      "tech_stack": ["C++", "Makefile"],
       "description": "The 42 C++ track (CPP00–CPP09): classes and OOP, memory and references, inheritance and polymorphism, exceptions, templates, the STL, and small projects such as a Bitcoin value calculator and an RPN calculator. Covers the transition from C to C++ and modern design patterns.",
       "shortDescription": "Ten C++ modules from OOP to templates and STL.",
       "isShared": false,
@@ -395,12 +335,7 @@
       "domain": "software",
       "type": "42",
       "ring": 5,
-      "tech_stack": [
-        "Docker",
-        "NGINX",
-        "MariaDB",
-        "WordPress"
-      ],
+      "tech_stack": ["Docker", "NGINX", "MariaDB", "WordPress"],
       "description": "A small Docker-based infrastructure: Nginx as reverse proxy with HTTPS, MariaDB as database, and WordPress running in PHP-FPM containers. Each service has its own Dockerfile and config, with volumes for persistence. Demonstrates containerization and multi-service deployment.",
       "shortDescription": "Docker stack: Nginx, MariaDB, WordPress with HTTPS.",
       "isShared": false,
@@ -414,10 +349,7 @@
       "domain": "software",
       "type": "42",
       "ring": 5,
-      "tech_stack": [
-        "C++",
-        "Makefile"
-      ],
+      "tech_stack": ["C++", "Makefile"],
       "description": "An HTTP/1.1 server in C++98 that serves static files, runs CGI scripts (e.g. PHP, Python), and is driven by an nginx-style config file. Handles multiple connections with non-blocking I/O (epoll) and supports common methods and error pages. Illustrates how web servers work from the inside.",
       "shortDescription": "HTTP server in C++98 with config file and CGI.",
       "isShared": false,
@@ -431,12 +363,7 @@
       "domain": "software",
       "type": "42",
       "ring": 6,
-      "tech_stack": [
-        "TypeScript",
-        "Fastify",
-        "Node.js",
-        "SQLite"
-      ],
+      "tech_stack": ["TypeScript", "Fastify", "Node.js", "SQLite"],
       "description": "A full-stack multiplayer Pong game for the 42 web specialization: real-time matches and tournaments, user accounts and GitHub OAuth, live chat, and tournament results stored on the Ethereum blockchain. Stack includes Fastify backend, Vite frontend, SQLite, and Docker, with i18n and a clear separation of concerns.",
       "shortDescription": "Full-stack Pong with WebSockets, OAuth, and blockchain.",
       "isShared": false,
@@ -450,12 +377,7 @@
       "domain": "software",
       "type": "independent",
       "ring": 7,
-      "tech_stack": [
-        "TypeScript",
-        "Fastify",
-        "Node.js",
-        "PostgreSQL"
-      ],
+      "tech_stack": ["TypeScript", "Fastify", "Node.js", "PostgreSQL"],
       "description": "This project is a restructuring of the original 42 school project, 'Transcendence'. The primary goal was to re-engineer the application for seamless deployment and maintainability. The monolithic structure was decoupled into a separate frontend (Vite, TypeScript) and backend (Fastify, TypeScript), now running on Vercel and Fly.io respectively. Key changes include migrating from SQLite to PostgreSQL for robust data management, removing the blockchain component to simplify the stack, and implementing a more flexible authentication system using bearer tokens to handle cross-origin browser policies. The result is a lighter, more scalable, and production-ready version of the full-featured Pong game, complete with real-time multiplayer, tournaments, and chat.",
       "shortDescription": "A full-stack multiplayer Pong game, refactored for lightweight, scalable deployment on modern cloud platforms.",
       "isShared": false,
@@ -491,9 +413,7 @@
       "name": "HTML",
       "type": "Language",
       "level": "Familiar",
-      "projects": [
-        "get-a-recipe"
-      ],
+      "projects": ["get-a-recipe"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983174/personal-site/icons/HTML5_u2dbrz.png"
     },
@@ -502,9 +422,7 @@
       "name": "CSS",
       "type": "Language",
       "level": "Familiar",
-      "projects": [
-        "get-a-recipe"
-      ],
+      "projects": ["get-a-recipe"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983171/personal-site/icons/CSS3_cmqvpg.png"
     },
@@ -564,10 +482,7 @@
       "name": "C++",
       "type": "Language",
       "level": "Proficient",
-      "projects": [
-        "42_cpp",
-        "42_webserv"
-      ],
+      "projects": ["42_cpp", "42_webserv"],
       "alwaysShown": true,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983171/personal-site/icons/C_dwdmqt.png"
     },
@@ -591,12 +506,7 @@
       "name": "Next.js",
       "type": "Framework",
       "level": "Proficient",
-      "projects": [
-        "codac-berlin",
-        "squisito",
-        "bad-jokes",
-        "ciao-claudia"
-      ],
+      "projects": ["codac-berlin", "squisito", "bad-jokes", "ciao-claudia"],
       "alwaysShown": true,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983178/personal-site/icons/Next.js_zvqep0.png"
     },
@@ -605,9 +515,7 @@
       "name": "Express",
       "type": "Framework",
       "level": "Familiar",
-      "projects": [
-        "age-of-empires-2-api"
-      ],
+      "projects": ["age-of-empires-2-api"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983172/personal-site/icons/Express_cpxquo.png"
     },
@@ -616,10 +524,7 @@
       "name": "Fastify",
       "type": "Framework",
       "level": "Familiar",
-      "projects": [
-        "42_ft_transcendence",
-        "transcendence-lite"
-      ],
+      "projects": ["42_ft_transcendence", "transcendence-lite"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983173/personal-site/icons/Fastify_yabwgh.png"
     },
@@ -628,9 +533,7 @@
       "name": "Electron",
       "type": "Framework",
       "level": "Familiar",
-      "projects": [
-        "vid-base"
-      ],
+      "projects": ["vid-base"],
       "alwaysShown": true,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983172/personal-site/icons/Electron_nrt5op.png"
     },
@@ -639,12 +542,7 @@
       "name": "Bootstrap",
       "type": "Library",
       "level": "Proficient",
-      "projects": [
-        "get-a-recipe",
-        "squisito",
-        "bad-jokes",
-        "need4deed"
-      ],
+      "projects": ["get-a-recipe", "squisito", "bad-jokes", "need4deed"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983171/personal-site/icons/Bootstrap_fdgdrf.png"
     },
@@ -653,10 +551,7 @@
       "name": "Tailwind",
       "type": "Library",
       "level": "Familiar",
-      "projects": [
-        "codac-berlin",
-        "ciao-claudia"
-      ],
+      "projects": ["codac-berlin", "ciao-claudia"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983181/personal-site/icons/Tailwind_CSS_bptnde.png"
     },
@@ -665,9 +560,7 @@
       "name": "Material-UI",
       "type": "Library",
       "level": "Familiar",
-      "projects": [
-        "squisito"
-      ],
+      "projects": ["squisito"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983177/personal-site/icons/Material_UI_h2r9q6.png"
     },
@@ -690,9 +583,7 @@
       "name": "SQLite",
       "type": "Database",
       "level": "Familiar",
-      "projects": [
-        "42_ft_transcendence"
-      ],
+      "projects": ["42_ft_transcendence"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983181/personal-site/icons/SQLite_ka03a9.png"
     },
@@ -701,9 +592,7 @@
       "name": "PostgreSQL",
       "type": "Database",
       "level": "Familiar",
-      "projects": [
-        "transcendence-lite"
-      ],
+      "projects": ["transcendence-lite"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983180/personal-site/icons/PostgreSQL_qfphs9.png"
     },
@@ -712,9 +601,7 @@
       "name": "MariaDB",
       "type": "Database",
       "level": "Familiar",
-      "projects": [
-        "42_inception"
-      ],
+      "projects": ["42_inception"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1771003444/personal-site/icons/MariaDB_fdwen8.png"
     },
@@ -756,10 +643,7 @@
       "name": "Vite",
       "type": "Tool",
       "level": "Familiar",
-      "projects": [
-        "vid-base",
-        "need4deed"
-      ],
+      "projects": ["vid-base", "need4deed"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983183/personal-site/icons/Vite.js_ph7cst.png"
     },
@@ -768,9 +652,7 @@
       "name": "Docker",
       "type": "Tool",
       "level": "Proficient",
-      "projects": [
-        "42_inception"
-      ],
+      "projects": ["42_inception"],
       "alwaysShown": true,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983172/personal-site/icons/Docker_mgilpt.png"
     },
@@ -779,9 +661,7 @@
       "name": "NGINX",
       "type": "Tool",
       "level": "Familiar",
-      "projects": [
-        "42_inception"
-      ],
+      "projects": ["42_inception"],
       "alwaysShown": false,
       "icon": ""
     },
@@ -790,9 +670,7 @@
       "name": "FFmpeg",
       "type": "Tool",
       "level": "Familiar",
-      "projects": [
-        "vid-base"
-      ],
+      "projects": ["vid-base"],
       "alwaysShown": false,
       "icon": ""
     },
@@ -801,9 +679,7 @@
       "name": "ExifTool",
       "type": "Tool",
       "level": "Familiar",
-      "projects": [
-        "vid-base"
-      ],
+      "projects": ["vid-base"],
       "alwaysShown": false,
       "icon": ""
     },
@@ -830,9 +706,7 @@
       "name": "Debian",
       "type": "Platform",
       "level": "Familiar",
-      "projects": [
-        "42_born2beroot"
-      ],
+      "projects": ["42_born2beroot"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983171/personal-site/icons/Debian_sggcbk.png"
     },
@@ -841,9 +715,7 @@
       "name": "WordPress",
       "type": "Platform",
       "level": "Familiar",
-      "projects": [
-        "42_inception"
-      ],
+      "projects": ["42_inception"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983603/personal-site/icons/WordPress_nkh7t4.png"
     }
