@@ -173,9 +173,9 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 2rem;
-  padding-top: 1rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
   box-sizing: border-box;
-  padding-bottom: 4rem;
 }
 
 @media screen and (min-width: 550px) {
@@ -188,7 +188,8 @@
 @media screen and (max-width: 550px) {
   .about_div {
     flex-direction: column;
-    padding-bottom: 3rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
   .about_div > div {
     margin-top: 0.5rem;
@@ -217,8 +218,8 @@
   min-height: 100vh;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
-  padding-top: 1rem;
-  padding-bottom: 4rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -227,7 +228,8 @@
 
 @media screen and (max-width: 550px) {
   .technologies_div {
-    padding-bottom: 3rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 }
 
@@ -547,8 +549,8 @@
 /* ========== PROJECTS ========== */
 .projects_wrapper {
   composes: section_width;
-  padding-top: 1rem;
-  padding-bottom: 4rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
 }
 
 .projects_section {
@@ -661,10 +663,8 @@
   align-items: center;
   font-size: 1.1rem;
   font-weight: 600;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  padding-top: 2rem;
-  padding-bottom: 4rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
   gap: 1.5rem;
 }
 
@@ -690,37 +690,133 @@
   min-height: 100vh;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
   box-sizing: border-box;
 }
 
-.cv_inner {
+.cv_heading {
+  margin: 0 0 1.5rem 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+/* Each subsection: subtitle left, content right (like Frameworks / Databases) */
+.cv_subsection {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
+  margin-bottom: 3rem;
 }
 
-.cv_heading {
-  margin: 0;
-  font-size: 1.5rem;
+.cv_subsection:last-of-type {
+  margin-bottom: 0;
+}
+
+@media screen and (min-width: 550px) {
+  .cv_subsection {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+    gap: 3rem;
+  }
+  .cv_subsection_title {
+    width: 10rem;
+    flex-shrink: 0;
+  }
+  .cv_subsection_body {
+    flex: 1;
+    min-width: 0;
+    max-width: 720px;
+    margin-left: auto;
+  }
+}
+
+/* Subtitle style = list_column_title (Frameworks, Databases, etc.) */
+.cv_subsection_title {
+  font-size: 0.75rem;
   font-weight: 600;
-  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 0;
 }
 
-.cv_link {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: var(--text);
+.cv_subsection_body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* Tighter gap between entries in Professional Experience and Education only */
+.cv_subsection:not(:last-of-type) .cv_subsection_body {
+  gap: 1.1rem;
+}
+
+.cv_entry {
+  margin: 0;
+}
+
+.cv_entry_header {
+  margin: 0 0 0.5rem 0;
+}
+
+.cv_entry_title {
+  margin: 0 0 0.2rem 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text, #f1f5f9);
+  line-height: 1.4;
+}
+
+.cv_entry_meta {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.5;
+}
+
+.cv_entry_list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--text, #f1f5f9);
+}
+
+.cv_entry_list li {
+  margin-bottom: 0.35rem;
+}
+
+.cv_entry_list li:last-child {
+  margin-bottom: 0;
+}
+
+.cv_content_link {
+  color: var(--text, #f1f5f9);
   text-decoration: underline;
-  text-underline-offset: 0.2em;
-  transition: opacity 0.2s ease;
+  text-underline-offset: 0.15em;
 }
 
-.cv_link:hover {
-  opacity: 0.85;
+.cv_content_link:hover {
+  opacity: 0.9;
+}
+
+.cv_languages {
+  margin: 0;
+  padding: 0;
+}
+
+.cv_language_item {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text, #f1f5f9);
+}
+
+.cv_language_item:last-child {
+  margin-bottom: 0;
 }

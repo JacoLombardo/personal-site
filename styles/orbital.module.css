@@ -7,7 +7,7 @@
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   background: transparent;
-  padding: 3rem 0 2rem;
+  padding: 2.5rem 0 2.5rem;
   overflow: hidden;
   box-sizing: border-box;
 }
@@ -370,6 +370,6 @@
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .container {
-    padding: 2rem 0 1.5rem;
+    padding: 2rem 0 2rem;
   }
 }
