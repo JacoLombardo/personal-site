@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -86,10 +87,7 @@ export default function NavBar({ page }: Props) {
         <Container className={styles.navbar_container}>
           <Navbar.Toggle aria-controls="basic-navbar-nav" className={styles.navbar_toggle_first} />
           <Navbar.Collapse id="basic-navbar-nav" className={styles.navbar_collapse}>
-            <Navbar.Brand
-              href={page === "home" ? "#" : "/"}
-              className={styles.navbar_brand}
-            >
+            <Navbar.Brand as={Link} href="/" className={styles.navbar_brand}>
               {intro.name}
             </Navbar.Brand>
             <div className={styles.navbar_spacer} />

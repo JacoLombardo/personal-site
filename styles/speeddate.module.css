@@ -1,0 +1,230 @@
+/* ========== Popup ========== */
+.popup_backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+}
+
+.popup_card {
+  background: rgba(24, 24, 32, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 1.15rem 1.35rem;
+  max-width: 300px;
+  width: 88%;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+}
+
+.popup_title {
+  margin: 0 0 0.35rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text, #f1f5f9);
+  letter-spacing: 0.01em;
+}
+
+.popup_text {
+  margin: 0 0 1.1rem 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--text-muted, #94a3b8);
+}
+
+.popup_actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.popup_btn,
+.popup_btn_secondary {
+  padding: 0.4rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.popup_btn {
+  background: var(--text, #f1f5f9);
+  color: #0f172a;
+  border: none;
+}
+
+.popup_btn:hover {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.popup_btn_secondary {
+  background: transparent;
+  color: var(--text-muted, #94a3b8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.popup_btn_secondary:hover {
+  color: var(--text, #f1f5f9);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ========== Speed date page ========== */
+.sd_page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.sd_content_wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 2rem 4rem;
+}
+
+.sd_arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text, #f1f5f9);
+  cursor: pointer;
+  font-size: 1.75rem;
+  line-height: 1;
+  transition: background 0.2s ease, color 0.2s ease;
+  z-index: 10;
+}
+
+.sd_arrow:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.sd_arrow_left {
+  left: 1.5rem;
+}
+
+.sd_arrow_right {
+  right: 1.5rem;
+}
+
+.sd_slide {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.sd_slide_project {
+  text-align: left;
+  padding-top: 1rem;
+}
+
+.sd_slide_title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text, #f1f5f9);
+  margin: 0 0 1rem 0;
+}
+
+.sd_about_text {
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text, #f1f5f9);
+}
+
+.sd_about_text {
+  margin: 0;
+}
+
+.sd_contact_slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.sd_contact_heading {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text, #f1f5f9);
+}
+
+.sd_contact_icons {
+  display: flex;
+  gap: 2.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sd_contact_link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 8px;
+  color: white;
+  opacity: 0.9;
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.sd_contact_link:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sd_contact_svg {
+  width: 36px;
+  height: 36px;
+}
+
+.sd_home_btn {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0f172a;
+  background: var(--text, #f1f5f9);
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.05s ease;
+}
+
+.sd_home_btn:hover {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+@media (max-width: 768px) {
+  .sd_content_wrap {
+    padding: 2rem 3.5rem;
+  }
+  .sd_arrow {
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+  }
+  .sd_arrow_left {
+    left: 0.75rem;
+  }
+  .sd_arrow_right {
+    right: 0.75rem;
+  }
+}

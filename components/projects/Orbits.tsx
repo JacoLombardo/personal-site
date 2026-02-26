@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "@/styles/orbital.module.css";
@@ -566,34 +567,35 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
             activeFilter === "highlighted" ? !p.highlighted : p.projectType !== activeFilter
           );
           return (
-            <g
-              key={p.id}
-              ref={(el) => {
-                if (el) groupRefs.current.set(p.id, el);
-              }}
-              className={`${styles.projectGroup} ${dimmed ? styles.dimmed : ""}`}
-              onMouseEnter={(e) => onEnter(p, e)}
-              onMouseLeave={onLeave}
-            >
-              <circle r={14} fill="transparent" />
-              <circle
-                r={p.size}
-                fill={color}
-                filter={`url(#${filter})`}
-                className={styles.dot}
-              />
-              {p.highlighted && (() => {
-                const s = p.size * 0.45;
-                return (
-                  <path
-                    d={`M0,${-s} L${s*0.22},${-s*0.22} L${s},0 L${s*0.22},${s*0.22} L0,${s} L${-s*0.22},${s*0.22} L${-s},0 L${-s*0.22},${-s*0.22}Z`}
-                    fill="#000"
-                    opacity={0.7}
-                    style={{ pointerEvents: "none" }}
-                  />
-                );
-              })()}
-            </g>
+            <Link key={p.id} href={`/project/${p.id}`} className={styles.planetLink}>
+              <g
+                ref={(el) => {
+                  if (el) groupRefs.current.set(p.id, el);
+                }}
+                className={`${styles.projectGroup} ${dimmed ? styles.dimmed : ""}`}
+                onMouseEnter={(e) => onEnter(p, e)}
+                onMouseLeave={onLeave}
+              >
+                <circle r={14} fill="transparent" />
+                <circle
+                  r={p.size}
+                  fill={color}
+                  filter={`url(#${filter})`}
+                  className={styles.dot}
+                />
+                {p.highlighted && (() => {
+                  const s = p.size * 0.45;
+                  return (
+                    <path
+                      d={`M0,${-s} L${s*0.22},${-s*0.22} L${s},0 L${s*0.22},${s*0.22} L0,${s} L${-s*0.22},${s*0.22} L${-s},0 L${-s*0.22},${-s*0.22}Z`}
+                      fill="#000"
+                      opacity={0.7}
+                      style={{ pointerEvents: "none" }}
+                    />
+                  );
+                })()}
+              </g>
+            </Link>
           );
         })}
       </svg>

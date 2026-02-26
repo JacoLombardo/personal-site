@@ -5,6 +5,7 @@ import CV from "@/components/cv/CV";
 import Intro from "@/components/intro/Intro";
 import NavBar from "@/components/NavBar";
 import Projects from "@/components/Projects";
+import SpeedDatePopup from "@/components/SpeedDatePopup";
 import Technologies from "@/components/technologies/Technologies";
 import clientPromise from "@/lib/mongodb";
 
@@ -17,6 +18,7 @@ export default function Home({ projectString }: Props) {
   return (
     <>
       <NavBar page={"home"} />
+      <SpeedDatePopup />
       <main>
         <Intro />
         <Projects projects={projects} />

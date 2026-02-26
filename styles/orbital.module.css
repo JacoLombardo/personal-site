@@ -236,7 +236,13 @@
   50% { opacity: 0.32; }
 }
 
-/* ── Project dot groups ── */
+/* ── Project dot groups (planets are links to project pages) ── */
+.planetLink {
+  cursor: pointer;
+  fill: none;
+  color: inherit;
+}
+
 .projectGroup {
   cursor: pointer;
 }
