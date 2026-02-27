@@ -54,6 +54,7 @@ async function run() {
   const intro = data.intro || null;
   const aboutMe = data["about-me"] || null;
   const contact = data.contact || null;
+  const cv = data.cv || null;
 
   const client = new MongoClient(uri, options);
   try {
@@ -99,6 +100,14 @@ async function run() {
         { upsert: true }
       );
       console.log("Upserted contact into personal-site.content.");
+    }
+    if (cv) {
+      await contentColl.replaceOne(
+        { _id: "cv" },
+        { _id: "cv", ...cv },
+        { upsert: true }
+      );
+      console.log("Upserted cv into personal-site.content.");
     }
   } catch (e) {
     console.error("Push failed:", e.message);

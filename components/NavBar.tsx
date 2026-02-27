@@ -91,12 +91,14 @@ export default function NavBar({ page, intro, contact }: Props) {
         onMouseLeave={() => setHovered(false)}
       >
         <Container className={styles.navbar_container}>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" className={styles.navbar_toggle_first} />
-          <Navbar.Collapse id="basic-navbar-nav" className={styles.navbar_collapse}>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" className={styles.navbar_toggle} />
+          <div className={styles.navbar_brand_center}>
             <Navbar.Brand as={Link} href="/" className={styles.navbar_brand}>
               {name}
             </Navbar.Brand>
-            <div className={styles.navbar_spacer} />
+          </div>
+          <div className={styles.navbar_toggle_spacer} aria-hidden="true" />
+          <Navbar.Collapse id="basic-navbar-nav" className={styles.navbar_collapse}>
             <Nav className={styles.navbar_nav}>
               <Nav.Link href={`${base}#projects`} style={navLinkStyle}>
                 Projects
@@ -114,18 +116,15 @@ export default function NavBar({ page, intro, contact }: Props) {
                 Contact
               </Nav.Link>
             </Nav>
-            <div className={styles.navbar_spacer} />
-            <div className={styles.navbar_right}>
-              <a
-                href={linkedinUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.navbar_linkedin}
-                aria-label="LinkedIn profile"
-              >
-                <LinkedInIcon />
-              </a>
-            </div>
+            <a
+              href={linkedinUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.navbar_linkedin}
+              aria-label="LinkedIn profile"
+            >
+              <LinkedInIcon />
+            </a>
           </Navbar.Collapse>
         </Container>
       </Navbar>

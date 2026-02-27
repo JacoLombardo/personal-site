@@ -13,6 +13,50 @@
     "linkedin": "https://www.linkedin.com/in/jacopo-lombardo/",
     "github": "https://github.com/JacoLombardo"
   },
+  "cv": {
+    "professionalExperience": [
+      {
+        "title": "Full Stack Developer (Volunteer) | Need4Deed",
+        "meta": "June 2025 – November 2025 | Berlin",
+        "bullets": [
+          "Developed and optimized front- and back-end features using Next.js, improving load performance.",
+          "Migrated database handling to MongoDB, improving data flexibility and system scalability for core platform features."
+        ]
+      },
+      {
+        "title": "Chef de Partie | Gastronomy Sector",
+        "meta": "2014 – 2022 | Europe",
+        "bullets": [
+          "Led teams of up to 4 people in fast-paced, high-pressure environments.",
+          "Applied a detail-oriented approach to manage complex operations and maintain high standards of performance."
+        ]
+      }
+    ],
+    "education": [
+      {
+        "title": "Software Engineering | 42 Berlin",
+        "meta": "April 2024 – December 2025",
+        "bullets": [
+          "A peer-to-peer, project-based software engineering program focused on autonomous learning.",
+          "Curriculum covers fundamental and advanced topics in C programming, Unix/Linux systems, algorithms, and memory management."
+        ]
+      },
+      {
+        "title": "Full Stack Development | Code Academy",
+        "meta": "September 2022 – February 2023",
+        "bullets": [
+          "Intensive 6-month onsite course consisting of 840 hours of practical, project-based work.",
+          "Followed the Agile/SCRUM framework as a cohort, incorporating code reviews and technical presentations."
+        ]
+      }
+    ],
+    "languages": [
+      "Italian: Native",
+      "English: C1 (Advanced)",
+      "Spanish: B1 (Intermediate)",
+      "German: B1 (Intermediate)"
+    ]
+  },
   "projects": [
     {
       "id": "get-a-recipe",
@@ -363,7 +407,7 @@
       "domain": "software",
       "type": "42",
       "ring": 6,
-      "tech_stack": ["TypeScript", "Fastify", "Node.js", "SQLite"],
+      "tech_stack": ["TypeScript", "Fastify", "Node.js", "SQLite", "Docker"],
       "description": "A full-stack multiplayer Pong game for the 42 web specialization: real-time matches and tournaments, user accounts and GitHub OAuth, live chat, and tournament results stored on the Ethereum blockchain. Stack includes Fastify backend, Vite frontend, SQLite, and Docker, with i18n and a clear separation of concerns.",
       "shortDescription": "Full-stack Pong with WebSockets, OAuth, and blockchain.",
       "isShared": false,
@@ -377,7 +421,14 @@
       "domain": "software",
       "type": "independent",
       "ring": 7,
-      "tech_stack": ["TypeScript", "Fastify", "Node.js", "PostgreSQL"],
+      "tech_stack": [
+        "TypeScript",
+        "Fastify",
+        "Node.js",
+        "PostgreSQL",
+        "Docker",
+        "Vercel"
+      ],
       "description": "This project is a restructuring of the original 42 school project, 'Transcendence'. The primary goal was to re-engineer the application for seamless deployment and maintainability. The monolithic structure was decoupled into a separate frontend (Vite, TypeScript) and backend (Fastify, TypeScript), now running on Vercel and Fly.io respectively. Key changes include migrating from SQLite to PostgreSQL for robust data management, removing the blockchain component to simplify the stack, and implementing a more flexible authentication system using bearer tokens to handle cross-origin browser policies. The result is a lighter, more scalable, and production-ready version of the full-featured Pong game, complete with real-time multiplayer, tournaments, and chat.",
       "shortDescription": "A full-stack multiplayer Pong game, refactored for lightweight, scalable deployment on modern cloud platforms.",
       "isShared": false,
@@ -652,7 +703,7 @@
       "name": "Docker",
       "type": "Tool",
       "level": "Proficient",
-      "projects": ["42_inception"],
+      "projects": ["42_inception", "42_ft_transcendence", "transcendence-lite"],
       "alwaysShown": true,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983172/personal-site/icons/Docker_mgilpt.png"
     },
@@ -696,7 +747,8 @@
         "codac-berlin",
         "squisito",
         "bad-jokes",
-        "ciao-claudia"
+        "ciao-claudia",
+        "transcendence-lite"
       ],
       "alwaysShown": true,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983183/personal-site/icons/Vercel_q1kacy.png"

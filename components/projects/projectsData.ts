@@ -61,6 +61,10 @@ export interface OrbitalData {
 
 const VIEW_W = 1200;
 const CENTER_Y = 360;
+/** Vertical layout: same relationship as desktop (center ± offset) but along y. Center Y for mobile. */
+const MOBILE_CENTER_Y = 900;
+/** Scale orbit radii on mobile so circles are much bigger. */
+const MOBILE_RADIUS_SCALE = 2.5;
 const CONV_RADII = [20, 40];
 const GROWTH = 0.7;
 const SCHOOL_COMPRESS = 0.7;
@@ -120,8 +124,9 @@ function dotSize(ring: number, maxRing: number): number {
 
 /**
  * Processes raw JSON projects into orbital layout data.
+ * @param mobile - If true, orbit groups are stacked vertically (SE top, Conv middle, WD bottom).
  */
-export function processOrbitalData(raw: JsonProject[]): OrbitalData {
+export function processOrbitalData(raw: JsonProject[], mobile = false): OrbitalData {
   const all = raw.filter((p) => p.id && p.name);
 
   const seAll = all.filter((p) => p.domain === "software" && !p.isShared);
@@ -139,16 +144,30 @@ export function processOrbitalData(raw: JsonProject[]): OrbitalData {
   const seBaseGap = seMax > 0 ? MAX_R / ringWeightSum(seMax, seSchoolLast) : 0;
   const wdBaseGap = wdMax > 0 ? MAX_R / ringWeightSum(wdMax, wdSchoolLast) : 0;
 
-  const seRadii = buildRadii(seMax, seBaseGap, seSchoolLast);
-  const wdRadii = buildRadii(wdMax, wdBaseGap, wdSchoolLast);
+  let seRadii = buildRadii(seMax, seBaseGap, seSchoolLast);
+  let wdRadii = buildRadii(wdMax, wdBaseGap, wdSchoolLast);
 
-  const seOuterR = seRadii[seRadii.length - 1] || 0;
-  const wdOuterR = wdRadii[wdRadii.length - 1] || 0;
+  let seOuterR = seRadii[seRadii.length - 1] || 0;
+  let wdOuterR = wdRadii[wdRadii.length - 1] || 0;
+
+  if (mobile) {
+    seRadii = seRadii.map((r) => r * MOBILE_RADIUS_SCALE);
+    wdRadii = wdRadii.map((r) => r * MOBILE_RADIUS_SCALE);
+    seOuterR *= MOBILE_RADIUS_SCALE;
+    wdOuterR *= MOBILE_RADIUS_SCALE;
+  }
 
   const midX = VIEW_W / 2;
-  const seCenter = { x: midX - seOuterR, y: CENTER_Y };
-  const wdCenter = { x: midX + wdOuterR, y: CENTER_Y };
-  const convCenter = { x: midX, y: CENTER_Y };
+  /* Desktop: SE left of center (-seOuterR in x), WD right (+wdOuterR in x), Conv center. Mobile: same relationship in y (SE above, WD below). */
+  const seCenter = mobile
+    ? { x: midX, y: MOBILE_CENTER_Y - seOuterR }
+    : { x: midX - seOuterR, y: CENTER_Y };
+  const wdCenter = mobile
+    ? { x: midX, y: MOBILE_CENTER_Y + wdOuterR }
+    : { x: midX + wdOuterR, y: CENTER_Y };
+  const convCenter = mobile
+    ? { x: midX, y: MOBILE_CENTER_Y }
+    : { x: midX, y: CENTER_Y };
 
   const orbital: OrbitalProject[] = [];
 
@@ -228,9 +247,10 @@ export function processOrbitalData(raw: JsonProject[]): OrbitalData {
 
 /**
  * Returns processed orbital data from a projects array (e.g. from MongoDB).
+ * @param mobile - If true, orbit groups are stacked vertically for mobile layout.
  */
-export function getOrbitalData(projects: JsonProject[]): OrbitalData {
-  return processOrbitalData(projects);
+export function getOrbitalData(projects: JsonProject[], mobile = false): OrbitalData {
+  return processOrbitalData(projects, mobile);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

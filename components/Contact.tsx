@@ -69,7 +69,7 @@ export default function Contact({ contact }: Props) {
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
-      <span>Let&apos;s connect</span>
+      <span className={styles.contact_heading}>Let&apos;s connect</span>
       <div className={styles.contact_right}>
         <div className={styles.contact_icons}>
           <Link

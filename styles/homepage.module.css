@@ -20,9 +20,21 @@
   flex-wrap: wrap;
 }
 
-.navbar_toggle_first {
+.navbar_toggle {
   order: -1;
   margin-right: 0.5rem;
+}
+
+.navbar_brand_center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.navbar_toggle_spacer {
+  width: 44px;
+  flex-shrink: 0;
 }
 
 .navbar_collapse {
@@ -30,19 +42,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-width: 0;
-}
-
-.navbar_right {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  min-width: 0;
-}
-
-.navbar_spacer {
-  flex: 1;
   min-width: 0;
 }
 
@@ -60,6 +59,46 @@
   margin-right: 0;
   margin-left: 0;
   flex-shrink: 0;
+}
+
+/* Mobile: one column under brand, LinkedIn last */
+@media (max-width: 991.98px) {
+  .navbar_collapse {
+    flex-basis: 100%;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .navbar_collapse .navbar_nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .navbar_collapse .navbar_nav a {
+    padding: 0.5rem 0;
+  }
+
+  .navbar_collapse .navbar_linkedin {
+    align-self: flex-start;
+    margin-top: 0.5rem;
+    padding: 0.35rem 0;
+  }
+}
+
+/* Desktop: hide spacer, brand left, nav + linkedin row */
+@media (min-width: 992px) {
+  .navbar_toggle_spacer {
+    display: none;
+  }
+
+  .navbar_brand_center {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+  }
 }
 
 .navbar_brand:hover {
@@ -127,8 +166,11 @@
 @media screen and (max-width: 550px) {
   .intro_div {
     flex-direction: column-reverse;
-    padding-top: 100px;
-    padding-bottom: 60px;
+    align-items: center;
+    min-height: 100vh;
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
   }
   .intro_name {
     font-size: 1.75rem;
@@ -188,8 +230,9 @@
 @media screen and (max-width: 550px) {
   .about_div {
     flex-direction: column;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
   }
   .about_div > div {
     margin-top: 0.5rem;
@@ -228,8 +271,9 @@
 
 @media screen and (max-width: 550px) {
   .technologies_div {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }
 
@@ -553,6 +597,17 @@
   padding-bottom: 2.5rem;
 }
 
+@media screen and (max-width: 550px) {
+  .projects_wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
 .projects_section {
   margin-bottom: 3.5rem;
 }
@@ -654,6 +709,7 @@
 }
 
 /* ========== CONTACT ========== */
+/* Contact: footer-style on mobile only; desktop unchanged */
 .contact_div {
   composes: section_width;
   margin-top: 0 !important;
@@ -666,6 +722,34 @@
   padding-top: 3rem;
   padding-bottom: 3rem;
   gap: 1.5rem;
+}
+
+@media screen and (max-width: 550px) {
+  .contact_div {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 1rem 1.5rem;
+    padding-top: 3rem;
+    padding-bottom: 2.5rem;
+  }
+  .contact_heading {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+  }
+  .contact_right {
+    display: contents;
+  }
+  .contact_icons {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+  }
+  .contact_privacy_link {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
 }
 
 .contact_right {
@@ -730,6 +814,16 @@
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
   box-sizing: border-box;
+}
+
+@media screen and (max-width: 550px) {
+  .cv_section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
 
 .cv_heading {

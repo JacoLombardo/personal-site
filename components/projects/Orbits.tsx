@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useRouter } from "next/router";
+import { useState, useEffect, useRef, useCallback, useLayoutEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "@/styles/orbital.module.css";
 import type { OrbitalData, OrbitalProject, FilterOption } from "./projectsData";
@@ -14,6 +15,8 @@ const VIEW_W = 1200;
 const VIEW_H = 700;
 /** Match ORBIT_SCALE in projectsData.ts so convergence orbits stay proportional */
 const CONV_RADII = [18, 35];
+/** Scale convergence zone on mobile (vertical layout) to match bigger SE/WD orbits */
+const MOBILE_CONV_SCALE = 2.5;
 const SE_HUE = "#00e5ff";
 const SE_HUE_BRIGHT = "#80f0ff";
 const WD_HUE = "#00e676";
@@ -33,12 +36,17 @@ function getColor(cat: string, isSchool: boolean) {
 interface OrbitsProps {
   containerRef: React.RefObject<HTMLDivElement | null>;
   orbitalData: OrbitalData;
+  isMobile: boolean;
+  activeFilter?: FilterOption | null;
+  setActiveFilter?: (f: FilterOption | null) => void;
 }
 
-export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
+export default function Orbits({ containerRef, orbitalData, isMobile, activeFilter: activeFilterProp, setActiveFilter: setActiveFilterProp }: OrbitsProps) {
+  const router = useRouter();
   const orbitsRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
   const groupRefs = useRef<Map<string, SVGGElement>>(new Map());
   const pausedRef = useRef(false);
   const timeRef = useRef(0);
@@ -57,10 +65,17 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
     gain: GainNode;
   } | null>(null);
 
+  const [internalFilter, setInternalFilter] = useState<FilterOption | null>(null);
+  const activeFilter = setActiveFilterProp ? activeFilterProp : internalFilter;
+  const setActiveFilter = setActiveFilterProp ?? setInternalFilter;
+
   const [hovered, setHovered] = useState<OrbitalProject | null>(null);
-  const [activeFilter, setActiveFilter] = useState<FilterOption | null>(null);
   const [tipPos, setTipPos] = useState({ x: 0, y: 0 });
+  const [lastClickedPlanetId, setLastClickedPlanetId] = useState<string | null>(null);
   const [arcGeo, setArcGeo] = useState<{ cx: number; cy: number; r: number } | null>(null);
+  const [tipAnchor, setTipAnchor] = useState<{ centerX: number; topY: number; bottomY: number } | null>(null);
+  const [tipWrapMaxWidth, setTipWrapMaxWidth] = useState<number | null>(null);
+  const tipRafRef = useRef<number | null>(null);
 
   const {
     orbital,
@@ -78,8 +93,16 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
   const padding = 0;
   const maxR = Math.max(seOuterR, wdOuterR);
   const drawnOuterR = maxR + 40;
-  const contentTop = Math.min(seCenter.y - drawnOuterR, convCenter.y - 80);
-  const contentBottom = Math.max(seCenter.y + drawnOuterR, convCenter.y + 58);
+  const contentTop = Math.min(
+    seCenter.y - drawnOuterR,
+    convCenter.y - 80,
+    wdCenter.y - drawnOuterR
+  );
+  const contentBottom = Math.max(
+    seCenter.y + drawnOuterR,
+    convCenter.y + 58,
+    wdCenter.y + drawnOuterR
+  );
   const viewBoxY = contentTop - padding;
   const viewBoxHeight = contentBottom - contentTop + padding * 2;
   const viewBox = `0 ${viewBoxY} ${VIEW_W} ${viewBoxHeight}`;
@@ -90,15 +113,24 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
     [seCenter, wdCenter, convCenter]
   );
 
+  /* Vertical layout (mobile): centers share same x; use scaled convergence radii */
+  const isVerticalLayout = seCenter.x === wdCenter.x && seCenter.y !== wdCenter.y;
+  const convRadii = isVerticalLayout
+    ? CONV_RADII.map((r) => r * MOBILE_CONV_SCALE)
+    : CONV_RADII;
+
   const getRadius = useCallback(
     (cat: string, orbit: number) => {
-      const r = cat === "se" ? seRadii : cat === "wd" ? wdRadii : CONV_RADII;
+      const r = cat === "se" ? seRadii : cat === "wd" ? wdRadii : convRadii;
       return r[orbit] ?? 0;
     },
-    [seRadii, wdRadii]
+    [seRadii, wdRadii, convRadii]
   );
 
+  const showDesktopFilterBar = !setActiveFilterProp;
+
   useEffect(() => {
+    if (!showDesktopFilterBar) return;
     const svg = svgRef.current;
     const wrapper = wrapperRef.current;
     if (!svg || !wrapper) return;
@@ -106,14 +138,12 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
     const update = () => {
       const svgRect = svg.getBoundingClientRect();
       const wrapperRect = wrapper.getBoundingClientRect();
-      /* Match preserveAspectRatio="xMidYMid meet": scale from cropped viewBox to SVG element */
       const scale = Math.min(svgRect.width / VIEW_W, svgRect.height / viewBoxHeight);
       const offsetX = (svgRect.width - VIEW_W * scale) / 2;
       const offsetY = (svgRect.height - viewBoxHeight * scale) / 2;
 
       wrapper.style.setProperty("--btn-scale", String(Math.min(scale, 1)));
 
-      /* SE orbit center in viewBox coords -> SVG element coords (viewBox y starts at viewBoxY) */
       const seCxPage = svgRect.left + offsetX + seCenter.x * scale;
       const seCyPage = svgRect.top + offsetY + (seCenter.y - viewBoxY) * scale;
       const cx = seCxPage - wrapperRect.left;
@@ -127,7 +157,7 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
     const ro = new ResizeObserver(update);
     ro.observe(svg);
     return () => ro.disconnect();
-  }, [seCenter, seOuterR, viewBoxY, viewBoxHeight]);
+  }, [showDesktopFilterBar, seCenter, seOuterR, viewBoxY, viewBoxHeight]);
 
   useEffect(() => {
     let frameId: number;
@@ -169,23 +199,137 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
 
   const onEnter = useCallback((p: OrbitalProject, e: React.MouseEvent) => {
     pausedRef.current = true;
+    setTipWrapMaxWidth(null);
     setHovered(p);
-    const box = orbitsRef.current;
     const g = e.currentTarget as SVGGElement;
-    if (box && g) {
-      const br = box.getBoundingClientRect();
-      const gr = g.getBoundingClientRect();
-      setTipPos({
-        x: gr.left + gr.width / 2 - br.left + 20,
-        y: gr.top - br.top - 10,
-      });
-    }
+    const gr = g.getBoundingClientRect();
+    setTipAnchor({
+      centerX: gr.left + gr.width / 2,
+      topY: gr.top,
+      bottomY: gr.bottom,
+    });
   }, []);
 
   const onLeave = useCallback(() => {
     pausedRef.current = false;
     setHovered(null);
+    setTipAnchor(null);
+    setTipWrapMaxWidth(null);
   }, []);
+
+  const onPlanetClick = useCallback(
+    (p: OrbitalProject, e: React.MouseEvent) => {
+      if (!isMobile) return;
+      e.preventDefault();
+      if (hovered?.id === p.id) {
+        setHovered(null);
+        setTipAnchor(null);
+        setLastClickedPlanetId(null);
+        setTipWrapMaxWidth(null);
+        return;
+      }
+      setTipWrapMaxWidth(null);
+      setLastClickedPlanetId(p.id);
+      setHovered(p);
+      const g = groupRefs.current.get(p.id);
+      if (g) {
+        const gr = g.getBoundingClientRect();
+        setTipAnchor({
+          centerX: gr.left + gr.width / 2,
+          topY: gr.top,
+          bottomY: gr.bottom,
+        });
+      }
+    },
+    [isMobile, hovered?.id]
+  );
+
+  const onTooltipClick = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isMobile || !hovered) return;
+      e.preventDefault();
+      e.stopPropagation();
+      router.push(`/project/${hovered.id}`);
+    },
+    [isMobile, hovered, router]
+  );
+
+  const updateTooltipPosition = useCallback(() => {
+    if (!hovered || !tipAnchor) return;
+    const tip = tooltipRef.current;
+    if (!tip) return;
+    const tipRect = tip.getBoundingClientRect();
+    const tipW = tipRect.width;
+    const tipH = tipRect.height;
+
+    const vv = window.visualViewport;
+    const viewportW = vv?.width ?? document.documentElement.clientWidth;
+    const viewportH = vv?.height ?? document.documentElement.clientHeight;
+    const viewportLeft = vv?.offsetLeft ?? 0;
+    const viewportTop = vv?.offsetTop ?? 0;
+
+    // Same inset from all viewport edges so left/right margins match.
+    const inset = 10 + 6; // margin + shadow so tooltip isn't cut
+    const edgeLeft = viewportLeft + inset;
+    const edgeTop = viewportTop + inset;
+    const edgeRight = viewportLeft + viewportW - inset;
+    const edgeBottom = viewportTop + viewportH - inset;
+
+    const offsetX = 20;
+    const offsetY = 10;
+
+    // If the tooltip's natural (nowrap) width is wider than the viewport,
+    // constrain it and allow wrapping so it becomes taller instead of being cut.
+    const viewportMaxW = edgeRight - edgeLeft;
+    if (tipWrapMaxWidth == null && tipW > viewportMaxW) {
+      setTipWrapMaxWidth(viewportMaxW);
+      return; // Wait for re-render with new width, then reposition.
+    }
+
+    // Prefer above; if clipped, flip below; clamp within viewport.
+    const topAbove = tipAnchor.topY - tipH - offsetY;
+    const topBelow = tipAnchor.bottomY + offsetY;
+    let top = topAbove < edgeTop ? topBelow : topAbove;
+    if (top + tipH > edgeBottom) top = topAbove;
+    top = Math.min(Math.max(top, edgeTop), edgeBottom - tipH);
+
+    // Prefer slightly to the right; if clipped, flip to left; clamp within viewport.
+    const leftRight = tipAnchor.centerX - tipW / 2 + offsetX;
+    const leftLeft = tipAnchor.centerX - tipW / 2 - offsetX;
+    let left = leftRight + tipW > edgeRight ? leftLeft : leftRight;
+    left = Math.min(Math.max(left, edgeLeft), edgeRight - tipW);
+
+    // Tooltip is position: fixed (viewport coords)
+    const next = { x: left, y: top };
+    setTipPos((prev) => {
+      const dx = Math.abs(prev.x - next.x);
+      const dy = Math.abs(prev.y - next.y);
+      return dx < 0.5 && dy < 0.5 ? prev : next;
+    });
+  }, [hovered, tipAnchor, tipWrapMaxWidth]);
+
+  useLayoutEffect(() => {
+    updateTooltipPosition();
+  }, [updateTooltipPosition]);
+
+  useEffect(() => {
+    if (!hovered) return;
+    const on = () => {
+      if (tipRafRef.current != null) cancelAnimationFrame(tipRafRef.current);
+      tipRafRef.current = requestAnimationFrame(() => {
+        tipRafRef.current = null;
+        updateTooltipPosition();
+      });
+    };
+    window.addEventListener("resize", on);
+    window.addEventListener("scroll", on, true);
+    return () => {
+      window.removeEventListener("resize", on);
+      window.removeEventListener("scroll", on, true);
+      if (tipRafRef.current != null) cancelAnimationFrame(tipRafRef.current);
+      tipRafRef.current = null;
+    };
+  }, [hovered, updateTooltipPosition]);
 
   const initScratchAudio = useCallback(() => {
     if (scratchCtxRef.current) return;
@@ -303,46 +447,49 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
 
   return (
     <div ref={orbitsRef} className={styles.orbits}>
-      <div ref={wrapperRef} className={styles.filterBarWrapper}>
-        <div
-          className={styles.filterBar}
-          style={
-            arcGeo
-              ? {
-                  WebkitMaskImage: `radial-gradient(circle ${arcGeo.r}px at ${arcGeo.cx}px ${arcGeo.cy}px, transparent ${arcGeo.r - 1}px, black ${arcGeo.r}px)`,
-                  maskImage: `radial-gradient(circle ${arcGeo.r}px at ${arcGeo.cx}px ${arcGeo.cy}px, transparent ${arcGeo.r - 1}px, black ${arcGeo.r}px)`,
-                }
-              : undefined
-          }
-        >
-          {(["independent", "professional", "CODAC", "42", "highlighted"] as FilterOption[]).map((t) => {
-            const label = t === "42" ? "42" : t === "CODAC" ? "CODAC" : t === "independent" ? "Independent" : t === "professional" ? "Professional" : "★";
-            const tint = t === "42" ? SE_HUE : t === "CODAC" ? WD_HUE : t === "independent" ? SE_HUE_BRIGHT : t === "professional" ? WD_HUE_BRIGHT : "#ffd54f";
-            const isActive = activeFilter === t;
-            return (
-              <button
-                key={t}
-                className={`${styles.filterTab} ${isActive ? styles.filterTabActive : ""}`}
-                style={isActive && tint ? { borderColor: tint, color: tint } : undefined}
-                onClick={() => setActiveFilter(isActive ? null : t)}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
-        {arcGeo && (
+      {showDesktopFilterBar && (
+        <div ref={wrapperRef} className={styles.filterBarWrapper}>
           <div
-            className={styles.filterBarArc}
-            style={{
-              width: arcGeo.r * 2,
-              height: arcGeo.r * 2,
-              top: arcGeo.cy - arcGeo.r,
-              left: arcGeo.cx - arcGeo.r,
-            }}
-          />
-        )}
-      </div>
+            className={styles.filterBar}
+            style={
+              arcGeo
+                ? {
+                    WebkitMaskImage: `radial-gradient(circle ${arcGeo.r}px at ${arcGeo.cx}px ${arcGeo.cy}px, transparent ${arcGeo.r - 1}px, black ${arcGeo.r}px)`,
+                    maskImage: `radial-gradient(circle ${arcGeo.r}px at ${arcGeo.cx}px ${arcGeo.cy}px, transparent ${arcGeo.r - 1}px, black ${arcGeo.r}px)`,
+                  }
+                : undefined
+            }
+          >
+            {(["independent", "professional", "CODAC", "42", "highlighted"] as FilterOption[]).map((t) => {
+              const label = t === "42" ? "42" : t === "CODAC" ? "CODAC" : t === "independent" ? "Independent" : t === "professional" ? "Professional" : "★";
+              const tint = t === "42" ? SE_HUE : t === "CODAC" ? WD_HUE : t === "independent" ? SE_HUE_BRIGHT : t === "professional" ? WD_HUE_BRIGHT : "#ffd54f";
+              const isActive = activeFilter === t;
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  className={`${styles.filterTab} ${isActive ? styles.filterTabActive : ""}`}
+                  style={isActive && tint ? { borderColor: tint, color: tint } : undefined}
+                  onClick={() => setActiveFilter(isActive ? null : t)}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+          {arcGeo && (
+            <div
+              className={styles.filterBarArc}
+              style={{
+                width: arcGeo.r * 2,
+                height: arcGeo.r * 2,
+                top: arcGeo.cy - arcGeo.r,
+                left: arcGeo.cx - arcGeo.r,
+              }}
+            />
+          )}
+        </div>
+      )}
 
       <svg
         ref={svgRef}
@@ -444,7 +591,7 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
             fill="none"
             stroke={SE_HUE}
             strokeWidth={i === 0 ? 0.8 : 0.4}
-            opacity={0.1 + (i / (seRadii.length - 1)) * 0.12}
+            opacity={isVerticalLayout ? 0.4 + (i / (seRadii.length - 1)) * 0.25 : 0.1 + (i / (seRadii.length - 1)) * 0.12}
           />
         ))}
 
@@ -477,7 +624,7 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
             fill="none"
             stroke={WD_HUE}
             strokeWidth={i === 0 ? 0.8 : 0.4}
-            opacity={0.1 + (i / (wdRadii.length - 1)) * 0.12}
+            opacity={isVerticalLayout ? 0.4 + (i / (wdRadii.length - 1)) * 0.25 : 0.1 + (i / (wdRadii.length - 1)) * 0.12}
           />
         ))}
 
@@ -499,27 +646,27 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
             <circle
               cx={convCenter.x}
               cy={convCenter.y}
-              r={55}
+              r={isVerticalLayout ? 55 * MOBILE_CONV_SCALE : 55}
               fill="url(#rg-conv)"
               className={styles.convergenceGlow}
             />
             <rect
               x={convCenter.x - 1}
-              y={convCenter.y - 80}
+              y={convCenter.y - (isVerticalLayout ? 80 * MOBILE_CONV_SCALE : 80)}
               width={2}
-              height={160}
+              height={isVerticalLayout ? 160 * MOBILE_CONV_SCALE : 160}
               fill="url(#lg-beam-v)"
               opacity={0.1}
             />
             <rect
-              x={convCenter.x - 25}
+              x={convCenter.x - (isVerticalLayout ? 25 * MOBILE_CONV_SCALE : 25)}
               y={convCenter.y - 0.5}
-              width={50}
+              width={isVerticalLayout ? 50 * MOBILE_CONV_SCALE : 50}
               height={1}
               fill="url(#lg-beam-h)"
               opacity={0.06}
             />
-            {CONV_RADII.map((r, i) => (
+            {convRadii.map((r, i) => (
               <circle
                 key={`cv-o-${i}`}
                 cx={convCenter.x}
@@ -528,7 +675,7 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
                 fill="none"
                 stroke="#fff"
                 strokeWidth={0.4}
-                opacity={0.12}
+                opacity={isVerticalLayout ? 0.4 : 0.12}
               />
             ))}
             <circle
@@ -541,7 +688,7 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
             />
             <text
               x={convCenter.x}
-              y={convCenter.y + 58}
+              y={convCenter.y + (isVerticalLayout ? 58 * MOBILE_CONV_SCALE : 58)}
               textAnchor="middle"
               fill="#fff"
               fontSize={8.5}
@@ -567,7 +714,12 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
             activeFilter === "highlighted" ? !p.highlighted : p.projectType !== activeFilter
           );
           return (
-            <Link key={p.id} href={`/project/${p.id}`} className={styles.planetLink}>
+            <Link
+              key={p.id}
+              href={`/project/${p.id}`}
+              className={styles.planetLink}
+              onClick={isMobile ? (e) => { e.preventDefault(); onPlanetClick(p, e); } : undefined}
+            >
               <g
                 ref={(el) => {
                   if (el) groupRefs.current.set(p.id, el);
@@ -576,15 +728,16 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
                 onMouseEnter={(e) => onEnter(p, e)}
                 onMouseLeave={onLeave}
               >
-                <circle r={14} fill="transparent" />
+                <circle r={isVerticalLayout ? 26 : 14} fill="transparent" />
                 <circle
-                  r={p.size}
+                  r={isVerticalLayout ? p.size * 1.85 : p.size}
                   fill={color}
                   filter={`url(#${filter})`}
                   className={styles.dot}
                 />
                 {p.highlighted && (() => {
-                  const s = p.size * 0.45;
+                  const baseSize = isVerticalLayout ? p.size * 1.85 : p.size;
+                  const s = baseSize * 0.45;
                   return (
                     <path
                       d={`M0,${-s} L${s*0.22},${-s*0.22} L${s},0 L${s*0.22},${s*0.22} L0,${s} L${-s*0.22},${s*0.22} L${-s},0 L${-s*0.22},${-s*0.22}Z`}
@@ -603,12 +756,26 @@ export default function Orbits({ containerRef, orbitalData }: OrbitsProps) {
       <AnimatePresence>
         {hovered && (
           <motion.div
+            ref={tooltipRef}
             className={styles.tooltip}
-            style={{ left: tipPos.x, top: tipPos.y }}
+            style={{
+              left: tipPos.x,
+              top: tipPos.y,
+              maxWidth: tipWrapMaxWidth ? `${tipWrapMaxWidth}px` : undefined,
+              whiteSpace: tipWrapMaxWidth ? "normal" : "nowrap",
+              overflowWrap: tipWrapMaxWidth ? "anywhere" : undefined,
+              wordBreak: tipWrapMaxWidth ? "break-word" : undefined,
+              pointerEvents: isMobile ? "auto" : undefined,
+              cursor: isMobile ? "pointer" : undefined,
+            }}
             initial={{ opacity: 0, y: 6, scale: 0.92 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 6, scale: 0.92 }}
             transition={{ duration: 0.15 }}
+            onClick={isMobile ? onTooltipClick : undefined}
+            role={isMobile ? "button" : undefined}
+            tabIndex={isMobile ? 0 : undefined}
+            onKeyDown={isMobile && hovered ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); router.push(`/project/${hovered.id}`); } } : undefined}
           >
             <div className={styles.tooltipName}>{hovered.name}</div>
             <div className={styles.tooltipStack}>{hovered.stack}</div>

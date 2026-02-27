@@ -1,9 +1,44 @@
 "use client";
 
 import { motion } from "framer-motion";
+import type { CvData, CvEntry } from "@/types";
 import styles from "@/styles/homepage.module.css";
 
-export default function CV() {
+const DEFAULT_TITLES = {
+  professionalExperience: "Professional Experience",
+  education: "Education",
+  languages: "Languages",
+};
+
+interface Props {
+  cv: CvData | null;
+}
+
+function renderEntries(entries: CvEntry[] | undefined) {
+  if (!entries?.length) return null;
+  return entries.map((entry, i) => (
+    <article key={i} className={styles.cv_entry}>
+      <header className={styles.cv_entry_header}>
+        <h4 className={styles.cv_entry_title}>{entry.title}</h4>
+        <p className={styles.cv_entry_meta}>{entry.meta}</p>
+      </header>
+      <ul className={styles.cv_entry_list}>
+        {entry.bullets.map((bullet, j) => (
+          <li key={j}>{bullet}</li>
+        ))}
+      </ul>
+    </article>
+  ));
+}
+
+export default function CV({ cv }: Props) {
+  const hasContent =
+    (cv?.professionalExperience?.length ?? 0) > 0 ||
+    (cv?.education?.length ?? 0) > 0 ||
+    (cv?.languages?.length ?? 0) > 0;
+
+  if (!hasContent) return null;
+
   return (
     <motion.section
       id="cv"
@@ -15,110 +50,34 @@ export default function CV() {
     >
       <h2 className={styles.cv_heading}>CV</h2>
 
-      <div className={styles.cv_subsection}>
-        <h3 className={styles.cv_subsection_title}>Professional Experience</h3>
-        <div className={styles.cv_subsection_body}>
-          <article className={styles.cv_entry}>
-            <header className={styles.cv_entry_header}>
-              <h4 className={styles.cv_entry_title}>
-                Full Stack Developer (Volunteer) | Need4Deed
-              </h4>
-              <p className={styles.cv_entry_meta}>
-                June 2025 – November 2025 | Berlin
-              </p>
-            </header>
-            <ul className={styles.cv_entry_list}>
-              <li>
-                Developed and optimized front- and back-end features using
-                Next.js, improving load performance.
-              </li>
-              <li>
-                Migrated database handling to MongoDB, improving data
-                flexibility and system scalability for core platform features.
-              </li>
-            </ul>
-          </article>
-
-          <article className={styles.cv_entry}>
-            <header className={styles.cv_entry_header}>
-              <h4 className={styles.cv_entry_title}>
-                Chef de Partie | Gastronomy Sector
-              </h4>
-              <p className={styles.cv_entry_meta}>2014 – 2022 | Europe</p>
-            </header>
-            <ul className={styles.cv_entry_list}>
-              <li>
-                Led teams of up to 4 people in fast-paced, high-pressure
-                environments.
-              </li>
-              <li>
-                Applied a detail-oriented approach to manage complex operations
-                and maintain high standards of performance.
-              </li>
-            </ul>
-          </article>
+      {(cv?.professionalExperience?.length ?? 0) > 0 && (
+        <div className={styles.cv_subsection}>
+          <h3 className={styles.cv_subsection_title}>{DEFAULT_TITLES.professionalExperience}</h3>
+          <div className={styles.cv_subsection_body}>{renderEntries(cv?.professionalExperience)}</div>
         </div>
-      </div>
+      )}
 
-      <div className={styles.cv_subsection}>
-        <h3 className={styles.cv_subsection_title}>Education</h3>
-        <div className={styles.cv_subsection_body}>
-          <article className={styles.cv_entry}>
-            <header className={styles.cv_entry_header}>
-              <h4 className={styles.cv_entry_title}>
-                Software Engineering | 42 Berlin
-              </h4>
-              <p className={styles.cv_entry_meta}>April 2024 – December 2025</p>
-            </header>
-            <ul className={styles.cv_entry_list}>
-              <li>
-                A peer-to-peer, project-based software engineering program
-                focused on autonomous learning.
-              </li>
-              <li>
-                Curriculum covers fundamental and advanced topics in C
-                programming, Unix/Linux systems, algorithms, and memory
-                management.
-              </li>
-            </ul>
-          </article>
-
-          <article className={styles.cv_entry}>
-            <header className={styles.cv_entry_header}>
-              <h4 className={styles.cv_entry_title}>
-                Full Stack Development | Code Academy
-              </h4>
-              <p className={styles.cv_entry_meta}>
-                September 2022 – February 2023
-              </p>
-            </header>
-            <ul className={styles.cv_entry_list}>
-              <li>
-                Intensive 6-month onsite course consisting of 840 hours of
-                practical, project-based work.
-              </li>
-              <li>
-                Followed the Agile/SCRUM framework as a cohort, incorporating
-                code reviews and technical presentations.
-              </li>
-            </ul>
-          </article>
+      {(cv?.education?.length ?? 0) > 0 && (
+        <div className={styles.cv_subsection}>
+          <h3 className={styles.cv_subsection_title}>{DEFAULT_TITLES.education}</h3>
+          <div className={styles.cv_subsection_body}>{renderEntries(cv?.education)}</div>
         </div>
-      </div>
+      )}
 
-      <div className={styles.cv_subsection}>
-        <h3 className={styles.cv_subsection_title}>Languages</h3>
-        <div className={styles.cv_subsection_body}>
-          <div className={styles.cv_languages}>
-            <p className={styles.cv_language_item}>Italian: Native</p>
-            <p className={styles.cv_language_item}>English: C1 (Advanced)</p>
-            <p className={styles.cv_language_item}>
-              Spanish: B1 (Intermediate)
-            </p>
-            <p className={styles.cv_language_item}>German: B1 (Intermediate)</p>
+      {(cv?.languages?.length ?? 0) > 0 && (
+        <div className={styles.cv_subsection}>
+          <h3 className={styles.cv_subsection_title}>{DEFAULT_TITLES.languages}</h3>
+          <div className={styles.cv_subsection_body}>
+            <div className={styles.cv_languages}>
+              {(cv?.languages ?? []).map((item, i) => (
+                <p key={i} className={styles.cv_language_item}>
+                  {item}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </motion.section>
   );
 }
