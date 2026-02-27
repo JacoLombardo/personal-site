@@ -270,6 +270,17 @@
   opacity: 1;
 }
 
+/* Mobile: drive enlarged state from React (tooltip open), not :hover, so it resets when tooltip closes */
+@media (max-width: 550px) {
+  .projectGroup:hover .dot {
+    transform: none;
+  }
+  .projectGroup.planetActive .dot {
+    transform: scale(2.5);
+    opacity: 1;
+  }
+}
+
 /* ── Tooltip ── */
 .tooltip {
   position: fixed;

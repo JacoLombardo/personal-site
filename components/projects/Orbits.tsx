@@ -496,13 +496,13 @@ export default function Orbits({ containerRef, orbitalData, isMobile, activeFilt
         viewBox={viewBox}
         preserveAspectRatio="xMidYMid meet"
         className={styles.svg}
-        style={{ touchAction: "none" }}
+        style={{ touchAction: isMobile ? "auto" : "none" }}
         data-hovering={hovered ? "true" : "false"}
         data-filtering={activeFilter ? "true" : "false"}
-        onPointerDown={onDragStart}
-        onPointerMove={onDragMove}
-        onPointerUp={onDragEnd}
-        onPointerCancel={onDragEnd}
+        onPointerDown={isMobile ? undefined : onDragStart}
+        onPointerMove={isMobile ? undefined : onDragMove}
+        onPointerUp={isMobile ? undefined : onDragEnd}
+        onPointerCancel={isMobile ? undefined : onDragEnd}
       >
         <defs>
           <filter id="gl-se" x="-200%" y="-200%" width="500%" height="500%">
@@ -724,7 +724,8 @@ export default function Orbits({ containerRef, orbitalData, isMobile, activeFilt
                 ref={(el) => {
                   if (el) groupRefs.current.set(p.id, el);
                 }}
-                className={`${styles.projectGroup} ${dimmed ? styles.dimmed : ""}`}
+                className={`${styles.projectGroup} ${dimmed ? styles.dimmed : ""} ${isMobile && hovered?.id === p.id ? styles.planetActive : ""}`}
+                data-active={isMobile && hovered?.id === p.id ? "true" : undefined}
                 onMouseEnter={(e) => onEnter(p, e)}
                 onMouseLeave={onLeave}
               >

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -45,11 +45,19 @@ export default function NavBar({ page, intro, contact }: Props) {
   const linkedinUrl = contact?.linkedin ?? "https://www.linkedin.com/in/jacopo-lombardo/";
 
   const TOP_THRESHOLD = 60;
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      setHidden(y > TOP_THRESHOLD);
+      if (y <= TOP_THRESHOLD) {
+        setHidden(false);
+      } else if (y > lastScrollY.current) {
+        setHidden(true);
+      } else if (y < lastScrollY.current) {
+        setHidden(false);
+      }
+      lastScrollY.current = y;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
