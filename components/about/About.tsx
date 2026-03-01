@@ -22,9 +22,7 @@ export default function About({ aboutMe }: Props) {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
       <span className={styles.about_label}>About</span>
-      <div>
-        {aboutMe?.text && <p>{aboutMe.text}</p>}
-      </div>
+      <div>{aboutMe?.text && <p>{aboutMe.text}</p>}</div>
     </motion.section>
   );
 }

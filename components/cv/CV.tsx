@@ -52,21 +52,31 @@ export default function CV({ cv }: Props) {
 
       {(cv?.professionalExperience?.length ?? 0) > 0 && (
         <div className={styles.cv_subsection}>
-          <h3 className={styles.cv_subsection_title}>{DEFAULT_TITLES.professionalExperience}</h3>
-          <div className={styles.cv_subsection_body}>{renderEntries(cv?.professionalExperience)}</div>
+          <h3 className={styles.cv_subsection_title}>
+            {DEFAULT_TITLES.professionalExperience}
+          </h3>
+          <div className={styles.cv_subsection_body}>
+            {renderEntries(cv?.professionalExperience)}
+          </div>
         </div>
       )}
 
       {(cv?.education?.length ?? 0) > 0 && (
         <div className={styles.cv_subsection}>
-          <h3 className={styles.cv_subsection_title}>{DEFAULT_TITLES.education}</h3>
-          <div className={styles.cv_subsection_body}>{renderEntries(cv?.education)}</div>
+          <h3 className={styles.cv_subsection_title}>
+            {DEFAULT_TITLES.education}
+          </h3>
+          <div className={styles.cv_subsection_body}>
+            {renderEntries(cv?.education)}
+          </div>
         </div>
       )}
 
       {(cv?.languages?.length ?? 0) > 0 && (
         <div className={styles.cv_subsection}>
-          <h3 className={styles.cv_subsection_title}>{DEFAULT_TITLES.languages}</h3>
+          <h3 className={styles.cv_subsection_title}>
+            {DEFAULT_TITLES.languages}
+          </h3>
           <div className={styles.cv_subsection_body}>
             <div className={styles.cv_languages}>
               {(cv?.languages ?? []).map((item, i) => (

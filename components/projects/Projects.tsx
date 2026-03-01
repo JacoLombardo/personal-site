@@ -3,7 +3,13 @@
 import { useState, useRef, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import styles from "@/styles/orbital.module.css";
-import { getOrbitalData, getListProjectsFromJson, convertToProjectList, type JsonProject, type FilterOption } from "./projectsData";
+import {
+  getOrbitalData,
+  getListProjectsFromJson,
+  convertToProjectList,
+  type JsonProject,
+  type FilterOption,
+} from "./projectsData";
 import Orbits from "./Orbits";
 import List from "./List";
 
@@ -16,14 +22,36 @@ const WD_HUE = "#00e676";
 const SE_HUE_BRIGHT = "#80f0ff";
 const WD_HUE_BRIGHT = "#80ffb0";
 
-const FILTER_OPTIONS: FilterOption[] = ["independent", "professional", "CODAC", "42", "highlighted"];
+const FILTER_OPTIONS: FilterOption[] = [
+  "independent",
+  "professional",
+  "CODAC",
+  "42",
+  "highlighted",
+];
 
 function filterLabel(t: FilterOption) {
-  return t === "42" ? "42" : t === "CODAC" ? "CODAC" : t === "independent" ? "Independent" : t === "professional" ? "Professional" : "★";
+  return t === "42"
+    ? "42"
+    : t === "CODAC"
+      ? "CODAC"
+      : t === "independent"
+        ? "Independent"
+        : t === "professional"
+          ? "Professional"
+          : "★";
 }
 
 function filterTint(t: FilterOption) {
-  return t === "42" ? SE_HUE : t === "CODAC" ? WD_HUE : t === "independent" ? SE_HUE_BRIGHT : t === "professional" ? WD_HUE_BRIGHT : "#ffd54f";
+  return t === "42"
+    ? SE_HUE
+    : t === "CODAC"
+      ? WD_HUE
+      : t === "independent"
+        ? SE_HUE_BRIGHT
+        : t === "professional"
+          ? WD_HUE_BRIGHT
+          : "#ffd54f";
 }
 
 interface Props {
@@ -38,17 +66,24 @@ export default function Projects({ projects }: Props) {
   const [activeFilter, setActiveFilter] = useState<FilterOption | null>(null);
 
   useEffect(() => {
-    const check = () => setIsMobile(typeof window !== "undefined" && window.innerWidth <= MOBILE_MAX_WIDTH);
+    const check = () =>
+      setIsMobile(
+        typeof window !== "undefined" && window.innerWidth <= MOBILE_MAX_WIDTH,
+      );
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
 
   const raw = useMemo(() => projects ?? [], [projects]);
-  const orbitalData = useMemo(() => getOrbitalData(raw, isMobile), [raw, isMobile]);
+  const orbitalData = useMemo(
+    () => getOrbitalData(raw, isMobile),
+    [raw, isMobile],
+  );
   const listProjects = useMemo(
-    () => (raw.length > 0 ? convertToProjectList(raw) : getListProjectsFromJson()),
-    [raw]
+    () =>
+      raw.length > 0 ? convertToProjectList(raw) : getListProjectsFromJson(),
+    [raw],
   );
 
   return (
@@ -88,7 +123,11 @@ export default function Projects({ projects }: Props) {
                   key={t}
                   type="button"
                   className={`${styles.filterTab} ${isActive ? styles.filterTabActive : ""}`}
-                  style={isActive && tint ? { borderColor: tint, color: tint } : undefined}
+                  style={
+                    isActive && tint
+                      ? { borderColor: tint, color: tint }
+                      : undefined
+                  }
                   onClick={() => setActiveFilter(isActive ? null : t)}
                 >
                   {filterLabel(t)}

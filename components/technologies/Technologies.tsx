@@ -36,7 +36,13 @@ const HALO_R = 62; /* orbit radius – ring passes through planet dots */
 const PLANET_R = 4; /* dot radius in SVG */
 const PLANET_HIT = 12; /* clickable hit area radius */
 
-function TechnologyCard({ tech, projectNameById }: { tech: Tech; projectNameById: Map<string, string> }) {
+function TechnologyCard({
+  tech,
+  projectNameById,
+}: {
+  tech: Tech;
+  projectNameById: Map<string, string>;
+}) {
   const [haloVisible, setHaloVisible] = useState(false);
   const [haloPosition, setHaloPosition] = useState({ x: 0, y: 0 });
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -288,7 +294,7 @@ function groupByType(techs: Tech[]): Map<string, Tech[]> {
 export default function Technologies({ technologies, projects }: Props) {
   const projectNameById = useMemo(
     () => new Map(projects.map((p) => [p.id, p.name])),
-    [projects]
+    [projects],
   );
   const [showAll, setShowAll] = useState(false);
   const byType = groupByType(technologies);
@@ -324,7 +330,11 @@ export default function Technologies({ technologies, projects }: Props) {
               <h3 className={styles.technology_group_label}>{type}</h3>
               <div className={styles.technologies_list}>
                 {techs.map((tech) => (
-                  <TechnologyCard key={tech.id} tech={tech} projectNameById={projectNameById} />
+                  <TechnologyCard
+                    key={tech.id}
+                    tech={tech}
+                    projectNameById={projectNameById}
+                  />
                 ))}
               </div>
             </div>

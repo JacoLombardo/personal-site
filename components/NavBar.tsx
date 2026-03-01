@@ -41,11 +41,14 @@ function LinkedInIcon() {
 export default function NavBar({ page, intro, contact }: Props) {
   const [hidden, setHidden] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const name = intro?.name ?? "Jacopo Lombardo";
   const linkedinUrl = contact?.linkedin ?? "https://www.linkedin.com/in/jacopo-lombardo/";
 
   const TOP_THRESHOLD = 60;
   const lastScrollY = useRef(0);
+
+  const closeMenu = () => setExpanded(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -84,6 +87,8 @@ export default function NavBar({ page, intro, contact }: Props) {
       />
       <Navbar
         expand="lg"
+        expanded={expanded}
+        onToggle={(next) => setExpanded(next)}
         data-bs-theme="dark"
         className={styles.navbar}
         style={{
@@ -108,19 +113,19 @@ export default function NavBar({ page, intro, contact }: Props) {
           <div className={styles.navbar_toggle_spacer} aria-hidden="true" />
           <Navbar.Collapse id="basic-navbar-nav" className={styles.navbar_collapse}>
             <Nav className={styles.navbar_nav}>
-              <Nav.Link href={`${base}#projects`} style={navLinkStyle}>
+              <Nav.Link href={`${base}#projects`} style={navLinkStyle} onClick={closeMenu}>
                 Projects
               </Nav.Link>
-              <Nav.Link href={`${base}#technologies`} style={navLinkStyle}>
+              <Nav.Link href={`${base}#technologies`} style={navLinkStyle} onClick={closeMenu}>
                 Technologies
               </Nav.Link>
-              <Nav.Link href={`${base}#about`} style={navLinkStyle}>
+              <Nav.Link href={`${base}#about`} style={navLinkStyle} onClick={closeMenu}>
                 About
               </Nav.Link>
-              <Nav.Link href={`${base}#cv`} style={navLinkStyle}>
+              <Nav.Link href={`${base}#cv`} style={navLinkStyle} onClick={closeMenu}>
                 CV
               </Nav.Link>
-              <Nav.Link href={`${base}#contact`} style={navLinkStyle}>
+              <Nav.Link href={`${base}#contact`} style={navLinkStyle} onClick={closeMenu}>
                 Contact
               </Nav.Link>
             </Nav>

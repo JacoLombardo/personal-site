@@ -36,6 +36,11 @@ hr {
 
 /* ── Global star twinkle (used by StarBackground) ── */
 @keyframes star-twinkle {
-  0%, 100% { opacity: 0.1; }
-  50% { opacity: 0.75; }
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.75;
+  }
 }
