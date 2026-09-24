@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import About from "@/components/about/About";
 import Contact from "@/components/Contact";
 import CV from "@/components/cv/CV";

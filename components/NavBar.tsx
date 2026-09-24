@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import Container from "react-bootstrap/Container";
