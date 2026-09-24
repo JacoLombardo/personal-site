@@ -16,6 +16,10 @@ Body paragraph: what changed and why. Reference files with [path](path) links.
 
 ---
 
+## 2026-09-24 — chore(deps): upgrade styled-components and remove unused emotion packages
+
+`styled-components` 6.0.8 shipped the Babel toolchain (`@babel/core`, `preset-env`, `preset-react` and more) as runtime dependencies, and the unused `@emotion/react` and `@emotion/styled` brought `@emotion/babel-plugin`, `babel-plugin-macros`, `cosmiconfig` and `yaml`. Together they were behind most of the Babel and yaml security alerts. Upgrading to 6.5.3 and uninstalling emotion (nothing imported it) takes the install from 555 to 362 packages; only `@babel/runtime`, needed by react-bootstrap, remains. 6.5.3 types `DefaultTheme` as an empty interface meant to be extended, so `theme.body` in [ThemeConfig.ts](styles/ThemeConfig.ts) stopped typechecking: [types/styled-components.d.ts](types/styled-components.d.ts) now extends it with the shape of `darkTheme`. Checked with a real-data build and a before/after screenshot comparison at 1440, 390 and 320px: identical apart from the randomly placed background stars.
+
 ## 2026-09-24 — docs(workflow): add CLAUDE.md, CHANGELOG.md and TODO.md
 
 Added [CLAUDE.md](CLAUDE.md) with the working rules imported from the atag project: a commit block at the end of medium and big changes, checks before it, one-line commit messages without AI attribution, no em dash inside sentences, desktop and phone checks for visual changes, and the discipline for this changelog and [TODO.md](TODO.md). The checks are `npm run lint` and `npm run build` because this site has no test suite. Left out atag's infrastructure rules (Coolify, Prisma, Supabase, e2e) and its "menus close only on an outside click" rule, because [NavBar.tsx](components/NavBar.tsx) closes the mobile menu on link tap on purpose: its links scroll within the page, so nothing remounts the header.
