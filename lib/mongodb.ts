@@ -20,6 +20,14 @@ const options: import("mongodb").MongoClientOptions = {
 let client;
 let clientPromise: Promise<MongoClient>;
 
+// A paused or deleted Atlas cluster only surfaces as "querySrv ENOTFOUND", so say what to check.
+const connect = (c: MongoClient) =>
+  c.connect().catch((e: Error) => {
+    throw new Error(
+      `Could not connect to MongoDB (${e.message}). Check MONGODB_URI and that the Atlas cluster is running, not paused.`
+    );
+  });
+
 if (process.env.NODE_ENV === "development") {
   // In development mode, use a global variable so that the value
   // is preserved across module reloads caused by HMR (Hot Module Replacement).
@@ -29,13 +37,13 @@ if (process.env.NODE_ENV === "development") {
 
   if (!globalWithMongo._mongoClientPromise) {
     client = new MongoClient(uri, options);
-    globalWithMongo._mongoClientPromise = client.connect();
+    globalWithMongo._mongoClientPromise = connect(client);
   }
   clientPromise = globalWithMongo._mongoClientPromise;
 } else {
   // In production mode, it's best to not use a global variable.
   client = new MongoClient(uri, options);
-  clientPromise = client.connect();
+  clientPromise = connect(client);
 }
 
 // Export a module-scoped MongoClient promise. By doing this in a

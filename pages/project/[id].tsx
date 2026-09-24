@@ -135,15 +135,11 @@ export default function ProjectPage({ project, prevProject, nextProject, intro, 
 }
 
 export async function getStaticPaths() {
-  try {
-    const client = await clientPromise;
-    const db = client.db("personal-site");
-    const raw = await db.collection("projects").find({}).toArray();
-    const paths = (raw as unknown as { id: string }[]).map((p) => ({ params: { id: p.id } }));
-    return { paths, fallback: false };
-  } catch {
-    return { paths: [], fallback: false };
-  }
+  const client = await clientPromise;
+  const db = client.db("personal-site");
+  const raw = await db.collection("projects").find({}).toArray();
+  const paths = (raw as unknown as { id: string }[]).map((p) => ({ params: { id: p.id } }));
+  return { paths, fallback: false };
 }
 
 type MongoProject = { id: string; name: string; domain: string; type: string; description: string; tech_stack?: string[]; repository?: string; link?: string };
@@ -153,43 +149,39 @@ export async function getStaticProps({
 }: {
   params: { id: string };
 }) {
-  try {
-    const client = await clientPromise;
-    const db = client.db("personal-site");
-    const raw = await db.collection("projects").find({}).toArray();
-    const projects = raw as unknown as MongoProject[];
-    const index = projects.findIndex((p) => p.id === params.id);
-    if (index === -1) return { notFound: true };
-    const project = projects[index];
-    const last = projects.length - 1;
-    const prevProject = { id: projects[index === 0 ? last : index - 1].id, name: projects[index === 0 ? last : index - 1].name };
-    const nextProject = { id: projects[index === last ? 0 : index + 1].id, name: projects[index === last ? 0 : index + 1].name };
-    const contentColl = db.collection("content");
-    const [introDoc, contactDoc] = await Promise.all([
-      contentColl.findOne({ _id: "intro" } as Record<string, unknown>),
-      contentColl.findOne({ _id: "contact" } as Record<string, unknown>),
-    ]);
-    const intro = introDoc ? { name: (introDoc as ContentDoc).name ?? "" } : null;
-    const contact = contactDoc ? { linkedin: (contactDoc as ContentDoc).linkedin ?? "" } : null;
-    return {
-      props: {
-        project: {
-          id: project.id,
-          name: project.name,
-          domain: project.domain,
-          type: project.type,
-          description: project.description,
-          tech_stack: project.tech_stack ?? [],
-          repository: project.repository ?? "",
-          link: project.link ?? "",
-        },
-        prevProject,
-        nextProject,
-        intro,
-        contact,
+  const client = await clientPromise;
+  const db = client.db("personal-site");
+  const raw = await db.collection("projects").find({}).toArray();
+  const projects = raw as unknown as MongoProject[];
+  const index = projects.findIndex((p) => p.id === params.id);
+  if (index === -1) return { notFound: true };
+  const project = projects[index];
+  const last = projects.length - 1;
+  const prevProject = { id: projects[index === 0 ? last : index - 1].id, name: projects[index === 0 ? last : index - 1].name };
+  const nextProject = { id: projects[index === last ? 0 : index + 1].id, name: projects[index === last ? 0 : index + 1].name };
+  const contentColl = db.collection("content");
+  const [introDoc, contactDoc] = await Promise.all([
+    contentColl.findOne({ _id: "intro" } as Record<string, unknown>),
+    contentColl.findOne({ _id: "contact" } as Record<string, unknown>),
+  ]);
+  const intro = introDoc ? { name: (introDoc as ContentDoc).name ?? "" } : null;
+  const contact = contactDoc ? { linkedin: (contactDoc as ContentDoc).linkedin ?? "" } : null;
+  return {
+    props: {
+      project: {
+        id: project.id,
+        name: project.name,
+        domain: project.domain,
+        type: project.type,
+        description: project.description,
+        tech_stack: project.tech_stack ?? [],
+        repository: project.repository ?? "",
+        link: project.link ?? "",
       },
-    };
-  } catch {
-    return { notFound: true };
-  }
+      prevProject,
+      nextProject,
+      intro,
+      contact,
+    },
+  };
 }

@@ -71,57 +71,44 @@ export default function Home({ projectString, intro, aboutMe, contact, cv, techn
 }
 
 export async function getStaticProps() {
-  const empty = {
-    projectString: "[]",
-    intro: null,
-    aboutMe: null,
-    contact: null,
-    cv: null,
-    technologies: [] as TechData[],
+  const client = await clientPromise;
+  const db = client.db("personal-site");
+  const contentColl = db.collection("content");
+  const [projects, introDoc, aboutMeDoc, contactDoc, cvDoc, technologiesList] = await Promise.all([
+    db.collection("projects").find({}).toArray(),
+    contentColl.findOne({ _id: "intro" } as Record<string, unknown>),
+    contentColl.findOne({ _id: "about-me" } as Record<string, unknown>),
+    contentColl.findOne({ _id: "contact" } as Record<string, unknown>),
+    contentColl.findOne({ _id: "cv" } as Record<string, unknown>),
+    db.collection("technologies").find({}).toArray(),
+  ]);
+  const intro = introDoc ? { name: introDoc.name, title: introDoc.title, photo: introDoc.photo } : null;
+  const aboutMe = aboutMeDoc && "text" in aboutMeDoc ? { text: aboutMeDoc.text } : null;
+  const contact = contactDoc ? { email: contactDoc.email, linkedin: contactDoc.linkedin, github: contactDoc.github } : null;
+  const cv: CvData | null = cvDoc
+    ? {
+        professionalExperience: (cvDoc.professionalExperience as CvEntry[] | undefined) ?? [],
+        education: (cvDoc.education as CvEntry[] | undefined) ?? [],
+        languages: (cvDoc.languages as string[] | undefined) ?? [],
+      }
+    : null;
+  const technologies: TechData[] = ((technologiesList as unknown as Record<string, unknown>[]) ?? []).map((t) => ({
+    id: t.id as string,
+    name: t.name as string,
+    type: t.type as string,
+    level: t.level as string,
+    projects: (t.projects as string[]) ?? [],
+    alwaysShown: (t.alwaysShown as boolean) ?? false,
+    icon: t.icon as string,
+  }));
+  return {
+    props: {
+      projectString: JSON.stringify(projects),
+      intro,
+      aboutMe,
+      contact,
+      cv,
+      technologies,
+    },
   };
-  try {
-    const client = await clientPromise;
-    const db = client.db("personal-site");
-    const contentColl = db.collection("content");
-    const [projects, introDoc, aboutMeDoc, contactDoc, cvDoc, technologiesList] = await Promise.all([
-      db.collection("projects").find({}).toArray(),
-      contentColl.findOne({ _id: "intro" } as Record<string, unknown>),
-      contentColl.findOne({ _id: "about-me" } as Record<string, unknown>),
-      contentColl.findOne({ _id: "contact" } as Record<string, unknown>),
-      contentColl.findOne({ _id: "cv" } as Record<string, unknown>),
-      db.collection("technologies").find({}).toArray(),
-    ]);
-    const intro = introDoc ? { name: introDoc.name, title: introDoc.title, photo: introDoc.photo } : null;
-    const aboutMe = aboutMeDoc && "text" in aboutMeDoc ? { text: aboutMeDoc.text } : null;
-    const contact = contactDoc ? { email: contactDoc.email, linkedin: contactDoc.linkedin, github: contactDoc.github } : null;
-    const cv: CvData | null = cvDoc
-      ? {
-          professionalExperience: (cvDoc.professionalExperience as CvEntry[] | undefined) ?? [],
-          education: (cvDoc.education as CvEntry[] | undefined) ?? [],
-          languages: (cvDoc.languages as string[] | undefined) ?? [],
-        }
-      : null;
-    const technologies: TechData[] = ((technologiesList as unknown as Record<string, unknown>[]) ?? []).map((t) => ({
-      id: t.id as string,
-      name: t.name as string,
-      type: t.type as string,
-      level: t.level as string,
-      projects: (t.projects as string[]) ?? [],
-      alwaysShown: (t.alwaysShown as boolean) ?? false,
-      icon: t.icon as string,
-    }));
-    return {
-      props: {
-        projectString: JSON.stringify(projects),
-        intro,
-        aboutMe,
-        contact,
-        cv,
-        technologies,
-      },
-    };
-  } catch (e) {
-    console.error("MongoDB connection failed (check MONGODB_URI and network):", e);
-    return { props: empty };
-  }
 }

@@ -16,6 +16,10 @@ Body paragraph: what changed and why. Reference files with [path](path) links.
 
 ---
 
+## 2026-09-24 — fix(db): fail the build when MongoDB can't be reached
+
+Every data page (`index`, `privacy`, `speed-date`, `project/[id]`) caught MongoDB errors and returned empty props, no paths or `notFound`, so `next build` reported success and shipped an empty site. That is what happened while the Atlas cluster was paused. No page revalidates and project paths use `fallback: false`, so all data is read once at build time: without the catches, a failed load now fails the build instead of deploying empty pages. [lib/mongodb.ts](lib/mongodb.ts) also wraps the connection error with a hint, because a paused cluster only shows up as `querySrv ENOTFOUND`. Checked both ways: a build against a nonexistent cluster fails with the new message, and a build with the real database still prerenders all 31 pages.
+
 ## 2026-09-24 — chore(deps): upgrade styled-components and remove unused emotion packages
 
 `styled-components` 6.0.8 shipped the Babel toolchain (`@babel/core`, `preset-env`, `preset-react` and more) as runtime dependencies, and the unused `@emotion/react` and `@emotion/styled` brought `@emotion/babel-plugin`, `babel-plugin-macros`, `cosmiconfig` and `yaml`. Together they were behind most of the Babel and yaml security alerts. Upgrading to 6.5.3 and uninstalling emotion (nothing imported it) takes the install from 555 to 362 packages; only `@babel/runtime`, needed by react-bootstrap, remains. 6.5.3 types `DefaultTheme` as an empty interface meant to be extended, so `theme.body` in [ThemeConfig.ts](styles/ThemeConfig.ts) stopped typechecking: [types/styled-components.d.ts](types/styled-components.d.ts) now extends it with the shape of `darkTheme`. Checked with a real-data build and a before/after screenshot comparison at 1440, 390 and 320px: identical apart from the randomly placed background stars.

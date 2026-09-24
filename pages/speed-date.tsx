@@ -279,57 +279,52 @@ export default function SpeedDatePage({
 }
 
 export async function getStaticProps() {
-  const empty = { projects: [], aboutText: "", intro: null, contact: null };
-  try {
-    const client = await clientPromise;
-    const db = client.db("personal-site");
-    const contentColl = db.collection("content");
-    const [raw, aboutMeDoc, introDoc, contactDoc] = await Promise.all([
-      db.collection("projects").find({}).toArray(),
-      contentColl.findOne({ _id: "about-me" } as Record<string, unknown>),
-      contentColl.findOne({ _id: "intro" } as Record<string, unknown>),
-      contentColl.findOne({ _id: "contact" } as Record<string, unknown>),
-    ]);
-    const aboutText =
-      aboutMeDoc && "shortText" in aboutMeDoc && typeof aboutMeDoc.shortText === "string"
-        ? aboutMeDoc.shortText
-        : aboutMeDoc && "text" in aboutMeDoc
-          ? aboutMeDoc.text
-          : "";
-    const allProjects = raw as unknown as {
-      id: string;
-      name: string;
-      domain: string;
-      type: string;
-      description: string;
-      tech_stack?: string[];
-      repository?: string;
-      link?: string;
-    }[];
-    const projects: JsonProject[] = HIGHLIGHTED_IDS.map((id) =>
-      allProjects.find((p) => p.id === id),
-    )
-      .filter((p): p is NonNullable<typeof p> => p != null)
-      .map((p) => ({
-        id: p.id,
-        name: p.name,
-        domain: p.domain,
-        type: p.type,
-        description: p.description,
-        tech_stack: p.tech_stack ?? [],
-        repository: p.repository ?? "",
-        link: p.link ?? "",
-      }));
-    const intro =
-      introDoc && "name" in introDoc ? { name: introDoc.name } : null;
-    const contact =
-      contactDoc && "linkedin" in contactDoc
-        ? { linkedin: contactDoc.linkedin }
-        : null;
-    return {
-      props: { projects, aboutText, intro, contact },
-    };
-  } catch {
-    return { props: empty };
-  }
+  const client = await clientPromise;
+  const db = client.db("personal-site");
+  const contentColl = db.collection("content");
+  const [raw, aboutMeDoc, introDoc, contactDoc] = await Promise.all([
+    db.collection("projects").find({}).toArray(),
+    contentColl.findOne({ _id: "about-me" } as Record<string, unknown>),
+    contentColl.findOne({ _id: "intro" } as Record<string, unknown>),
+    contentColl.findOne({ _id: "contact" } as Record<string, unknown>),
+  ]);
+  const aboutText =
+    aboutMeDoc && "shortText" in aboutMeDoc && typeof aboutMeDoc.shortText === "string"
+      ? aboutMeDoc.shortText
+      : aboutMeDoc && "text" in aboutMeDoc
+        ? aboutMeDoc.text
+        : "";
+  const allProjects = raw as unknown as {
+    id: string;
+    name: string;
+    domain: string;
+    type: string;
+    description: string;
+    tech_stack?: string[];
+    repository?: string;
+    link?: string;
+  }[];
+  const projects: JsonProject[] = HIGHLIGHTED_IDS.map((id) =>
+    allProjects.find((p) => p.id === id),
+  )
+    .filter((p): p is NonNullable<typeof p> => p != null)
+    .map((p) => ({
+      id: p.id,
+      name: p.name,
+      domain: p.domain,
+      type: p.type,
+      description: p.description,
+      tech_stack: p.tech_stack ?? [],
+      repository: p.repository ?? "",
+      link: p.link ?? "",
+    }));
+  const intro =
+    introDoc && "name" in introDoc ? { name: introDoc.name } : null;
+  const contact =
+    contactDoc && "linkedin" in contactDoc
+      ? { linkedin: contactDoc.linkedin }
+      : null;
+  return {
+    props: { projects, aboutText, intro, contact },
+  };
 }
