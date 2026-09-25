@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect, useRef, useCallback, useLayoutEffect } from "react";
@@ -160,8 +158,10 @@ export default function Orbits({ containerRef, orbitalData, isMobile, activeFilt
   }, [showDesktopFilterBar, seCenter, seOuterR, viewBoxY, viewBoxHeight]);
 
   useEffect(() => {
-    let frameId: number;
+    let frameId = 0;
     let last = performance.now();
+    // Planets stay still for visitors who ask for reduced motion; dragging still works.
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     function tick(now: number) {
       const dt = (now - last) / 1000;
@@ -174,7 +174,7 @@ export default function Orbits({ containerRef, orbitalData, isMobile, activeFilt
         dragVelRef.current = 0;
       }
 
-      if (!pausedRef.current) {
+      if (!pausedRef.current && !reduceMotion) {
         timeRef.current += dt;
       }
 
@@ -193,9 +193,27 @@ export default function Orbits({ containerRef, orbitalData, isMobile, activeFilt
       frameId = requestAnimationFrame(tick);
     }
 
-    frameId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frameId);
-  }, [orbital, getRadius, getCenter]);
+    // Only animate while the projects section is on screen.
+    const start = () => {
+      if (frameId) return;
+      last = performance.now();
+      frameId = requestAnimationFrame(tick);
+    };
+    const stop = () => {
+      cancelAnimationFrame(frameId);
+      frameId = 0;
+    };
+    const section = containerRef.current;
+    const observer = section
+      ? new IntersectionObserver(([entry]) => (entry.isIntersecting ? start() : stop()))
+      : null;
+    if (section && observer) observer.observe(section);
+    else start();
+    return () => {
+      observer?.disconnect();
+      stop();
+    };
+  }, [orbital, getRadius, getCenter, containerRef]);
 
   const onEnter = useCallback((p: OrbitalProject, e: React.MouseEvent) => {
     pausedRef.current = true;

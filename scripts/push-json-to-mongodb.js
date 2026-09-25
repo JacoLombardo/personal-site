@@ -1,7 +1,7 @@
 /**
  * Push public/projects.json to MongoDB (personal-site DB).
  *
- * Pushes: projects, technologies, intro, about-me, contact.
+ * Pushes: projects, technologies, intro, about-me, contact, cv.
  *
  * Load MONGODB_URI from .env.local (Node 20.6+):
  *   node --env-file=.env.local scripts/push-json-to-mongodb.js
@@ -22,11 +22,11 @@ if (!uri) {
   process.exit(1);
 }
 
-// Same TLS workaround as lib/mongodb.ts (Windows + Node 17+)
-const secureContext = tls.createSecureContext({
-  secureOptions: crypto.constants.SSL_OP_LEGACY_SERVER_CONNECT ?? 0,
-});
-const options = { ...(secureContext && { secureContext }) };
+// Same TLS workaround as lib/mongodb.ts (Windows + Node 17+), Windows only for the same reason
+const options =
+  process.platform === "win32"
+    ? { secureContext: tls.createSecureContext({ secureOptions: crypto.constants.SSL_OP_LEGACY_SERVER_CONNECT ?? 0 }) }
+    : {};
 
 async function run() {
   const jsonPath = path.join(__dirname, "..", "public", "projects.json");

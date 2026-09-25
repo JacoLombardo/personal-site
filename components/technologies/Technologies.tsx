@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";

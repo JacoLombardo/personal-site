@@ -1,31 +1,20 @@
 # Personal Site
 
-Personal Site is a portfolio site built with Next.js. It shows an intro, about section, project list (from MongoDB), and contact section. It supports dark/light theme and project detail pages.
+Portfolio of Jacopo Lombardo, live at [jacopolombardo.com](https://jacopolombardo.com). Built with Next.js 16 (Pages Router), deployed on Vercel, with its content in MongoDB Atlas.
 
-## Composition
+## What's on the site
 
-The app is built around a single-page layout with sections:
+- **Home** ([pages/index.tsx](pages/index.tsx)): intro, projects (orbit and list views), technologies, about, CV and contact.
+- **Project pages** ([pages/project/[id].tsx](pages/project/[id].tsx)): one per project.
+- **Quick tour** ([pages/speed-date.tsx](pages/speed-date.tsx)) and **privacy** ([pages/privacy.tsx](pages/privacy.tsx)).
+- **Visit logging**: [pages/api/visit.ts](pages/api/visit.ts) stores one anonymous visit per browser session; the privacy page lists what it stores.
+- **SEO**: page metadata and link previews in [pages/_app.tsx](pages/_app.tsx) (site values in [lib/site.ts](lib/site.ts)), [public/robots.txt](public/robots.txt), and a sitemap built from the projects ([app/sitemap.ts](app/sitemap.ts)).
 
-- **NavBar**: navigation and theme toggle.
-- **Intro**: hero section.
-- **About**: about section.
-- **Projects**: project cards loaded from MongoDB; link to `/project/[id]`.
-- **Contact**: contact section with links and CV.
+## How it works
 
-## Features
-
-- Projects stored in MongoDB; fetched at build time via `getStaticProps` and API routes (`/api/get-projects`, `/api/project-by-id`).
-- Dark/light mode via `@anatoliygatt/dark-mode-toggle` and theme config.
-- Project detail page with dynamic routing (`pages/project/[id].tsx`).
-- Styling with Bootstrap, Emotion, styled-components, and SASS.
-- Icons and assets in `public/Icons/` (Contact, Stack, arrows, etc.).
-
-## Technology
-
-- Next.js 13 + React 18
-- TypeScript
-- MongoDB
-- Bootstrap, Emotion, styled-components, SASS
+- Every page is built once at build time from MongoDB (`getStaticProps`); only the visit logger touches the database per request. If MongoDB can't be reached, the build fails instead of deploying empty pages.
+- The content lives in [public/projects.json](public/projects.json) and is loaded into MongoDB with `npm run push-json`.
+- Styling: CSS Modules in `styles/`, a Bootstrap subset for the base styles and the navbar ([styles/bootstrap.scss](styles/bootstrap.scss)), Poppins through `next/font`, animations with framer-motion.
 
 ## Setup
 
@@ -34,37 +23,19 @@ npm install
 npm run dev
 ```
 
-Set `MONGODB_URI` in `.env.local` for the database connection (see [docs/MONGODB_SETUP.md](docs/MONGODB_SETUP.md) for creating a new Atlas cluster). Optionally seed a sample project:
+Set `MONGODB_URI` in `.env.local` (and in the Vercel project settings for production). [docs/MONGODB_SETUP.md](docs/MONGODB_SETUP.md) covers creating a cluster and loading the content. Then open [http://localhost:3000](http://localhost:3000).
 
-```bash
-node --env-file=.env.local scripts/seed-projects.js
-```
+## Scripts
 
-Open [http://localhost:3000](http://localhost:3000).
+- `npm run dev`: development server
+- `npm run build` and `npm run start`: production build and server (the build needs MongoDB)
+- `npm run lint`: ESLint
+- `npm run push-json`: load `public/projects.json` into MongoDB
 
-## Build
+## Troubleshooting: `Could not connect to MongoDB (querySrv ENOTFOUND …)`
 
-```bash
-npm run build
-npm run start
-```
+The build could not reach the Atlas cluster. Usually one of:
 
-## Notes
-
-- Projects are read from MongoDB; ensure the DB and collection are set up and env vars are correct.
-- Media folder at repo level (mockups, screenshots) is for design only and can be ignored for running the app.
-
-## Troubleshooting: `querySrv ENOTFOUND _mongodb._tcp.cluster0....mongodb.net`
-
-This means the app cannot resolve your MongoDB Atlas hostname. Common fixes:
-
-1. **Check the exact connection string**  
-   In [MongoDB Atlas](https://cloud.mongodb.com) → your cluster → **Connect** → **Drivers**. Copy the URI and set it in `.env.local` as `MONGODB_URI`. The hostname (e.g. `cluster0.xxxxx.mongodb.net`) must match your cluster.
-
-2. **Typo or old cluster**  
-   If you recreated the cluster, the hostname changed. Replace `MONGODB_URI` in `.env.local` with the new URI from Atlas.
-
-3. **Network / DNS**  
-   Ensure you have internet access and that firewall/VPN allow outbound DNS and connections to `*.mongodb.net`. Try from another network if needed.
-
-If MongoDB is unreachable, the site still builds and runs: the homepage shows with no projects, and project detail pages return 404 until the DB is reachable again.
+1. **The cluster is paused.** Resume it in [MongoDB Atlas](https://cloud.mongodb.com), wait for it to come up, and build again.
+2. **Wrong or outdated connection string.** If the cluster was recreated, its hostname changed: copy the URI from Atlas (**Connect → Drivers**) into `MONGODB_URI`.
+3. **Network or DNS.** Make sure `*.mongodb.net` is reachable from your network.

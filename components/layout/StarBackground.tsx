@@ -1,5 +1,3 @@
-"use client";
-
 import { useMemo } from "react";
 
 interface Star {
@@ -39,6 +37,7 @@ export default function StarBackground() {
       aria-hidden="true"
     >
       <svg
+        className="star-field"
         viewBox="0 0 2000 4000"
         preserveAspectRatio="xMidYMid slice"
         style={{ width: "100%", height: "100%" }}

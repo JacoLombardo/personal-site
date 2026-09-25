@@ -3,7 +3,7 @@ import Contact from "@/components/Contact";
 import CV from "@/components/cv/CV";
 import Intro from "@/components/intro/Intro";
 import NavBar from "@/components/NavBar";
-import Projects from "@/components/Projects";
+import Projects from "@/components/projects/Projects";
 import SpeedDatePopup from "@/components/SpeedDatePopup";
 import Technologies from "@/components/technologies/Technologies";
 import clientPromise from "@/lib/mongodb";
@@ -37,7 +37,7 @@ interface TechData {
 }
 
 interface Props {
-  projectString: string;
+  projects: JsonProject[];
   intro: IntroData | null;
   aboutMe: AboutMeData | null;
   contact: ContactData | null;
@@ -48,8 +48,7 @@ interface Props {
 const emptyIntro: IntroData = { name: "", title: "", photo: "" };
 const emptyContact: ContactData = { email: "", linkedin: "#", github: "#" };
 
-export default function Home({ projectString, intro, aboutMe, contact, cv, technologies }: Props) {
-  const projects = JSON.parse(projectString) as JsonProject[];
+export default function Home({ projects, intro, aboutMe, contact, cv, technologies }: Props) {
   const introData = intro ?? emptyIntro;
   const contactData = contact ?? emptyContact;
   const projectListForTech = projects.map((p) => ({ id: p.id ?? "", name: p.name ?? "" }));
@@ -74,7 +73,7 @@ export async function getStaticProps() {
   const db = client.db("personal-site");
   const contentColl = db.collection("content");
   const [projects, introDoc, aboutMeDoc, contactDoc, cvDoc, technologiesList] = await Promise.all([
-    db.collection("projects").find({}).toArray(),
+    db.collection("projects").find({}, { projection: { _id: 0 } }).toArray(),
     contentColl.findOne({ _id: "intro" } as Record<string, unknown>),
     contentColl.findOne({ _id: "about-me" } as Record<string, unknown>),
     contentColl.findOne({ _id: "contact" } as Record<string, unknown>),
@@ -102,7 +101,7 @@ export async function getStaticProps() {
   }));
   return {
     props: {
-      projectString: JSON.stringify(projects),
+      projects: projects as unknown as JsonProject[],
       intro,
       aboutMe,
       contact,

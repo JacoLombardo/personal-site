@@ -39,7 +39,7 @@
   padding: 0.4em 1em;
   font-size: 0.8em;
   font-weight: 500;
-  font-family: poppins, sans-serif;
+  font-family: var(--font-poppins), sans-serif;
   letter-spacing: 0.03em;
   color: rgba(255, 255, 255, 0.45);
   cursor: pointer;
@@ -356,7 +356,7 @@
   text-align: left;
   font-size: 0.72em;
   font-weight: 600;
-  font-family: poppins, sans-serif;
+  font-family: var(--font-poppins), sans-serif;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.5);

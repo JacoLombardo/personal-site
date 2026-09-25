@@ -4,7 +4,7 @@ import { Html, Head, Main, NextScript } from "next/document";
 // global.css keeps smooth scrolling for in-page section links (Next 16 needs the opt-in).
 export default function Document() {
   return (
-    <Html data-scroll-behavior="smooth">
+    <Html lang="en" data-scroll-behavior="smooth">
       <Head />
       <body>
         <Main />

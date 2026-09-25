@@ -57,10 +57,17 @@ export default function ProjectPage({ project, prevProject, nextProject, intro, 
     );
   }
 
+  const title = `${project.name} | Jacopo Lombardo`;
+  const description =
+    project.description.length > 155 ? `${project.description.slice(0, 154).trimEnd()}…` : project.description;
+
   return (
     <>
       <Head>
-        <title>{project.name} | Jacopo Lombardo</title>
+        <title>{title}</title>
+        <meta name="description" content={description} key="description" />
+        <meta property="og:title" content={title} key="og:title" />
+        <meta property="og:description" content={description} key="og:description" />
       </Head>
       <NavBar page="project" intro={navIntro} contact={navContact} />
       <main className={styles.project_page_main}>

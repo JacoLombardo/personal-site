@@ -47,37 +47,24 @@ MONGODB_URI=mongodb+srv://YOUR_USER:YOUR_PASSWORD@cluster0.XXXXX.mongodb.net/?re
 
 Restart the dev server after changing `.env.local`.
 
-## 6. Create the database and collection
+## 6. Load the content
 
-The app uses:
+The site reads the `personal-site` database:
 
-- **Database:** `personal-site`
-- **Collection:** `projects`
+- `projects`: one document per project
+- `technologies`: the technologies section
+- `content`: the `intro`, `about-me`, `contact` and `cv` documents
 
-You can create them by:
-
-- **Option A:** Run the seed script once (see below).
-- **Option B:** In Atlas: **Database** → **Browse Collections** → **Create Database** → name: `personal-site`, collection: `projects`. Then add documents manually or import.
-
-## 7. Seed script (dummy projects for design)
-
-From the project root, run (Node 20.6+ loads `.env.local` automatically):
+All of it comes from [public/projects.json](../public/projects.json). After editing that file, push it with:
 
 ```bash
-node --env-file=.env.local scripts/seed-projects.js
+npm run push-json
 ```
 
-This inserts **9 dummy projects** (3 per category: Web Development, Software Engineering, 42Berlin) so you can work on the design. Placeholder images come from picsum.photos.
+This replaces the `projects` and `technologies` collections and the four `content` documents with what is in the JSON file. It reads `MONGODB_URI` from `.env.local`.
 
-- **First run:** inserts all 9 projects.
-- If the collection already has documents, the script does nothing unless you use `--replace`.
+## 7. Rebuild
 
-To clear the collection and re-insert the dummy data (e.g. after changing `scripts/dummy-projects.js`):
+Everything is read at build time, so changes show up after the next build: `npm run build` locally, or the next Vercel deploy in production.
 
-```bash
-node --env-file=.env.local scripts/seed-projects.js --replace
-```
-
-On older Node or if `--env-file` fails, set `MONGODB_URI` in your shell first, then run the script (with or without `--replace`).
-
-After seeding, run `npm run dev` or `npm run build` and open the site to see the three sections populated.
+If MongoDB can't be reached, the build fails with "Could not connect to MongoDB (…)" instead of deploying empty pages. A free cluster that Atlas has paused fails this way: resume it in Atlas, wait for it to come up, and build again.
