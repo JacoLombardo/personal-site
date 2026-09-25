@@ -456,6 +456,20 @@
       "highlighted": true,
       "repository": "https://github.com/JacoLombardo/vid-base",
       "link": ""
+    },
+    {
+      "id": "backtolife",
+      "name": "BackToLife",
+      "domain": "software",
+      "type": "professional",
+      "ring": 7,
+      "tech_stack": ["Flutter", "Laravel", "MySQL", "Firebase", "RevenueCat", "Swift", "Kotlin"],
+      "description": "A screen-time app that helps young people spend less time on social media without giving it up. They open Instagram, YouTube, X and TikTok in filtered views without reels or suggestions, set schedules and limits and block apps, while parents manage a child's rules remotely. Two Flutter apps, for users and parents, share a Laravel backend with an admin panel.",
+      "shortDescription": "Social media screen-time app with parental controls.",
+      "isShared": true,
+      "highlighted": false,
+      "repository": "",
+      "link": ""
     }
   ],
   "technologies": [

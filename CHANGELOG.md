@@ -16,6 +16,10 @@ Body paragraph: what changed and why. Reference files with [path](path) links.
 
 ---
 
+## 2026-09-25 — feat(projects): add BackToLife
+
+Added BackToLife to [public/projects.json](public/projects.json) and pushed it to MongoDB: a professional project, marked `isShared` because it spans mobile apps and a web backend, so it orbits in the convergence zone next to VidBase and appears under Software Engineering in the list view. It is appended after VidBase so VidBase keeps its orbit. Its stack (Flutter, Laravel, MySQL, Firebase, RevenueCat, Swift, Kotlin) shows as tags on the project page; none of these are in the Technologies section yet. Checked the orbits and the new project page at 1440, 390 and 320px.
+
 ## 2026-09-25 — fix(design): no white flash on first load, drop styled-components
 
 The dark background and white text came from a styled-components `createGlobalStyle`, and without a styled-components SSR setup it was only injected by JavaScript: the server HTML and CSS had Bootstrap's white body, so every first visit painted white until hydration. The two declarations now live in [global.css](styles/global.css), and styled-components (`ThemeProvider`, `styles/ThemeConfig.ts`, `types/styled-components.d.ts`) is gone; it existed only for this.
