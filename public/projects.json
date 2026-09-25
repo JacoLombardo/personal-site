@@ -463,7 +463,7 @@
       "domain": "software",
       "type": "professional",
       "ring": 7,
-      "tech_stack": ["Flutter", "Laravel", "MySQL", "Firebase", "RevenueCat", "Swift", "Kotlin"],
+      "tech_stack": ["Flutter", "Dart", "Laravel", "PHP", "MySQL", "Firebase", "RevenueCat", "Swift", "Kotlin"],
       "description": "A screen-time app that helps young people spend less time on social media without giving it up. They open Instagram, YouTube, X and TikTok in filtered views without reels or suggestions, set schedules and limits and block apps, while parents manage a child's rules remotely. Two Flutter apps, for users and parents, share a Laravel backend with an admin panel.",
       "shortDescription": "Social media screen-time app with parental controls.",
       "isShared": true,
@@ -552,6 +552,50 @@
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983171/personal-site/icons/C_dwdmqt.png"
     },
     {
+      "id": "dart",
+      "name": "Dart",
+      "type": "Language",
+      "level": "Proficient",
+      "projects": [
+        "backtolife"
+      ],
+      "alwaysShown": true,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1790330932/personal-site/icons/Dart_mdxqcm.png"
+    },
+    {
+      "id": "php",
+      "name": "PHP",
+      "type": "Language",
+      "level": "Familiar",
+      "projects": [
+        "backtolife"
+      ],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1790330933/personal-site/icons/PHP_xag8yu.png"
+    },
+    {
+      "id": "swift",
+      "name": "Swift",
+      "type": "Language",
+      "level": "Proficient",
+      "projects": [
+        "backtolife"
+      ],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1790330933/personal-site/icons/Swift_jlyfeu.png"
+    },
+    {
+      "id": "kotlin",
+      "name": "Kotlin",
+      "type": "Language",
+      "level": "Proficient",
+      "projects": [
+        "backtolife"
+      ],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1790330932/personal-site/icons/Kotlin_mh6wpc.png"
+    },
+    {
       "id": "react",
       "name": "React",
       "type": "Framework",
@@ -601,6 +645,28 @@
       "projects": ["vid-base"],
       "alwaysShown": true,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983172/personal-site/icons/Electron_nrt5op.png"
+    },
+    {
+      "id": "flutter",
+      "name": "Flutter",
+      "type": "Framework",
+      "level": "Proficient",
+      "projects": [
+        "backtolife"
+      ],
+      "alwaysShown": true,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1790330932/personal-site/icons/Flutter_dzjels.png"
+    },
+    {
+      "id": "laravel",
+      "name": "Laravel",
+      "type": "Framework",
+      "level": "Proficient",
+      "projects": [
+        "backtolife"
+      ],
+      "alwaysShown": true,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1790330932/personal-site/icons/Laravel_hbckek.png"
     },
     {
       "id": "bootstrap",
@@ -669,6 +735,17 @@
       "projects": ["42_inception"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1771003444/personal-site/icons/MariaDB_fdwen8.png"
+    },
+    {
+      "id": "mysql",
+      "name": "MySQL",
+      "type": "Database",
+      "level": "Proficient",
+      "projects": [
+        "backtolife"
+      ],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1790330933/personal-site/icons/MySQL_o19jgq.png"
     },
     {
       "id": "nodejs",
@@ -784,6 +861,28 @@
       "projects": ["42_inception"],
       "alwaysShown": false,
       "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1770983603/personal-site/icons/WordPress_nkh7t4.png"
+    },
+    {
+      "id": "firebase",
+      "name": "Firebase",
+      "type": "Platform",
+      "level": "Proficient",
+      "projects": [
+        "backtolife"
+      ],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1790330932/personal-site/icons/Firebase_wtlx16.png"
+    },
+    {
+      "id": "revenuecat",
+      "name": "RevenueCat",
+      "type": "Platform",
+      "level": "Proficient",
+      "projects": [
+        "backtolife"
+      ],
+      "alwaysShown": false,
+      "icon": "https://res.cloudinary.com/dtl48kr1u/image/upload/v1790330933/personal-site/icons/RevenueCat_lokomm.png"
     }
   ]
 }
