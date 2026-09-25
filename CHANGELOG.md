@@ -16,6 +16,18 @@ Body paragraph: what changed and why. Reference files with [path](path) links.
 
 ---
 
+## 2026-09-25 — feat(content): BackToLife's technologies in the Technologies section
+
+BackToLife's stack now also lists Dart and PHP next to Flutter and Laravel, and its nine technologies are in the Technologies section of [public/projects.json](public/projects.json), each linked to the project: Flutter, Dart and Laravel are shown by default, MySQL, Firebase, Swift, Kotlin, RevenueCat and PHP sit behind the "+"; all Proficient except PHP (Familiar). Each entry goes after the last existing one of its type, so the file stays grouped. The icons are 512x512 transparent PNGs like the existing ones, rendered from Devicon's colour SVGs (MIT) and, for RevenueCat, the Simple Icons logo in its brand colour `#F2545B`; the site loads them from Cloudinary, and the source files are kept in [public/Icons/Stack/](public/Icons/Stack/) (replacing an older 256px Firebase.png). Pushed to MongoDB and checked collapsed and expanded at 1440, 390 and 320px: MySQL's dark-blue logo is as faint in grayscale as the existing MariaDB one and regains its colour on hover.
+
+## 2026-09-25 — feat(projects): highlight BackToLife and open the quick tour with it
+
+BackToLife is the most relevant work, so it is now `highlighted` (the ★ marker and filter in the orbits) and opens the projects part of the quick tour on [speed-date.tsx](pages/speed-date.tsx), ahead of the other four. The tour's steps were hard-coded for exactly four projects (1 to 4, then 5 to 8 for about and contact); they are now derived from the number of projects loaded, so the list can change without breaking the tour. Checked the tour at 1440, 390 and 320px (10 steps at each width) and the orbit marker. At 320px every project slide already overflows the screen and the side arrows overlap the text; that predates this change.
+
+## 2026-09-25 — feat(projects): add BackToLife
+
+Added BackToLife to [public/projects.json](public/projects.json) and pushed it to MongoDB: a professional project, marked `isShared` because it spans mobile apps and a web backend, so it orbits in the convergence zone next to VidBase and appears under Software Engineering in the list view. It is appended after VidBase so VidBase keeps its orbit. Its stack (Flutter, Laravel, MySQL, Firebase, RevenueCat, Swift, Kotlin) shows as tags on the project page; none of these are in the Technologies section yet. Checked the orbits and the new project page at 1440, 390 and 320px.
+
 ## 2026-09-25 — fix(design): no white flash on first load, drop styled-components
 
 The dark background and white text came from a styled-components `createGlobalStyle`, and without a styled-components SSR setup it was only injected by JavaScript: the server HTML and CSS had Bootstrap's white body, so every first visit painted white until hydration. The two declarations now live in [global.css](styles/global.css), and styled-components (`ThemeProvider`, `styles/ThemeConfig.ts`, `types/styled-components.d.ts`) is gone; it existed only for this.

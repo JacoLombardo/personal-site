@@ -7,12 +7,14 @@ import styles from "@/styles/speeddate.module.css";
 import projectStyles from "@/styles/project.module.css";
 
 const HIGHLIGHTED_IDS = [
+  "backtolife",
   "squisito",
   "42_webserv",
   "42_ft_transcendence",
   "vid-base",
 ];
-const TOTAL_STEPS = 9; // 0 intro, 1-4 projects, 5 about title, 6 about text, 7 contact title, 8 contact
+// Steps: 0 intro, then one per project, then about title, about text, contact title, contact.
+const STEPS_AFTER_PROJECTS = 4;
 
 interface JsonProject {
   id: string;
@@ -153,17 +155,19 @@ export default function SpeedDatePage({
   const navIntro = intro ? { name: intro.name } : undefined;
   const navContact = contact ? { linkedin: contact.linkedin } : undefined;
   const [step, setStep] = useState(0);
+  const projectCount = projects.length;
+  const totalSteps = 1 + projectCount + STEPS_AFTER_PROJECTS;
 
   const goPrev = useCallback(() => {
     setStep((s) => (s > 0 ? s - 1 : s));
   }, []);
 
   const goNext = useCallback(() => {
-    setStep((s) => (s < TOTAL_STEPS - 1 ? s + 1 : s));
-  }, []);
+    setStep((s) => (s < totalSteps - 1 ? s + 1 : s));
+  }, [totalSteps]);
 
   const showLeftArrow = step > 0;
-  const showRightArrow = step < TOTAL_STEPS - 1;
+  const showRightArrow = step < totalSteps - 1;
 
   const renderSlide = () => {
     if (step === 0) {
@@ -173,7 +177,7 @@ export default function SpeedDatePage({
         </div>
       );
     }
-    if (step >= 1 && step <= 4) {
+    if (step >= 1 && step <= projectCount) {
       const project = projects[step - 1];
       if (!project) return null;
       return (
@@ -182,28 +186,28 @@ export default function SpeedDatePage({
         </div>
       );
     }
-    if (step === 5) {
+    if (step === projectCount + 1) {
       return (
         <div className={styles.sd_slide}>
           <h2 className={styles.sd_slide_title}>About</h2>
         </div>
       );
     }
-    if (step === 6) {
+    if (step === projectCount + 2) {
       return (
         <div className={styles.sd_slide}>
           <p className={styles.sd_about_text}>{aboutText}</p>
         </div>
       );
     }
-    if (step === 7) {
+    if (step === projectCount + 3) {
       return (
         <div className={styles.sd_slide}>
           <h2 className={styles.sd_slide_title}>Contact</h2>
         </div>
       );
     }
-    if (step === 8) {
+    if (step === projectCount + 4) {
       return (
         <div className={`${styles.sd_slide} ${styles.sd_contact_slide}`}>
           <p className={styles.sd_contact_heading}>Let&apos;s connect</p>
