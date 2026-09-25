@@ -16,6 +16,10 @@ Body paragraph: what changed and why. Reference files with [path](path) links.
 
 ---
 
+## 2026-09-25 — feat(projects): highlight BackToLife and open the quick tour with it
+
+BackToLife is the most relevant work, so it is now `highlighted` (the ★ marker and filter in the orbits) and opens the projects part of the quick tour on [speed-date.tsx](pages/speed-date.tsx), ahead of the other four. The tour's steps were hard-coded for exactly four projects (1 to 4, then 5 to 8 for about and contact); they are now derived from the number of projects loaded, so the list can change without breaking the tour. Checked the tour at 1440, 390 and 320px (10 steps at each width) and the orbit marker. At 320px every project slide already overflows the screen and the side arrows overlap the text; that predates this change.
+
 ## 2026-09-25 — feat(projects): add BackToLife
 
 Added BackToLife to [public/projects.json](public/projects.json) and pushed it to MongoDB: a professional project, marked `isShared` because it spans mobile apps and a web backend, so it orbits in the convergence zone next to VidBase and appears under Software Engineering in the list view. It is appended after VidBase so VidBase keeps its orbit. Its stack (Flutter, Laravel, MySQL, Firebase, RevenueCat, Swift, Kotlin) shows as tags on the project page; none of these are in the Technologies section yet. Checked the orbits and the new project page at 1440, 390 and 320px.
