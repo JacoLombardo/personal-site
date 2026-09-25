@@ -8,14 +8,12 @@ if (!process.env.MONGODB_URI) {
 
 const uri = process.env.MONGODB_URI;
 
-// Work around TLS "internal error" / "unsafe legacy renegotiation disabled" on Windows with Node 17+ (OpenSSL 3)
-const secureContext = tls.createSecureContext({
-  secureOptions: crypto.constants.SSL_OP_LEGACY_SERVER_CONNECT ?? 0,
-});
-
-const options: import("mongodb").MongoClientOptions = {
-  ...(secureContext && { secureContext }),
-};
+// Work around TLS "internal error" / "unsafe legacy renegotiation disabled" on Windows with Node 17+ (OpenSSL 3).
+// Windows only: the option re-enables insecure legacy renegotiation, so everywhere else keeps Node's defaults.
+const options: import("mongodb").MongoClientOptions =
+  process.platform === "win32"
+    ? { secureContext: tls.createSecureContext({ secureOptions: crypto.constants.SSL_OP_LEGACY_SERVER_CONNECT ?? 0 }) }
+    : {};
 
 let client;
 let clientPromise: Promise<MongoClient>;

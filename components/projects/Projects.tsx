@@ -1,11 +1,8 @@
-"use client";
-
 import { useState, useRef, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import styles from "@/styles/orbital.module.css";
 import {
   getOrbitalData,
-  getListProjectsFromJson,
   convertToProjectList,
   type JsonProject,
   type FilterOption,
@@ -82,7 +79,7 @@ export default function Projects({ projects }: Props) {
   );
   const listProjects = useMemo(
     () =>
-      raw.length > 0 ? convertToProjectList(raw) : getListProjectsFromJson(),
+      convertToProjectList(raw),
     [raw],
   );
 

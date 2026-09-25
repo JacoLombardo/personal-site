@@ -1,10 +1,9 @@
 /**
- * Handles projects.json: loads and processes it for orbital layout and list views.
+ * Processes the projects from MongoDB for the orbital layout and list views.
  * Projects.tsx uses this module and passes the results to Orbits and List.
  */
 
 import type { Project, ProjectCategory } from "@/types";
-import projectsJson from "../../public/projects.json";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    TYPES
@@ -254,10 +253,8 @@ export function getOrbitalData(projects: JsonProject[], mobile = false): Orbital
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   LIST VIEW (Project type for ProjectCard)
+   LIST VIEW
    ═══════════════════════════════════════════════════════════════════════════ */
-
-const PLACEHOLDER_IMAGE = "https://picsum.photos/400/300";
 
 function jsonToProjectCategory(p: JsonProject): ProjectCategory {
   if (!p) return "web-development";
@@ -267,7 +264,7 @@ function jsonToProjectCategory(p: JsonProject): ProjectCategory {
 }
 
 /**
- * Converts raw project objects (e.g. from MongoDB or JSON) into Project[] for List/ProjectCard.
+ * Converts raw project objects from MongoDB into Project[] for List.
  */
 export function convertToProjectList(raw: JsonProject[]): Project[] {
   if (!raw || !Array.isArray(raw)) return [];
@@ -275,28 +272,10 @@ export function convertToProjectList(raw: JsonProject[]): Project[] {
     internal_id: index + 1000,
     id: p?.id ?? `project-${index + 1000}`,
     name: p?.name ?? "Project",
-    alt: p?.name ?? "Project",
     stack: (p?.shortDescription ?? (p?.tech_stack ?? []).filter(Boolean).join(", ")),
-    stack_list: (p?.tech_stack ?? []).filter(Boolean),
-    description: p?.description ?? "",
-    composition: [],
-    features: [],
-    mockup_desktop: PLACEHOLDER_IMAGE,
-    mockup_mobile: PLACEHOLDER_IMAGE,
-    link: p?.link ?? "",
-    repository: p?.repository ?? "",
     category: jsonToProjectCategory(p),
     projectType: p?.type,
-    domain: p?.domain,
   }));
 }
 
-/**
- * Loads projects from projects.json and returns Project[]. Used when MongoDB returns no projects (fallback).
- */
-export function getListProjectsFromJson(): Project[] {
-  const raw = (projectsJson as { projects?: JsonProject[] }).projects;
-  if (!raw || !Array.isArray(raw)) return [];
-  return convertToProjectList(raw);
-}
 

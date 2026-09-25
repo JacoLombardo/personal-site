@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { Project } from "@/types";
 import styles from "@/styles/orbital.module.css";

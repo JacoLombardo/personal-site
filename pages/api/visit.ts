@@ -1,7 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "@/lib/mongodb";
 
-const SESSION_KEY = "visitRecorded";
+// A visit is a few hundred bytes; the limits stop anyone from filling the database through this public endpoint.
+export const config = { api: { bodyParser: { sizeLimit: "4kb" } } };
+
+const text = (value: unknown, max: number) => (typeof value === "string" ? value.slice(0, max) : undefined);
+const pixels = (value: unknown) =>
+  typeof value === "number" && Number.isFinite(value) && value > 0 && value < 100000 ? Math.round(value) : undefined;
 
 interface VisitBody {
   path?: string;
@@ -19,17 +24,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const body = req.body as VisitBody;
-    const userAgent = typeof req.headers["user-agent"] === "string" ? req.headers["user-agent"] : "";
+    const body = (req.body ?? {}) as VisitBody;
     const doc = {
-      path: typeof body.path === "string" ? body.path : "",
-      referrer: typeof body.referrer === "string" ? body.referrer : "",
-      userAgent,
+      path: text(body.path, 200) ?? "",
+      referrer: text(body.referrer, 500) ?? "",
+      userAgent: text(req.headers["user-agent"], 300) ?? "",
       timestamp: new Date(),
-      language: typeof body.language === "string" ? body.language : undefined,
-      timezone: typeof body.timezone === "string" ? body.timezone : undefined,
-      screenWidth: typeof body.screenWidth === "number" ? body.screenWidth : undefined,
-      screenHeight: typeof body.screenHeight === "number" ? body.screenHeight : undefined,
+      language: text(body.language, 35),
+      timezone: text(body.timezone, 64),
+      screenWidth: pixels(body.screenWidth),
+      screenHeight: pixels(body.screenHeight),
     };
 
     const client = await clientPromise;

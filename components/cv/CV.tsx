@@ -1,5 +1,3 @@
-"use client";
-
 import { motion } from "framer-motion";
 import type { CvData, CvEntry } from "@/types";
 import styles from "@/styles/homepage.module.css";
